@@ -1,17 +1,17 @@
-Local Authority,ONS code,URL
-Bradford,E08000032,https://odileeds.org/projects/business-rates/data/bradford.csv
-Calderdale,E08000033,https://odileeds.org/projects/business-rates/data/calderdale.csv
-Craven,E07000163,
-Hambleton,E07000164,
-Harrogate,E07000165,
-Kirklees,E08000034,https://odileeds.org/projects/business-rates/data/kirklees.csv
-Leeds,E08000035,https://odileeds.org/projects/business-rates/data/leeds.csv
-Middlesbrough,E06000002,
-Redcar and Cleveland,E06000003,
-Richmondshire,E07000166,
-Ryedale,E07000167,
-Scarborough,E07000168,https://odileeds.org/projects/business-rates/data/scarborough.csv
-Selby,E07000169,https://odileeds.org/projects/business-rates/data/selby.csv
-Stockton-on-Tees,E06000004,
-Wakefield,E08000036,https://odileeds.org/projects/business-rates/data/wakefield.csv
-York,E06000014,https://data.yorkopendata.org/dataset/33e9d8e9-14e5-4f5b-9382-12d76ae05afa/resource/4a349a29-a3da-4530-ab52-6ab941b40137/download/nndr.csv
+ONS code,Local Authority,URL,GeoJSON,FSA,Include
+E08000032,Bradford,data/bradford.csv,data/bradford.geojson,https://odileeds.org/projects/scoresonthedoors/data/bradford.csv,true
+E08000033,Calderdale,data/calderdale.csv,data/calderdale.geojson,https://odileeds.org/projects/scoresonthedoors/data/calderdale.csv,,true
+E07000163,Craven,,,,
+E07000164,Hambleton,data/hambleton.csv,data/hambleton.geojson,https://odileeds.org/projects/scoresonthedoors/data/hambleton.csv,true
+E07000165,Harrogate,data/harrogate.csv,data/harrogate.geojson,https://odileeds.org/projects/scoresonthedoors/data/harrogate.csv,true
+E08000034,Kirklees,data/kirklees.csv,data/kirklees.geojson,https://odileeds.org/projects/scoresonthedoors/data/kirklees.csv,true
+E08000035,Leeds,https://datamillnorth.org/download/business-rates/bd943d07-9a6f-429b-b23e-379a7a597987/Data%20mill%20update%2012-04-2019%20ver%203%20.csv,data/leeds.geojson,../scoresonthedoors/data/leeds.csv,true
+E06000002,Middlesbrough,,,,
+E06000003,Redcar and Cleveland,,,,
+E07000166,Richmondshire,,,,
+E07000167,Ryedale,,,,
+E07000168,Scarborough,data/scarborough.csv,data/scarborough.geojson,https://odileeds.org/projects/scoresonthedoors/data/scarborough.csv,true
+E07000169,Selby,data/selby.csv,data/selby.geojson,https://odileeds.org/projects/scoresonthedoors/data/selby.csv,true
+E06000004,Stockton-on-Tees,,,,
+E08000036,Wakefield,data/wakefield.csv,data/wakefield.geojson,https://odileeds.org/projects/scoresonthedoors/data/wakefield.csv,true
+E06000014,York,https://data.yorkopendata.org/dataset/33e9d8e9-14e5-4f5b-9382-12d76ae05afa/resource/4a349a29-a3da-4530-ab52-6ab941b40137/download/nndr.csv,data/york.geojson,https://odileeds.org/projects/scoresonthedoors/data/york.csv,true

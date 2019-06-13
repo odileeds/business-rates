@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8" />
+	<title>Business rates: data format</title>
+	<script type="text/javascript" src="../../resources/stuquery.js"></script>
+	<script type="text/javascript" src="../../resources/stuquery.barchart.js"></script>
+	<script type="text/javascript" src="../../resources/leaflet/leaflet.js"></script>
+	<script type="text/javascript" src="../../resources/leaflet.markercluster-src.js"></script>
+	<script type="text/javascript" src="business-rates.js"></script>
+	<link rel="StyleSheet" href="../../resources/style.css" type="text/css" />
+	<link rel="StyleSheet" href="../../resources/spinner.css" type="text/css" />
+	<link rel="StyleSheet" href="../../resources/stuquery.barchart.css" type="text/css" />
+	<link rel="StyleSheet" href="../../resources/leaflet/leaflet.css" type="text/css" />
+	<link rel="StyleSheet" href="../../resources/L.markercluster.css" type="text/css" />
+	<link rel="StyleSheet" href="../../resources/L.markercluster.default.css" type="text/css" />
+	<style>
+	footer a:visited { color: inherit; }
+	ol li { margin-bottom: 1em; }
+	code, .req { display: inline-block; padding: 0.125em 0.5em; font-family: monospace; }
+	li code:first-child { background-color: #333333; color: white; }
+	.req { background-color: #D60303; color: white; }
+	@media only screen and (max-width: 1080px) {
+		#categories ul.grid > li, ul.smalltabs > li, ul.grid.councils > li { width: 50%; }
+	}
+	@media only screen and (max-width: 700px) {
+		#categories ul.grid > li, ul.smalltabs > li, ul.grid.councils > li { width: 100%; }
+	}
+	</style>
+</head>
+<body>
+
+	<div id="site-message" class="c14-bg"><div>Draft: This is a work-in-progress by the Open Data Collaboration group at ODI Leeds.</div></div>
+	<div id="main">
+		<header>
+			<div class="b1-bg">
+				<div class="holder" style="text-align:center;">
+					<a href="https://odileeds.org/"><img src="../../resources/images/odileeds-8.svg" /></a>
+					<h1>Business rates: data format</h1>
+				</div>
+			</div>
+		</header>
+
+		<div class="holder">
+			<p>The Open Data Collaboration group at ODI Leeds (ODI Leeds, Bradford Council, Calderdale Council, and Leeds Council) started a project to visualise business rates data. Although each of the three councils publish open data about their business rates, they each have different field titles and don't always include the same fields. This project aimed to standardise the way the data was shared to make it more usable and to get value (within a council and externally) from the datasets.</p>
+			<h2>Headings and formats</h2>
+			<p>To make a tool that works across multiple councils we have to first agree a common standard for sharing the data. This means standard column headings and requiring some columns to exist. However, we are practical and know that some fields will be hard for some councils to include and other councils will want to include more fields where they have them. The result was the following suggestion for common heading titles:</p>
+
+			<ol>
+			<li><code>Property reference number</code> e.g. <code>A89123</code><br />A string representing the unique ID used inside the council. The format of this will vary from council to council. It is possibly useful internally within a council to match to other records.</li>
+			<li><code>BA reference number</code> e.g. <code>2053386634713</code><br />This is the unique property code from the VOA; at the moment it is only included in the Leeds data and may be hard for some councils so isn't mandatory. If this matches the "Building reference number" included in the Energy Performance Certificate data it would allow us to join the two datasets together to get extra insight.</li>
+			<li><code>Ratepayer</code><span class="req">Required</span> e.g. <code>Local Business Ltd</code><br />If the rate payer is a named individual, you may wish to replace the name with <code>REDACTED</code> or <code>INDIVIDUAL</code> to protect their privacy.</li>
+			<li><code>Address</code><span class="req">Required</span> e.g. <code>3rd floor Munro House, Duke Street, Leeds</code><br /></li>
+			<li><code>Postcode</code><span class="req">Required</span> e.g. <code>LS9 8AG</code><br /></li>
+			<li><code>Latitude</code><span class="req">Required</span> e.g. <code>53.79682</code><br /> Units: degrees. It only needs to be given to 5 or 6 decimal places. This may be calculated from postcode centroids but if more accurate data exists that would be better. If you only have postcodes, you could use the <a href="http://geoportal.statistics.gov.uk/datasets/national-statistics-postcode-lookup-latest-centroids">National Statistics Postcode Lookup (Latest) Centroids</a> dataset to convert from postcode to latitude and longitude. It is <a href="https://www.ons.gov.uk/methodology/geography/licences">released under the Open Government Licence</a>.</li>
+			<li><code>Longitude</code><span class="req">Required</span> e.g. <code>-1.53445</code><br /> Units: degrees. It only needs to be given to 5 or 6 decimal places. This may be calculated from postcode centroids but if more accurate data exists that would be better. If you only have postcodes, you could use the <a href="http://geoportal.statistics.gov.uk/datasets/national-statistics-postcode-lookup-latest-centroids">National Statistics Postcode Lookup (Latest) Centroids</a> dataset to convert from postcode to latitude and longitude. It is <a href="https://www.ons.gov.uk/methodology/geography/licences">released under the Open Government Licence</a>.</li>
+			<li><code>Occupied</code><span class="req">Required</span> e.g. <code>Y</code><br /> A simple flag with <code>Y</code> for occupied and either blank or <code>N</code> to indicate empty (to help reduce file size)</li>
+			<li><code>Liability start date</code><span class="req">Required</span> e.g. <code>2019-04-01</code><br /> Should be in YYYY-MM-DD format as <a href="https://www.gov.uk/government/publications/open-standards-for-government/date-times-and-time-stamps-standard">recommended by GDS</a>. This format reduces ambiguity in parsing dates and gives flexibility with time precision.</li>
+			<li><code>Empty from</code><span class="req">Required</span> e.g. <code>2019-04-01</code><br />Should be in YYYY-MM-DD format as <a href="https://www.gov.uk/government/publications/open-standards-for-government/date-times-and-time-stamps-standard">recommended by GDS</a>. This format reduces ambiguity in parsing dates and gives flexibility with time precision.</li>
+			<li><code>Rateable value</code><span class="req">Required</span> e.g. <code>13250</code><br /> Units: GBP. Should be in GBP and just as a decimal number without commas or currency symbols.</li>
+			<li><code>VOA code</code><span class="req">Required</span> e.g. <code>CO</code><br /> These are the <a href="data/pdcde.csv"><em>Primary Description Code</em> values</a>.</li>
+			<li><code>VOA description</code> e.g. <code>Offices and Premises</code><br />These are the <a href="data/pdcde.csv"><em>Default Description</em> values</a>.</li>
+			<li><code>Exemptions</code><br /></li>
+			<li><code>Exemptions start date</code> e.g. <code>2019-04-05</code><br />Should be in YYYY-MM-DD format as <a href="https://www.gov.uk/government/publications/open-standards-for-government/date-times-and-time-stamps-standard">recommended by GDS</a>. This format reduces ambiguity in parsing dates and gives flexibility with time precision.</li>
+			<li><code>Relief types</code><br /></li>
+			<li><code>Relief total</code> e.g. <code>13250</code><br />Units: GBP. Should be in GBP and just as a decimal number without commas or currency symbols.</li>
+			<li><code>Relief mandatory</code> e.g. <code>6541.65</code><br />Units: GBP. Should be in GBP and just as a decimal number without commas or currency symbols.</li>
+			<li><code>Relief discretionary</code> e.g. <code>341.89</code><br />Units: GBP. Should be in GBP and just as a decimal number without commas or currency symbols.</li>
+			</ol>
+			<p>Obviously, it can be hard to export data in the right formats. To help we've created a <a href="https://odileeds.github.io/CSVCleaner/">CSVCleaner</a> tool that should help reformat dates, clean-up currency, remove trailing spaces, and fix some column headings. You just drop a CSV file into it.</p>
+		</div>
+	</div>
+
+	<footer class="b1-bg">
+		<div class="holder">
+			<p>&copy; 2019 ODI Leeds
+		</div>
+	</footer>
+
+</body>
+</html>

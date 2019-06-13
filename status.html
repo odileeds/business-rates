@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8" />
+	<title>Business rates status</title>
+	<script type="text/javascript" src="../../resources/stuquery.js"></script>
+	<link rel="StyleSheet" href="../../resources/style.css" type="text/css" />
+	<link rel="StyleSheet" href="../../resources/spinner.css" type="text/css" />
+	<style>
+	.red-light, .green-light, .amber-light {
+		border-radius: 100%;
+		line-height: 1.5em;
+		width: 1.5em;
+		height: 1.5em;
+		margin-right: 0.25em;
+		text-align: center;
+		display: inline-block;
+		font-weight: bold;
+	}
+	.red-light {
+		background-color: #D60303;
+		color: white;
+	}
+	.green-light {
+		background-color: #0DBC37;
+		color: white;
+	}
+	.amber-light {
+		background-color: #F9BC26;
+		color: white;
+	}
+	.red-light:before {
+		content: "\00d7";
+	}
+	.green-light:before {
+		content: "\2713";
+	}
+	.amber-light:before {
+		content: "!";
+	}
+	.table-outer { max-width: 100%; overflow-x: auto; }
+	table.odi tr:nth-child(2n+0) td { background-color: #f9f9f9; }
+	table.odi tr:nth-child(2n+1) td { background-color: #efefef; }
+	table.odi td, table.odi th { border: 0px; }
+	table.odi td { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+	table.odi td a { color: inherit; }
+	table.odi th, table.odi td { text-align: center; line-height: 2em; }
+	table.odi th:first-child, table.odi td:first-child { text-align: left; }
+	table.odi th { background-color: #dfdfdf; font-weight: bold; cursor: pointer; line-height:1.25em; }
+	</style>
+	<script>
+	S().ready(function(){
+		// Adapted table sorter from https://stackoverflow.com/questions/14267781/sorting-html-table-with-javascript
+		const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+		const comparer = (idx, asc) => (a, b) => ((v1, v2) => 
+			v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+			)(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+		// do the work...
+		S('table.odi th').on('click',function(e){
+			th = e.currentTarget;
+			const table = th.closest('table');
+			Array.from(table.querySelectorAll('tr:nth-child(n+2)'))
+				.sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+				.forEach(tr => table.appendChild(tr) );
+		});
+		S('th').addClass('sortable').attr('title','Sort this column');
+		S('#sortby').trigger('click').trigger('click');
+	});
+	</script>
+</head>
+<body>
+
+	<div id="site-message" class="c14-bg"><div>This is experimental and work-in-progress. Things might not work or even be correct.</div></div>
+	<div id="main">
+		<header>
+			<div class="b1-bg">
+				<div class="holder" style="text-align:center;">
+					<a href="https://odileeds.org/"><img src="../../resources/images/odileeds-8.svg" /></a>
+					<h1>Business rates: status</h1>
+				</div>
+			</div>
+		</header>
+
+		<div class="holder">
+			<p>As part of the Open Data Collaboration group we are exploring local council <a href="index.html">Business Rates data</a> and we've defined <a href="format.html">a common format for sharing Business Rates data</a>. This page gives the current status of each council at meeting the standards for sharing.</p>
+			<div class="table-outer">
+			<!-- Start status -->
+			<table class="odi">
+				<tr><th>Local authority</th><th>Last updated</th><th id="sortby">Score</th><th>Valid headings</th><th>Rows</th><th>Includes required columns</th><th>Includes empties</th><th>Valid coordinates</th><th>Valid dates</th><th>Valid currency values</th><th>Hosted</th><th>CORS</th></tr>
+				<tr><td><a href="data/bradford.csv" code="E08000032">Bradford</a></td><td>2019-01-17</td><td>78.3</td><td>13</td><td>19323</td><td><span class="amber-light"></span><a href="#required">9/10</a></td><td><span class="green-light"></span><a href="#empties">Yes</a></td><td><span class="amber-light"></span><a href="#coordinates">38572</a></td><td><span class="amber-light"></span><a href="#dateformats">19251</a></td><td><span class="amber-light"></span><a href="#currencyformats">19294</a></td><td><span class="red-light"></span><a href="#hosted">No</a></td><td>-</td></tr>
+				<tr><td><a href="data/calderdale.csv" code="E08000033">Calderdale</a></td><td>2019-05-08</td><td>78.3</td><td>16</td><td>9347</td><td><span class="amber-light"></span><a href="#required">9/10</a></td><td><span class="green-light"></span><a href="#empties">Yes</a></td><td><span class="amber-light"></span><a href="#coordinates">18643</a></td><td><span class="amber-light"></span><a href="#dateformats">9318</a></td><td><span class="amber-light"></span><a href="#currencyformats">9324</a></td><td><span class="red-light"></span><a href="#hosted">No</a></td><td>-</td></tr>
+				<tr><td><a href="" code="E07000163">Craven</a></td><td>2019-05-08</td><td>0.0</td><td>0</td><td>0</td><td><span class="red-light"></span><a href="#required">0/10</a></td><td><span class="red-light"></span><a href="#empties">No</a></td><td><span class="red-light"></span><a href="#coordinates">0</a></td><td><span class="red-light"></span><a href="#dateformats">0</a></td><td><span class="red-light"></span><a href="#currencyformats">0</a></td><td><span class="red-light"></span><a href="#hosted">No</a></td><td><span class="red-light"></span><a href="#CORS">No</a></td></tr>
+				<tr><td><a href="data/hambleton.csv" code="E07000164">Hambleton</a></td><td>2019-06-13</td><td>59.1</td><td>7</td><td>4281</td><td><span class="amber-light"></span><a href="#required">7/10</a></td><td><span class="green-light"></span><a href="#empties">Yes</a></td><td><span class="amber-light"></span><a href="#coordinates">8530</a></td><td><span class="amber-light"></span><a href="#dateformats">4280</a></td><td><span class="red-light"></span><a href="#currencyformats">0</a></td><td><span class="red-light"></span><a href="#hosted">No</a></td><td>-</td></tr>
+				<tr><td><a href="data/harrogate.csv" code="E07000165">Harrogate</a></td><td>2019-06-13</td><td>59.1</td><td>10</td><td>7460</td><td><span class="amber-light"></span><a href="#required">7/10</a></td><td><span class="red-light"></span><a href="#empties">No</a></td><td><span class="amber-light"></span><a href="#coordinates">14820</a></td><td><span class="green-light"></span><a href="#dateformats">7460</a></td><td><span class="green-light"></span><a href="#currencyformats">7460</a></td><td><span class="red-light"></span><a href="#hosted">No</a></td><td>-</td></tr>
+				<tr><td><a href="data/kirklees.csv" code="E08000034">Kirklees</a></td><td>2019-02-08</td><td>59.0</td><td>8</td><td>15991</td><td><span class="amber-light"></span><a href="#required">7/10</a></td><td><span class="red-light"></span><a href="#empties">No</a></td><td><span class="amber-light"></span><a href="#coordinates">31850</a></td><td><span class="amber-light"></span><a href="#dateformats">15903</a></td><td><span class="amber-light"></span><a href="#currencyformats">15903</a></td><td><span class="red-light"></span><a href="#hosted">No</a></td><td>-</td></tr>
+				<tr><td><a href="https://datamillnorth.org/download/business-rates/bd943d07-9a6f-429b-b23e-379a7a597987/Data%20mill%20update%2012-04-2019%20ver%203%20.csv" code="E08000035">Leeds</a></td><td>2019-06-11</td><td>98.3</td><td>8</td><td>22132</td><td><span class="amber-light"></span><a href="#required">9/10</a></td><td><span class="green-light"></span><a href="#empties">Yes</a></td><td><span class="amber-light"></span><a href="#coordinates">44118</a></td><td><span class="green-light"></span><a href="#dateformats">22132</a></td><td><span class="green-light"></span><a href="#currencyformats">22132</a></td><td><span class="green-light"></span><a href="#hosted">Yes</a></td><td><span class="green-light"></span><a href="#CORS">Yes</a></td></tr>
+				<tr><td><a href="" code="E06000002">Middlesbrough</a></td><td>2019-06-11</td><td>0.0</td><td>0</td><td>0</td><td><span class="red-light"></span><a href="#required">0/10</a></td><td><span class="red-light"></span><a href="#empties">No</a></td><td><span class="red-light"></span><a href="#coordinates">0</a></td><td><span class="red-light"></span><a href="#dateformats">0</a></td><td><span class="red-light"></span><a href="#currencyformats">0</a></td><td><span class="red-light"></span><a href="#hosted">No</a></td><td><span class="red-light"></span><a href="#CORS">No</a></td></tr>
+				<tr><td><a href="" code="E06000003">Redcar and Cleveland</a></td><td>2019-06-11</td><td>0.0</td><td>0</td><td>0</td><td><span class="red-light"></span><a href="#required">0/10</a></td><td><span class="red-light"></span><a href="#empties">No</a></td><td><span class="red-light"></span><a href="#coordinates">0</a></td><td><span class="red-light"></span><a href="#dateformats">0</a></td><td><span class="red-light"></span><a href="#currencyformats">0</a></td><td><span class="red-light"></span><a href="#hosted">No</a></td><td><span class="red-light"></span><a href="#CORS">No</a></td></tr>
+				<tr><td><a href="" code="E07000166">Richmondshire</a></td><td>2019-06-11</td><td>0.0</td><td>0</td><td>0</td><td><span class="red-light"></span><a href="#required">0/10</a></td><td><span class="red-light"></span><a href="#empties">No</a></td><td><span class="red-light"></span><a href="#coordinates">0</a></td><td><span class="red-light"></span><a href="#dateformats">0</a></td><td><span class="red-light"></span><a href="#currencyformats">0</a></td><td><span class="red-light"></span><a href="#hosted">No</a></td><td><span class="red-light"></span><a href="#CORS">No</a></td></tr>
+				<tr><td><a href="" code="E07000167">Ryedale</a></td><td>2019-06-11</td><td>0.0</td><td>0</td><td>0</td><td><span class="red-light"></span><a href="#required">0/10</a></td><td><span class="red-light"></span><a href="#empties">No</a></td><td><span class="red-light"></span><a href="#coordinates">0</a></td><td><span class="red-light"></span><a href="#dateformats">0</a></td><td><span class="red-light"></span><a href="#currencyformats">0</a></td><td><span class="red-light"></span><a href="#hosted">No</a></td><td><span class="red-light"></span><a href="#CORS">No</a></td></tr>
+				<tr><td><a href="data/scarborough.csv" code="E07000168">Scarborough</a></td><td>2019-04-24</td><td>79.4</td><td>18</td><td>2381</td><td><span class="green-light"></span><a href="#required">10/10</a></td><td><span class="green-light"></span><a href="#empties">Yes</a></td><td><span class="amber-light"></span><a href="#coordinates">4640</a></td><td><span class="amber-light"></span><a href="#dateformats">2368</a></td><td><span class="amber-light"></span><a href="#currencyformats">2368</a></td><td><span class="red-light"></span><a href="#hosted">No</a></td><td>-</td></tr>
+				<tr><td><a href="data/selby.csv" code="E07000169">Selby</a></td><td>2019-06-12</td><td>78.2</td><td>15</td><td>2677</td><td><span class="amber-light"></span><a href="#required">9/10</a></td><td><span class="green-light"></span><a href="#empties">Yes</a></td><td><span class="amber-light"></span><a href="#coordinates">5302</a></td><td><span class="green-light"></span><a href="#dateformats">2677</a></td><td><span class="green-light"></span><a href="#currencyformats">2677</a></td><td><span class="red-light"></span><a href="#hosted">No</a></td><td>-</td></tr>
+				<tr><td><a href="" code="E06000004">Stockton-on-Tees</a></td><td>2019-06-12</td><td>0.0</td><td>0</td><td>0</td><td><span class="red-light"></span><a href="#required">0/10</a></td><td><span class="red-light"></span><a href="#empties">No</a></td><td><span class="red-light"></span><a href="#coordinates">0</a></td><td><span class="red-light"></span><a href="#dateformats">0</a></td><td><span class="red-light"></span><a href="#currencyformats">0</a></td><td><span class="red-light"></span><a href="#hosted">No</a></td><td><span class="red-light"></span><a href="#CORS">No</a></td></tr>
+				<tr><td><a href="data/wakefield.csv" code="E08000036">Wakefield</a></td><td>2019-01-17</td><td>76.4</td><td>10</td><td>11037</td><td><span class="amber-light"></span><a href="#required">8/10</a></td><td><span class="green-light"></span><a href="#empties">Yes</a></td><td><span class="amber-light"></span><a href="#coordinates">21794</a></td><td><span class="amber-light"></span><a href="#dateformats">10910</a></td><td><span class="green-light"></span><a href="#currencyformats">11037</a></td><td><span class="red-light"></span><a href="#hosted">No</a></td><td>-</td></tr>
+				<tr><td><a href="https://data.yorkopendata.org/dataset/33e9d8e9-14e5-4f5b-9382-12d76ae05afa/resource/4a349a29-a3da-4530-ab52-6ab941b40137/download/nndr.csv" code="E06000014">York</a></td><td>2019-06-03</td><td>10.1</td><td>0</td><td>110733</td><td><span class="red-light"></span><a href="#required">0/10</a></td><td><span class="red-light"></span><a href="#empties">No</a></td><td><span class="amber-light"></span><a href="#coordinates">930</a></td><td><span class="red-light"></span><a href="#dateformats">0</a></td><td><span class="amber-light"></span><a href="#currencyformats">465</a></td><td><span class="green-light"></span><a href="#hosted">Yes</a></td><td><span class="red-light"></span><a href="#CORS">No</a></td></tr>
+			</table>
+			<!-- End status -->
+			</div>
+			
+			<h2>Notes</h2>
+			<h3 id="hosted">Is the file hosted by the Local Authority?</h3>
+			<p>Ideally, files will be hosted and maintained by a Local Authority either on their own website or on a Data Store such as <a href="http://datamillnorth.org/">Data Mill North</a>, <a href="http://dataworks.calderdale.gov.uk/">Calderdale Data Works</a>, <a href="https://datahub.bradford.gov.uk/">Northern Data Hub</a>, or <a href="https://www.yorkopendata.org/">York Open Data</a>. That way the latest version of the Business Rates will be available.</p>
+
+			<h3 id="CORS">Is CORS enabled?</h3>
+			<p>If the file is hosted remotely, <a href="https://www.w3.org/wiki/CORS_Enabled">CORS</a> will need to be enabled so that the file can be loaded by the webpage.</p>
+
+			<h3>Valid headings</h3>
+			<p>This tells you how many of the column headings match <a href="format.html">the format specification</a> precisely. Headings with uppercase characters in the wrong place, extra spaces, or extra content won't count. We don't use this to calculate the score.</p>
+			
+			<h3 id="required">Includes required columns?</h3>
+			<p>In the <a href="format.html">Business Rates format definition</a> there are 10 columns that are listed as required. We've tried to identify how many exist by checking the column headings. If you've used different column headings, we won't be able to find them.</p>
+			
+			<h3 id="rows">Rows</h3>
+			<p>The number of rows we found in the file. If you have empty or partial rows in your file, it will likely mess up other checks.</p>
+			
+			<h3 id="empties">Includes empties?</h3>
+			<p>Does the file include a column <code>Occupied</code> that lists the empties? This is needed if we want to encourage empty properties to become occupied.</p>
+			
+			<h3 id="coordinates">Valid coordinates?</h3>
+			<p>Does the file contain <code>Latitude</code> and <code>Longitude</code> columns and do the cells contain things that look like coordinates? These are necessary if we want to put the properties on a map. If you are a Local Authority and only have postcodes, you can use the <a href="http://geoportal.statistics.gov.uk/items/national-statistics-postcode-lookup-august-2018">ONS Postcode Lookup</a> to get latitudes and longitudes. We've even created <a href="https://odileeds.github.io/Postcodes2LatLon/">a tool that will add latitude/longitude to CSV files with a <code>Postcode</code> column</a></p>
+
+			<h3 id="dateformats">Valid dates</h3>
+			<p>Dealing with dates is always a headache because there are so many different formats. The <a href="https://www.gov.uk/government/publications/open-standards-for-government/date-times-and-time-stamps-standard">Government Digital Service recommend using ISO8601</a> which is an international standard. Dates should be <code>YYYY-MM-DD</code>.</p>
+			
+			<h3 id="currencyformats">Valid currency values</h3>
+			<p>These should be given in GBP but just as a decimal number. Don't include commas or currency symbols which can be difficult to deal with consistently.</p>
+		</div>
+	</div>
+
+	<footer class="b1-bg">
+		<div class="holder">
+			<p>&copy; 2019 ODI Leeds
+			<br />Processing and visualisation by Stuart Lowe (<a href="http://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>)
+			</p>
+		</div>
+	</footer>
+
+</body>
+</html>

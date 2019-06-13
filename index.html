@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8" />
+	<title>Business rates</title>
+	<script type="text/javascript" src="../../resources/stuquery.js"></script>
+	<script type="text/javascript" src="../../resources/stuquery.barchart.js"></script>
+	<script type="text/javascript" src="../../resources/leaflet/leaflet.js"></script>
+	<script type="text/javascript" src="../../resources/leaflet.markercluster-src.js"></script>
+	<script type="text/javascript" src="business-rates.js"></script>
+	<link rel="StyleSheet" href="../../resources/style.css" type="text/css" />
+	<link rel="StyleSheet" href="../../resources/spinner.css" type="text/css" />
+	<link rel="StyleSheet" href="../../resources/stuquery.barchart.css" type="text/css" />
+	<link rel="StyleSheet" href="../../resources/leaflet/leaflet.css" type="text/css" />
+	<link rel="StyleSheet" href="../../resources/L.markercluster.css" type="text/css" />
+	<link rel="StyleSheet" href="../../resources/L.markercluster.default.css" type="text/css" />
+	<style>
+	header h1 {
+		margin-top: 0.25em;
+	}
+	ul.grid.councils > li { width: 20%; }
+	ul.grid.councils > li.selected a { background-color: #722EA5; transition: background 1s ease-in; }
+	#progress { text-align: center; }
+	#map-holder {
+		width: 100%;
+		height: 500px;
+		border: 1px solid #dfdfdf;
+		display: none;
+	}
+	.marker-group {
+		border-radius: 100%;
+		text-align: center;
+		line-height: 45px;
+		width: 45px;
+	}
+	.leaflet-container { font: inherit; }
+	.leaflet-popup-content-wrapper { border-radius: 0px; }
+	.leaflet-popup-content { margin: 1em; }
+	.leaflet-popup-content h3 { font-weight: bold; }
+	.leaflet-popup-content h3 + p { margin-top: 0.5em; }
+	.leaflet-popup-tip-container { margin-top: -1px; }
+	.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+		box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.1);
+		background: white;
+	}
+	.leaflet-popup-content .edit { font-size: 0.8em; border-top: 1px solid #999999; padding-top: 0.25em; }
+	.leaflet-popup-content strong { font-weight: 700; }
+	.barchart { height: 300px; }
+	.barchart .bar.series-0 { background-color: #722EA5; }
+	.barchart .bar.series-1 { background-color: rgba(114, 46, 165,0.7); }
+	.barchart table td:hover .bar, .barchart table td .bar:focus { background-color: #E6007C; }
+	#fsa-barchart .bar.series-0 { background-color: #1DD3A7!important; }
+	#fsa-barchart .bar.series-1 { background-color: #0DBC37!important; }
+	#fsa-barchart-pc .bar.series-0 { background-color: #0DBC37!important; }
+	.barchart .balloon { text-align: left; padding: 0.5em 1em; }
+	.rating {
+		background-color: #0DBC37;
+		border-radius: 100%;
+		line-height: 2em;
+		width: 2em;
+		display: block;
+		margin: auto;
+		font-size: 2em;
+		font-weight: bold;
+		color: black;
+		text-align: center;
+	}
+	#main ul.grid.smalltabs {
+		margin-left: 0px;
+		right: 0px;
+	}
+	.panel ul.grid > li > a { min-height: auto; }
+	ul.smalltabs > li, #categories.panel ul.grid > li { width: 25%; }
+	ul.smalltabs > li {
+		border-right: 1px solid white;
+		margin-bottom: 0px;
+	}
+	ul.grid.smalltabs li > a {
+		padding: 0.5em 1em;
+		min-height: auto;
+		cursor: pointer;
+		display: block;
+		text-decoration: none;
+		color: black;
+	}
+	ul.grid.smalltabs li > a:hover, ul.grid.smalltabs li > a:focus {
+		background-color: #dfdfdf;
+		color: black!important;
+	}
+	.panel { width: 100%; min-height: 500px; }
+	.panel.on {
+		display: inline-block;
+	}
+	.panel.off {
+		display: none;
+	}
+	#categories table { width: 100%; }
+	#output { width: 100%; min-height: 500px; height: auto; position: relative; overflow-x: hidden; }
+	ul.grid span.number {
+		position: relative;
+		line-height: 1em;
+		margin: auto;
+		text-align: center;
+		display: block;
+		font-size: 3em;
+	}
+	ul.grid span.title {
+		display: block;
+		line-height: 1em;
+		font-size: 1em;
+		margin-bottom: 0.5em;
+		font-weight: 700;
+		text-align: center;
+	}
+	#categories ul.grid span.title {
+		height: 2em;
+	}
+	footer a:visited { color: inherit; }
+	@media only screen and (max-width: 1080px) {
+		#categories ul.grid > li, ul.smalltabs > li, ul.grid.councils > li { width: 50%; }
+	}
+	@media only screen and (max-width: 700px) {
+		#categories ul.grid > li, ul.smalltabs > li, ul.grid.councils > li { width: 100%; }
+	}
+	</style>
+</head>
+<body>
+
+	<div id="site-message" class="c14-bg"><div>This is experimental and work-in-progress. Things might not work or even be correct.</div></div>
+	<div id="main">
+		<header>
+			<div class="b1-bg">
+				<div class="holder" style="text-align:center;">
+					<a href="https://odileeds.org/"><img src="../../resources/images/odileeds-8.svg" /></a>
+					<h1>Business rates</h1>
+				</div>
+			</div>
+		</header>
+
+		<div class="holder">
+			<p>As part of the Open Data Collaboration group we are exploring local council Business Rates data and we've defined <a href="format.html">a common format for sharing Business Rates data</a>. Once Local Authorities use that format we can add them to this visualisation. Check out how complete each Local Authority is on our <a href="status.html">status page</a>. Click on a Local Authority below to load their data.</p>
+			<ul class="grid councils">
+				<li class="compact img"><a href="https://www.bradford.gov.uk/open-data/freedom-of-information/freedom-of-information-faqs-business-rates/" code="E08000032" class="padded b2-bg"><img src="../../dashboard/data/img/bradford.svg" title="Bradford Metropolitan District Council" /></a></li>
+				<li class="compact img"><a href="https://dataworks.calderdale.gov.uk/dataset/calderdale-business-properties---complete-list" code="E08000033" updated="2019-04" class="padded b2-bg"><img src="../../dashboard/data/img/calderdale.svg" title="Calderdale Council" /></a></li>
+				<li class="compact img"><a href="https://www.kirklees.gov.uk/beta/information-and-data/open-data-sets.aspx" code="E08000034" updated="2019-01" class="padded b2-bg"><img src="../../dashboard/data/img/kirklees.svg" title="Kirklees Council" /></a></li>
+				<li class="compact img"><a href="https://www.hambleton.gov.uk/info/20029/business/158/business_and_non-domestic_rates/2" code="E07000164" class="padded b2-bg"><img src="../../dashboard/data/img/hambleton.svg" title="Hambleton District Council" /></a></li>
+				<li class="compact img"><a href="https://www.harrogate.gov.uk/info/20031/business_rates" code="E07000165" class="padded b2-bg"><img src="../../dashboard/data/img/harrogate.svg" title="Harrogate Borough Council" /></a></li>
+				<li class="compact img"><a href="https://datamillnorth.org/dataset/business-rates" code="E08000035" updated="2019-04-14" class="padded b2-bg"><img src="../../dashboard/data/img/leeds.svg" title="Leeds City Council" /></a></li>
+				<li class="compact img"><a href="https://www.scarborough.gov.uk/home/open-data-and-foi/business-rates-information-requests" code="E07000168" updated="2019-04" class="padded b2-bg"><img src="../../dashboard/data/img/scarborough.svg" title="Scarborough Borough Counci" /></a></li>
+				<li class="compact img"><a href="https://www.selby.gov.uk/datasets" code="E07000169" updated="2019-04" class="padded b2-bg"><img src="../../dashboard/data/img/selby.svg" title="Selby District Council" /></a></li>
+				<li class="compact img"><a href="https://datamillnorth.org/dataset/wakefield_business_rates" code="E08000036" updated="2018-04" class="padded b2-bg"><img src="../../dashboard/data/img/wakefield.svg" title="Wakefield Council" /></a></li>
+			</ul>
+			<div id="progress"></div>
+		</div>
+		
+		<div class="holder" style="padding:1em;">
+			<ul class="grid smalltabs">
+				<li><a href="#map" class="b5-bg">Map</a></li>
+				<li><a href="#rates" class="b4-bg">Rates</a></li>
+				<li><a href="#categories" class="b4-bg">Categories</a></li>
+				<li><a href="#fsa" class="b4-bg">Scores on the doors</a></li>
+			</ul>
+		</div>
+		<div id="output" class="b5-bg">
+		</div>
+	</div>
+
+	<footer class="b1-bg">
+		<div class="holder">
+			<p>&copy; 2019 ODI Leeds
+			<br />Processing and visualisation by Stuart Lowe (<a href="http://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>)
+			<span id="download"></span>
+			</p>
+		</div>
+	</footer>
+
+</body>
+</html>
