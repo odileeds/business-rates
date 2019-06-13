@@ -1,6 +1,6 @@
 ONS code,Local Authority,URL,GeoJSON,FSA,Include
 E08000032,Bradford,data/bradford.csv,data/bradford.geojson,https://odileeds.org/projects/scoresonthedoors/data/bradford.csv,true
-E08000033,Calderdale,data/calderdale.csv,data/calderdale.geojson,https://odileeds.org/projects/scoresonthedoors/data/calderdale.csv,,true
+E08000033,Calderdale,data/calderdale.csv,data/calderdale.geojson,https://odileeds.org/projects/scoresonthedoors/data/calderdale.csv,true
 E07000163,Craven,,,,
 E07000164,Hambleton,data/hambleton.csv,data/hambleton.geojson,https://odileeds.org/projects/scoresonthedoors/data/hambleton.csv,true
 E07000165,Harrogate,data/harrogate.csv,data/harrogate.geojson,https://odileeds.org/projects/scoresonthedoors/data/harrogate.csv,true
