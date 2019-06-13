@@ -1,0 +1,120 @@
+Primary Description Code,Default Description,PROPTYPE1 Description,PROPTYPE1 Broad Description,PROPTYPE1 Detailed Description,HMRC PROPTYPE1,PROPTYPE2 Description
+CA,Advertising Right and premises,Commercial-Advertising rights,Commercial,Advertising rights,1,Other properties
+CA1,Advertising Station and premises,Commercial-Advertising rights,Commercial,Advertising rights,1,Other properties
+CC,Camping Site and premises,Commercial-Holiday sites,Commercial,Holiday sites,2,Other properties
+CC1,Caravan Park and premises,Commercial-Holiday sites,Commercial,Holiday sites,2,Other properties
+CC2,Holiday Centre and premises,Commercial-Holiday sites,Commercial,Holiday sites,2,Other properties
+CC3,Caravan and Pitch and premises,Commercial-Holiday sites,Commercial,Holiday sites,2,Other properties
+CC4,Caravan Pitch and premises,Commercial-Holiday sites,Commercial,Holiday sites,2,Other properties
+CC5,Chalet Park and premises,Commercial-Holiday sites,Commercial,Holiday sites,2,Other properties
+CC6,Caravan and Chalet Park and premises,Commercial-Holiday sites,Commercial,Holiday sites,2,Other properties
+CC7,Time Share Complex and premises,Commercial-Holiday sites,Commercial,Holiday sites,2,Other properties
+CG,Petrol filling station and premises,Commercial-Garages & petrol stations,Commercial,Garages & petrol stations,3,Other properties
+CG1,Vehicle repair workshop and premises,Commercial-Garages & petrol stations,Commercial,Garages & petrol stations,3,Other properties
+CG2,Garage and premises,Commercial-Garages & petrol stations,Commercial,Garages & petrol stations,3,Other properties
+CG3,Car Showroom and premises,Commercial-Garages & petrol stations,Commercial,Garages & petrol stations,3,Other properties
+CG4,Road Haulage Depot and premises,Commercial-Garages & petrol stations,Commercial,Garages & petrol stations,3,Other properties
+CH,Hotel and premises,Commercial-Hotels etc.,Commercial,Hotels etc.,4,Other properties
+CH1,Self Catering Holiday Unit and premises,Commercial-Hotels etc.,Commercial,Hotels etc.,4,Other properties
+CH2,Guest House and premises,Commercial-Hotels etc.,Commercial,Hotels etc.,4,Other properties
+CH3,Motel and premises,Commercial-Hotels etc.,Commercial,Hotels etc.,4,Other properties
+CL,Public House and premises,Commercial-Pubs & wine bars,Commercial,Pubs & wine bars,5,Other properties
+CL1,Wine Bar and premises,Commercial-Pubs & wine bars,Commercial,Pubs & wine bars,5,Other properties
+CL2,Club and premises,Commercial-Pubs & wine bars,Commercial,Pubs & wine bars,5,Other properties
+CM,Market Outdoor and premises,Commercial-Markets,Commercial,Markets,6,Other properties
+CM1,Market Indoor and premises,Commercial-Markets,Commercial,Markets,6,Other properties
+CO,Offices and premises,Commercial-Offices,Commercial,Offices,7,Offices
+CO1,Computer Centre and premises,Commercial-Offices,Commercial,Offices,7,Offices
+CP,Car Park and premises,Commercial-Car parks,Commercial,Car parks,8,Other properties
+CP1,Car Parking Space and premises,Commercial-Car parks,Commercial,Car parks,8,Other properties
+CR,Restaurant and premises,Commercial-Restaurants & cafes,Commercial,Restaurants & cafes,9,Other properties
+CR1,Cafe and premises,Commercial-Restaurants & cafes,Commercial,Restaurants & cafes,9,Other properties
+CR2,Food Court and premises,Commercial-Restaurants & cafes,Commercial,Restaurants & cafes,9,Other properties
+CS,Shop and premises,Commercial-Other Shops,Commercial,Other Shops,14,Shops
+CS1,Bank and premises,Commercial-Other Shops,Commercial,Other Shops,14,Shops
+CS10,Retail Warehouse and premises,Commercial-Warehouses & stores,Commercial,Warehouses & stores,15,Warehouses
+CS2,Betting Shop and premises,Commercial-Other Shops,Commercial,Other Shops,14,Shops
+CS3,Hairdressing Salon and premises,Commercial-Other Shops,Commercial,Other Shops,14,Shops
+CS4,Kiosk and premises,Commercial-Other Shops,Commercial,Other Shops,14,Shops
+CS5,Launderette and premises,Commercial-Other Shops,Commercial,Other Shops,14,Shops
+CS6,Post Office and premises,Commercial-Other Shops,Commercial,Other Shops,14,Shops
+CS7,Showroom and premises,"Commercial-Shops, Showroom and premises",Commercial,"Shops, Showroom and premises",11,Shops
+CS8,Hypermarket and premises,"Commercial-Shops, Hypermarket and premises",Commercial,"Shops, Hypermarket and premises",12,Shops
+CS9,Superstore and premises,"Commercial-Shops, Superstore and premises",Commercial,"Shops, Superstore and premises",13,Shops
+CW,Warehouse and premises,Commercial-Warehouses & stores,Commercial,Warehouses & stores,15,Warehouses
+CW1,Land used for Storage and premises,Commercial-Warehouses & stores,Commercial,Warehouses & stores,15,Warehouses
+CW2,storage Depot and premises,Commercial-Warehouses & stores,Commercial,Warehouses & stores,15,Warehouses
+CW3,Store and premises,Commercial-Warehouses & stores,Commercial,Warehouses & stores,15,Warehouses
+CX,Miscellaneous,Commercial-Other commercial,Commercial,Other commercial,16,Other properties
+EL,School and premises,"Educational, training & cultural-Local authority schools & colleges","Educational, training & cultural",Local authority schools & colleges,18,Other properties
+EL1,College and premises,"Educational, training & cultural-Local authority schools & colleges","Educational, training & cultural",Local authority schools & colleges,18,Other properties
+EM,Library and premises,"Educational, training & cultural-Libraries and museums","Educational, training & cultural",Libraries and museums,19,Other properties
+EM1,Museum and premises,"Educational, training & cultural-Libraries and museums","Educational, training & cultural",Libraries and museums,19,Other properties
+EN1,Day Nursery and premises,"Educational, training & cultural-Other educational, training and cultural","Educational, training & cultural","Other educational, training and cultural",22,Other properties
+EP,School and premises,"Educational, training & cultural-Private schools & colleges","Educational, training & cultural",Private schools & colleges,20,Other properties
+EP1,College and premises,"Educational, training & cultural-Private schools & colleges","Educational, training & cultural",Private schools & colleges,20,Other properties
+EU,University and premises,"Educational, training & cultural-Universities ","Educational, training & cultural",Universities ,21,Other properties
+EX,Miscellaneous,"Educational, training & cultural-Other educational, training and cultural","Educational, training & cultural","Other educational, training and cultural",22,Other properties
+FD,Dock Hereditament and premises,Utilities-Docks,Utilities,Docks,24,Other properties
+FE,Electricity Hereditament and premises,Utilities-Electricity companies,Utilities,Electricity companies,25,Other properties
+IF,Factory and premises,"Industrial-Factories, mills & workshops",Industrial,"Factories, mills & workshops",33,Factories
+IF1,Mill and premises,"Industrial-Factories, mills & workshops",Industrial,"Factories, mills & workshops",33,Factories
+IF2,Works and premises,"Industrial-Factories, mills & workshops",Industrial,"Factories, mills & workshops",33,Factories
+IF3,Workshop and premises,"Industrial-Factories, mills & workshops",Industrial,"Factories, mills & workshops",33,Factories
+IF4,Business Unit and premises,"Industrial-Factories, mills & workshops",Industrial,"Factories, mills & workshops",33,Factories
+IM,Quarry and premises,"Industrial-Quarries, mines etc.",Industrial,"Quarries, mines etc.",34,Other properties
+IM1,Mine and premises,"Industrial-Quarries, mines etc.",Industrial,"Quarries, mines etc.",34,Other properties
+IM2,Brickworks and premises,"Industrial-Quarries, mines etc.",Industrial,"Quarries, mines etc.",34,Other properties
+IM3,Concrete Batching Plant and premises,"Industrial-Quarries, mines etc.",Industrial,"Quarries, mines etc.",34,Other properties
+IM4,Tipping Site and premises,"Industrial-Quarries, mines etc.",Industrial,"Quarries, mines etc.",34,Other properties
+IM5,Spoil Heap workings and premises,"Industrial-Quarries, mines etc.",Industrial,"Quarries, mines etc.",34,Other properties
+IM6,Peat Fields and premises,"Industrial-Quarries, mines etc.",Industrial,"Quarries, mines etc.",34,Other properties
+IMX,Miscellaneous,"Industrial-Quarries, mines etc.",Industrial,"Quarries, mines etc.",34,Other properties
+IX,Miscellaneous,Industrial-Other industrial,Industrial,Other industrial,35,Other properties
+LC,Community Centre and premises,Leisure-Community centres & halls,Leisure,Community centres & halls,37,Other properties
+LC1,Clubhouse and premises,Leisure-Community centres & halls,Leisure,Community centres & halls,37,Other properties
+LC2,Leisure Centre and premises,Leisure-Community centres & halls,Leisure,Community centres & halls,37,Other properties
+LC3,Hall and premises,Leisure-Community centres & halls,Leisure,Community centres & halls,37,Other properties
+LH1,Beach Hut and premises,Leisure-Other leisure,Leisure,Other leisure,41,Other properties
+LI,Sports Centre and premises,Leisure-Sports centres & stadia,Leisure,Sports centres & stadia,38,Other properties
+LI1,Stadium and premises,Leisure-Sports centres & stadia,Leisure,Sports centres & stadia,38,Other properties
+LS,Sports Ground and premises,"Leisure-Sports grounds, golf courses etc",Leisure,"Sports grounds, golf courses etc",39,Other properties
+LS1,Sporting Right and premises,"Leisure-Sports grounds, golf courses etc",Leisure,"Sports grounds, golf courses etc",39,Other properties
+LS2,Golf Course and premises,"Leisure-Sports grounds, golf courses etc",Leisure,"Sports grounds, golf courses etc",39,Other properties
+LS3,Marina and premises,"Leisure-Sports grounds, golf courses etc",Leisure,"Sports grounds, golf courses etc",39,Other properties
+LS4,Playing Field and premises,"Leisure-Sports grounds, golf courses etc",Leisure,"Sports grounds, golf courses etc",39,Other properties
+LS5,Football Ground and premises,"Leisure-Sports grounds, golf courses etc",Leisure,"Sports grounds, golf courses etc",39,Other properties
+LS6,Swimming Pool and premises,"Leisure-Sports grounds, golf courses etc",Leisure,"Sports grounds, golf courses etc",39,Other properties
+LS7,Tennis Centre and premises,"Leisure-Sports grounds, golf courses etc",Leisure,"Sports grounds, golf courses etc",39,Other properties
+LT,Cinema and premises,"Leisure-Cinemas, theatres etc.",Leisure,"Cinemas, theatres etc.",40,Other properties
+LT1,Amusement Arcade and premises,"Leisure-Cinemas, theatres etc.",Leisure,"Cinemas, theatres etc.",40,Other properties
+LT2,Bingo Hall and premises,"Leisure-Cinemas, theatres etc.",Leisure,"Cinemas, theatres etc.",40,Other properties
+LT3,Theatre and premises,"Leisure-Cinemas, theatres etc.",Leisure,"Cinemas, theatres etc.",40,Other properties
+LT4,Amusement Park and premises,"Leisure-Cinemas, theatres etc.",Leisure,"Cinemas, theatres etc.",40,Other properties
+LX,Miscellaneous,Leisure-Other leisure,Leisure,Other leisure,41,Other properties
+MC,Cemetery and premises,Miscellaneous-Cemeteries and crematoria,Miscellaneous,Cemeteries and crematoria,43,Other properties
+MC1,Crematorium and premises,Miscellaneous-Cemeteries and crematoria,Miscellaneous,Cemeteries and crematoria,43,Other properties
+MH,Surgery and premises,Miscellaneous-Medical facilities,Miscellaneous,Medical facilities,44,Other properties
+MH1,Health Centre and premises,Miscellaneous-Medical facilities,Miscellaneous,Medical facilities,44,Other properties
+MH2,Hospital and premises,Miscellaneous-Medical facilities,Miscellaneous,Medical facilities,44,Other properties
+MH3,Hospital and premises,Miscellaneous-Medical facilities,Miscellaneous,Medical facilities,44,Other properties
+ML,Offices and premises,Miscellaneous-Local government offices,Miscellaneous,Local government offices,45,Offices
+MP,Police station and premises,Miscellaneous-Police stations & courts,Miscellaneous,Police stations & courts,46,Other properties
+MP1,Law Court and premises,Miscellaneous-Police stations & courts,Miscellaneous,Police stations & courts,46,Other properties
+MP2,Prison and premises,Miscellaneous-Police stations & courts,Miscellaneous,Police stations & courts,46,Other properties
+MR,Hostel and premises,Miscellaneous-Hostels & homes,Miscellaneous,Hostels & homes,47,Other properties
+MR1,Home and premises,Miscellaneous-Hostels & homes,Miscellaneous,Hostels & homes,47,Other properties
+MS1,Fire Station and premises,Miscellaneous-Other properties,Miscellaneous,Other properties,48,Other properties
+MS2,Ambulance Station premises,Miscellaneous-Other properties,Miscellaneous,Other properties,48,Other properties
+MT1,Communication Station and premises,Miscellaneous-Other properties,Miscellaneous,Other properties,48,Other properties
+MT2,Public Telephone Kiosk and premises,Miscellaneous-Other properties,Miscellaneous,Other properties,48,Other properties
+MTX,Miscellaneous,Miscellaneous-Other properties,Miscellaneous,Other properties,48,Other properties
+MX,Miscellaneous,Miscellaneous-Other properties,Miscellaneous,Other properties,48,Other properties
+NT,Bus Station and premises,"Utilities-Bus stations, moorings etc.",Utilities,"Bus stations, moorings etc.",30,Other properties
+NT1,Mooring and premises,"Utilities-Bus stations, moorings etc.",Utilities,"Bus stations, moorings etc.",30,Other properties
+NT3,Wharf and premises,"Utilities-Bus stations, moorings etc.",Utilities,"Bus stations, moorings etc.",30,Other properties
+NW,Sewage Treatment Works and premises,Utilities-Other utilities,Utilities,Other utilities,31,Other properties
+NX,Miscellaneous,Utilities-Other utilities,Utilities,Other utilities,31,Other properties
+TD1,Forces Careers Office and premises,Commercial-Offices,Commercial,Offices,7,Offices
+TD2,Auxiliary Defence Establishment and premises,Miscellaneous-Other properties,Miscellaneous,Other properties,48,Other properties
+TX,Miscellaneous,Miscellaneous-Other properties,Miscellaneous,Other properties,48,Other properties
