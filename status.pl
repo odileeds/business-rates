@@ -230,7 +230,7 @@ foreach $code (@LAcodes){
 	$status .= "<td>$LAdata{$code}{'rows'}</td>";
 	$status .= "<td>".sprintf("%.1f",$LAdata{$code}{'score'})."</td>";
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'okhead'}/$nreq,"$LAdata{$code}{'okhead'}/$nreq","$LAdata{$code}{'okhead'}/$nreq","-","headings",($LAdata{$code}{'notgot'} ? "Missing: ".$LAdata{$code}{'notgot'} : "Got everything!"))."</td>";
-	$status .= "<td>".getTrafficLight($LAdata{$code}{'okreq'}/$nreq,"$LAdata{$code}{'okreq'}/$nreq","$$LAdata{$code}{'okreq'}/$nreq","-","required")."</td>";
+	$status .= "<td>".getTrafficLight($LAdata{$code}{'okreq'}/$nreq,"$LAdata{$code}{'okreq'}/$nreq","$LAdata{$code}{'okreq'}/$nreq","-","required")."</td>";
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'empties'},"Yes","No","-","empties")."</td>";
 	$status .= "<td>".getTrafficLight(($LAdata{$code}{'latformats'}+$LAdata{$code}{'lonformats'})/(2*($LAdata{$code}{'rows'} == 0 ? 1 : $LAdata{$code}{'rows'})),($LAdata{$code}{'latformats'}+$LAdata{$code}{'lonformats'}),($LAdata{$code}{'latformats'}+$LAdata{$code}{'lonformats'}),"-","coordinates")."</td>";
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'dateformats'}/($LAdata{$code}{'rows'}==0 ? 1 : $LAdata{$code}{'rows'}),"$LAdata{$code}{'dateformats'}","$LAdata{$code}{'dateformats'}","-","dateformats")."</td>";
