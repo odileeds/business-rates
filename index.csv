@@ -225,7 +225,7 @@ E08000031,Wolverhampton,,,,
 E08000032,Bradford,data/bradford.csv,data/bradford.geojson,https://odileeds.org/projects/scoresonthedoors/data/bradford.csv,true
 E08000033,Calderdale,data/calderdale.csv,data/calderdale.geojson,https://odileeds.org/projects/scoresonthedoors/data/calderdale.csv,true
 E08000034,Kirklees,data/kirklees.csv,data/kirklees.geojson,https://odileeds.org/projects/scoresonthedoors/data/kirklees.csv,true
-E08000035,Leeds,https://datamillnorth.org/download/business-rates/bd943d07-9a6f-429b-b23e-379a7a597987/Data%20mill%20update%2012-04-2019%20ver%203%20.csv,data/leeds.geojson,../scoresonthedoors/data/leeds.csv,true
+E08000035,Leeds,https://datamillnorth.org/download/business-rates/bd943d07-9a6f-429b-b23e-379a7a597987/Data%20mill%20update%2012-04-2019%20ver%203%20.csv,data/leeds.geojson,https://odileeds.org/projects/scoresonthedoors/data/leeds.csv,true
 E08000036,Wakefield,data/wakefield.csv,data/wakefield.geojson,https://odileeds.org/projects/scoresonthedoors/data/wakefield.csv,true
 E08000037,Gateshead,,,,
 E09000001,City of London,,,,
