@@ -238,7 +238,6 @@ foreach $code (@LAcodes){
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'hosted'},"Yes","No","-","hosted")."</td>";
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'cors'},"Yes","No","-","CORS")."</td>";
 	$status .= "</tr>\n";
-	print "$code - $position - $LAdata{$code}{'score'}\n";
 	$i++;
 	$previousposition = $position;
 	$lastscore = $LAdata{$code}{'score'};
