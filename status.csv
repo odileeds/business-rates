@@ -1,0 +1,18 @@
+Included in tool?,"Council publish to standard
+",Local Authority,ONS code,Region,Original file URL,Format,Last updated,Includes empties?,Interactive file URL,Headings,Date formats,Currency format,Geography,Includes empties?,Maintained by council?,Hosted by council?,Notes
+Yes,80.00%,Bradford,E08000032,West Yorkshire,https://www.bradford.gov.uk/open-data/freedom-of-information/freedom-of-information-faqs-business-rates/,XLSX,2018-11,Yes,https://odileeds.org/projects/business-rates/data/bradford.csv,100.00%,100.00%,100.00%,100.00%,Yes,No,No,One-off conversion done by ODI Leeds
+Yes,64.00%,Calderdale,E08000033,West Yorkshire,https://dataworks.calderdale.gov.uk/dataset/calderdale-business-properties---complete-list,CSV,2019-04,Getting there,https://odileeds.org/projects/business-rates/data/calderdale.csv,100.00%,100.00%,100.00%,100.00%,Getting there,No,No,One-off conversion done by ODI Leeds. Empties may not be complete.
+No,0.00%,Craven,E07000163,North Yorkshire,https://www.cravendc.gov.uk/data-and-transparency/freedom-of-information-business-rates/,XLSX,,,-,,,,,No,No,No,
+No,56.00%,Hambleton,E07000164,North Yorkshire,https://www.whatdotheyknow.com/request/complete_non_residential_busines_24,XLS,2016-03,Separate,-,50.00%,100.00%,100.00%,,Yes,No,No,
+No,0.00%,Harrogate,E07000165,North Yorkshire,https://www.harrogate.gov.uk/info/20004/benefits_and_assistance/947/business_rates_freedom_of_information_requests,CSV,,,-,,,,,No,No,No,
+Yes,48.00%,Kirklees,E08000034,West Yorkshire,https://www.kirklees.gov.uk/beta/information-and-data/open-data-sets.aspx,CSV,2019-03,No,https://odileeds.org/projects/business-rates/data/kirklees.csv,100.00%,100.00%,100.00%,,No,No,No,One-off conversion done by ODI Leeds
+Yes,96.80%,Leeds,E08000035,West Yorkshire,https://datamillnorth.org/dataset/business-rates,CSV,2019-01,Yes,https://datamillnorth.org/download/business-rates/bd943d07-9a6f-429b-b23e-379a7a597987/Data%20mill%20update%2012-04-2019%20ver%203%20.csv,80.00%,100.00%,100.00%,100.00%,Yes,Yes,Yes,One-off conversion done by ODI Leeds
+No,0.00%,Middlesbrough,E06000002,North Yorkshire,,,,,-,,,,,No,No,No,
+No,0.00%,Redcar and Cleveland,E06000003,North Yorkshire,,,,,-,,,,,No,No,No,
+No,0.00%,Richmondshire,E07000166,North Yorkshire,,,,,-,,,,,No,No,No,
+No,0.00%,Ryedale,E07000167,North Yorkshire,,,,,-,,,,,No,No,No,
+Yes,80.00%,Scarborough,E07000168,North Yorkshire,https://www.scarborough.gov.uk/home/open-data-and-foi/business-rates-information-requests,XLSX,2019-02,No,https://odileeds.org/projects/business-rates/data/scarborough.csv,100.00%,100.00%,100.00%,100.00%,Yes,No,No,Final tidying by ODI Leeds using https://odileeds.github.io/CSVCleaner/
+Yes,80.00%,Selby,E07000169,North Yorkshire,https://www.selby.gov.uk/datasets,XLS,,,https://odileeds.org/projects/business-rates/data/selby.csv,100.00%,100.00%,100.00%,100.00%,Yes,No,No,Final tidying by ODI Leeds using https://odileeds.github.io/CSVCleaner/
+No,0.00%,Stockton-on-Tees,E06000004,North Yorkshire,,,,,-,,,,,No,No,No,
+Yes,80.00%,Wakefield,E08000036,West Yorkshire,https://datamillnorth.org/dataset/wakefield_business_rates,XLSX,2018-04,,https://odileeds.org/projects/business-rates/data/wakefield.csv,100.00%,100.00%,100.00%,100.00%,Yes,No,No,One-off conversion done by ODI Leeds
+No,36.00%,York,E06000014,North Yorkshire,https://data.yorkopendata.org/dataset/nndr-business-rates/resource/4a349a29-a3da-4530-ab52-6ab941b40137,CSV,,,https://data.yorkopendata.org/dataset/33e9d8e9-14e5-4f5b-9382-12d76ae05afa/resource/4a349a29-a3da-4530-ab52-6ab941b40137/download/nndr.csv,0.00%,0.00%,100.00%,,No,Yes,Yes,"Contains over 100,000 records"
