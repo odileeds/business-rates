@@ -1,7 +1,7 @@
 ONS code,Local Authority,URL,GeoJSON,FSA,Include
 E06000001,Hartlepool,,,,
 E07000215,Tandridge,,,,
-E07000084,Basingstoke and Deane,,,,
+E07000084,Basingstoke and Deane,https://www.basingstoke.gov.uk/content/page/43010/Jan%202019%20void%20and%20occ%20properties.csv,data/basingstoke.geojson,https://odileeds.org/projects/scoresonthedoors/data/basingstoke.csv,
 E06000002,Middlesbrough,,,,
 E06000003,Redcar and Cleveland,,,,
 E06000004,Stockton-on-Tees,,,,

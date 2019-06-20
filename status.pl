@@ -221,7 +221,7 @@ foreach $code (@LAcodes){
 	}
 
 	$status .= "\t\t\t\t<tr><td>$position</td><td class=\"LA-name\">";
-	if($file){
+	if($LAdata{$code}{'file'}){
 		$status .= "<a href=\"$LAdata{$code}{'file'}\" code=\"$code\" title=\"$LAdata{$code}{'name'}\">$LAdata{$code}{'name'}</a>";
 	}else{
 		$status .= "<span code=\"$code\" title=\"$LAdata{$code}{'name'}\">$LAdata{$code}{'name'}</span>";
