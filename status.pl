@@ -4,7 +4,7 @@ $ifile = "index.csv";
 $ffile = "format.html";
 $sfile = "status.html";
 
-
+%LAdata;
 
 %months = ('Jan'=>"01",'Feb'=>'02','Mar'=>'03','Apr'=>'04','May'=>'05','Jun'=>'06','Jul'=>'07','Aug'=>'08','Sep'=>'09','Oct'=>'10','Nov'=>'11','Dec'=>'12');
 
@@ -40,8 +40,6 @@ foreach $line (@lines){
 	}
 }
 
-$status = "\t\t\t<table class=\"odi\">\n";
-$status .= "\t\t\t\t<tr><th>Local authority</th><th>Last updated</th><th>Rows</th><th id=\"sortby\">Score</th><th>Valid required headings</th><th>Includes required columns</th><th>Includes empties</th><th>Valid coordinates</th><th>Valid dates</th><th>Valid currency values</th><th>Hosted</th><th>CORS</th></tr>\n";
 for($i = 0; $i < @las; $i++){
 	(@cols) = split(/,(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/,$las[$i]);
 
@@ -162,12 +160,18 @@ for($i = 0; $i < @las; $i++){
 		if($collon >= 0){ $coordinates += 0.5; }
 		
 		# Add score for required headings
-		$score += $okreq/$nreq;
+		if($nreq > 0){
+			$score += $okreq/$nreq;
+		}
 		$score += $empties;
-		$score += ($latformats+$lonformats)/(2*$rows);
-		$score += $dateformats/$rows;
-		$score += $currformats/$rows;
-		$score += $okhead/$nreq;
+		if($rows > 0){
+			$score += ($latformats+$lonformats)/(2*$rows);
+			$score += $dateformats/$rows;
+			$score += $currformats/$rows;
+		}
+		if($nreq > 0){
+			$score += $okhead/$nreq;
+		}
 	}
 	$score *= 100/8;
 	$cols[1] =~ s/(^\"|\"$)//g;
@@ -181,24 +185,63 @@ for($i = 0; $i < @las; $i++){
 		}
 	}
 
-	$status .= "\t\t\t\t<tr><td>";
-	if($file){
-		$status .= "<a href=\"$file\" code=\"$cols[0]\" title=\"$cols[1]\">$cols[1]</a>";
-	}else{
-		$status .= "<span code=\"$cols[0]\" title=\"$cols[1]\">$cols[1]</span>";
+	$LAdata{$cols[0]} = {
+		'id'=>$cols[0],
+		'name'=>$cols[1],
+		'okhead'=>$okhead,
+		'okreq'=>$okreq,
+		'empties'=>$empties,
+		'latformats'=>$latformats,
+		'lonformats'=>$lonformats,
+		'currformats'=>$currformats,
+		'dateformats'=>$dateformats,
+		'hosted'=>$hosted,
+		'cors'=>$cors,
+		'file'=>$file,
+		'rows'=>$rows,
+		'score'=>$score,
+		'lastmodified'=>$lastmodified,
+		'notgot'=>$notgot
+	};
+
+}
+
+@LAcodes = reverse(sort{ $LAdata{$a}{'score'} <=> $LAdata{$b}{'score'}}(keys(%LAdata)));
+
+$i = 0;
+$lastscore = -1;
+$previousposition = 1;
+$status = "\t\t\t<table class=\"odi\">\n";
+$status .= "\t\t\t\t<tr><th>Pos</th><th class=\"LA-name\">Local authority</th><th>Last updated</th><th>Rows</th><th id=\"sortby\">Score</th><th>Valid required headings</th><th>Includes required columns</th><th>Includes empties</th><th>Valid coords</th><th>Valid dates</th><th>Valid currency values</th><th>Hosted</th><th>CORS</th></tr>\n";
+foreach $code (@LAcodes){
+
+	$position = $i + 1;
+	if($LAdata{$code}{'score'} == $lastscore){
+		$position = $previousposition;
 	}
-	$status .= "</td><td>$lastmodified</td>";
-	$status .= "<td>$rows</td>";
-	$status .= "<td>".sprintf("%.1f",$score)."</td>";
-	$status .= "<td>".getTrafficLight($okhead/$nreq,"$okhead","$okhead","-","headings",($notgot ? "Missing: ".$notgot : "Got everything!"))."</td>";
-	$status .= "<td>".getTrafficLight($okreq/$nreq,"$okreq/$nreq","$okreq/$nreq","-","required")."</td>";
-	$status .= "<td>".getTrafficLight($empties,"Yes","No","-","empties")."</td>";
-	$status .= "<td>".getTrafficLight(($latformats+$lonformats)/(2*($rows == 0 ? 1 : $rows)),($latformats+$lonformats),($latformats+$lonformats),"-","coordinates")."</td>";
-	$status .= "<td>".getTrafficLight($dateformats/($rows==0 ? 1 : $rows),"$dateformats","$dateformats","-","dateformats")."</td>";
-	$status .= "<td>".getTrafficLight($currformats/($rows==0 ? 1 : $rows),"$currformats","$currformats","-","currencyformats")."</td>";
-	$status .= "<td>".getTrafficLight($hosted,"Yes","No","-","hosted")."</td>";
-	$status .= "<td>".getTrafficLight($cors,"Yes","No","-","CORS")."</td>";
+
+	$status .= "\t\t\t\t<tr><td>$position</td><td class=\"LA-name\">";
+	if($file){
+		$status .= "<a href=\"$LAdata{$code}{'file'}\" code=\"$code\" title=\"$LAdata{$code}{'name'}\">$LAdata{$code}{'name'}</a>";
+	}else{
+		$status .= "<span code=\"$code\" title=\"$LAdata{$code}{'name'}\">$LAdata{$code}{'name'}</span>";
+	}
+	$status .= "</td><td>$LAdata{$code}{'lastmodified'}</td>";
+	$status .= "<td>$LAdata{$code}{'rows'}</td>";
+	$status .= "<td>".sprintf("%.1f",$LAdata{$code}{'score'})."</td>";
+	$status .= "<td>".getTrafficLight($LAdata{$code}{'okhead'}/$nreq,"$LAdata{$code}{'okhead'}/$nreq","$LAdata{$code}{'okhead'}/$nreq","-","headings",($LAdata{$code}{'notgot'} ? "Missing: ".$LAdata{$code}{'notgot'} : "Got everything!"))."</td>";
+	$status .= "<td>".getTrafficLight($LAdata{$code}{'okreq'}/$nreq,"$LAdata{$code}{'okreq'}/$nreq","$$LAdata{$code}{'okreq'}/$nreq","-","required")."</td>";
+	$status .= "<td>".getTrafficLight($LAdata{$code}{'empties'},"Yes","No","-","empties")."</td>";
+	$status .= "<td>".getTrafficLight(($LAdata{$code}{'latformats'}+$LAdata{$code}{'lonformats'})/(2*($LAdata{$code}{'rows'} == 0 ? 1 : $LAdata{$code}{'rows'})),($LAdata{$code}{'latformats'}+$LAdata{$code}{'lonformats'}),($LAdata{$code}{'latformats'}+$LAdata{$code}{'lonformats'}),"-","coordinates")."</td>";
+	$status .= "<td>".getTrafficLight($LAdata{$code}{'dateformats'}/($LAdata{$code}{'rows'}==0 ? 1 : $LAdata{$code}{'rows'}),"$LAdata{$code}{'dateformats'}","$LAdata{$code}{'dateformats'}","-","dateformats")."</td>";
+	$status .= "<td>".getTrafficLight($LAdata{$code}{'currformats'}/($LAdata{$code}{'rows'}==0 ? 1 : $LAdata{$code}{'rows'}),"$LAdata{$code}{'currformats'}","$LAdata{$code}{'currformats'}","-","currencyformats")."</td>";
+	$status .= "<td>".getTrafficLight($LAdata{$code}{'hosted'},"Yes","No","-","hosted")."</td>";
+	$status .= "<td>".getTrafficLight($LAdata{$code}{'cors'},"Yes","No","-","CORS")."</td>";
 	$status .= "</tr>\n";
+	print "$code - $position - $LAdata{$code}{'score'}\n";
+	$i++;
+	$previousposition = $position;
+	$lastscore = $LAdata{$code}{'score'};
 }
 $status .= "\t\t\t</table>";
 
