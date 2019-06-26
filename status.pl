@@ -3,6 +3,8 @@
 $ifile = "index.csv";
 $ffile = "format.html";
 $sfile = "status.html";
+$cfile = "status.csv";
+$hfile = "header.csv";
 
 %LAdata;
 
@@ -44,10 +46,53 @@ foreach $line (@lines){
 $today = sprintf("%04d",$year+1900)."-".sprintf("%02d",$mon+1)."-".sprintf("%02d",$mday);
 
 
+# Read in the current status
+open(CSV,$cfile);
+@lines = <CSV>;
+close(CSV);
+for($i = 1; $i < @lines; $i++){
+	$lines[$i] =~ s/[\n\r]//g;
+	(@cols) = split(/,(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/,$lines[$i]);
+
+	#",$LAdata{$code}{'dateformats'},$LAdata{$code}{'currformats'},$LAdata{$code}{'hosted'},$LAdata{$code}{'cors'}\n";
+
+	$LAdata{$cols[0]} = {
+		'id'=>$cols[0],
+		'name'=>$cols[1],
+		'lastchecked'=>$cols[2],
+		'lastmodified'=>$cols[3],
+		'rows'=>$cols[4],
+		'score'=>$cols[5],
+		'okhead'=>$cols[6],
+		'okreq'=>$cols[7],
+		'empties'=>$cols[8],
+		'coordformats'=>$cols[9],
+		'dateformats'=>$cols[10],
+		'currformats'=>$cols[11],
+		'hosted'=>$cols[12],
+		'cors'=>$cols[13]
+	};
+}
+
+
+# Read in the header lines we found previously
+open(TSV,$hfile);
+@lines = <TSV>;
+close(TSV);
+for($i = 1; $i < @lines; $i++){
+	$lines[$i] =~ s/[\n\r]//g;
+	(@cols) = split(/\t/,$lines[$i]);
+	$LAdata{$cols[0]}{'head'} = $cols[1];
+}
+
 
 for($i = 0; $i < @las; $i++){
+
 	(@cols) = split(/,(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/,$las[$i]);
 
+	$cols[1] =~ s/(^\"|\"$)//g;
+
+	$id = $cols[0];
 	$hosted = 0;
 	$cors = 0;
 	$headings = 0;
@@ -65,8 +110,7 @@ for($i = 0; $i < @las; $i++){
 	$rows = 0;
 	$score = 0;
 	$lastmodified = "";
-	$lastupdated = $cols[6];
-
+	$lastchecked = "";
 
 	$notgot = "";
 	# Reset flag for if we have this column
@@ -76,15 +120,25 @@ for($i = 0; $i < @las; $i++){
 		}
 	}
 
-	if($file){
+	@csv;
+
+	# Are we grabbing a file?
+	$get = 0;
+	if($file && $LAdata{$id}{'name'}){
+		if($LAdata{$id}{'lastchecked'} eq ""){ $get = 1; }
+		if($LAdata{$id}{'lastchecked'} && $LAdata{$id}{'lastchecked'} lt $today){ $get = 1; }
+		if(!$LAdata{$id}{'head'}){ $get = 1; }
+	}
+
+	if($get){
 		$lastmodified = "?";
 		$cors = 0;
-		@csv;
 
 		if($file =~ /^http/){
 			$hosted = 1;
 			$score++;
 			@resp = `curl -L -s -H "Origin: https://odileeds.org/projects/business-rates/" --head "$file"`;
+			$lastchecked = $today;
 			foreach $line (@resp){
 				if($line =~ /Access-Control-Allow-Origin: (.*)/){
 					$cors = 1;
@@ -107,6 +161,7 @@ for($i = 0; $i < @las; $i++){
 			@csv = <FILE>;
 			close(FILE);
 			@resp = `stat $file`;
+			$lastchecked = $today;
 			foreach $line (@resp){
 				if($line =~ /Modify: (.*)/){
 					$lastmodified = $1;
@@ -117,29 +172,46 @@ for($i = 0; $i < @las; $i++){
 
 		# Look into file
 		$csv[0] =~ s/[\n\r]//g;
-		@head = split(/,(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/,$csv[0]);
-		$collat = -1;
-		$collon = -1;
-		$colempty = -1;
-		$coldate = -1;
-		$colcurr = -1;
-		for($j = 0; $j < (@head);$j++){
-			$h = $head[$j];
-			if($format{$h} && $format{$h}{'required'}){
-				$okhead++;
-				if($format{$h}{'exact'}){
-					$format{$h}{'got'} = 1;
-				}
+		$LAdata{$id}{'head'} = $csv[0];
+	}
+	
+	# Process the header line
+	@head = split(/,(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/,$LAdata{$id}{'head'});
+	$collat = -1;
+	$collon = -1;
+	$colempty = -1;
+	$coldate = -1;
+	$colcurr = -1;
+	for($j = 0; $j < (@head);$j++){
+		$h = $head[$j];
+		if($format{$h} && $format{$h}{'required'}){
+			$okhead++;
+			if($format{$h}{'exact'}){
+				$format{$h}{'got'} = 1;
 			}
-			if($format{$h}{'required'} || $format{simpleHeading($h)}{'required'}){ $okreq++; }
-			
-			# Empties?
-			if($h eq "Occupied" || simpleHeading($h) eq "occupied"){ $colempty = $j; }
-			if($h eq "Latitude" || simpleHeading($h) eq "latitude"){ $collat = $j; }
-			if($h eq "Longitude" || simpleHeading($h) eq "longitude"){ $collon = $j; }
-			if($h eq "Liability start date" || simpleHeading($h) eq "liabilitystartdate"){ $coldate = $j; }
-			if($h eq "Rateable value" || simpleHeading($h) eq "rateablevalue"){ $colcurr = $j; }
 		}
+		if($format{$h}{'required'} || $format{simpleHeading($h)}{'required'}){ $okreq++; }
+		
+		# Empties?
+		if($h eq "Occupied" || simpleHeading($h) eq "occupied"){ $colempty = $j; }
+		if($h eq "Latitude" || simpleHeading($h) eq "latitude"){ $collat = $j; }
+		if($h eq "Longitude" || simpleHeading($h) eq "longitude"){ $collon = $j; }
+		if($h eq "Liability start date" || simpleHeading($h) eq "liabilitystartdate"){ $coldate = $j; }
+		if($h eq "Rateable value" || simpleHeading($h) eq "rateablevalue"){ $colcurr = $j; }
+	}
+	foreach $h (sort(keys(%format))){
+		if($format{$h}{'required'}){
+			if($format{$h}{'exact'} && $format{$h}{'got'} == 0){
+				if($notgot){ $notgot .= ", "; }
+				$notgot .= "$h";
+			}
+		}
+	}
+
+
+	# If we were getting the file
+	if($get){
+
 		$rows = @csv - 1;
 		for($ii = 1; $ii < @csv; $ii++){
 			@rcols = split(/,(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/,$csv[$ii]);
@@ -182,37 +254,30 @@ for($i = 0; $i < @las; $i++){
 		if($nreq > 0){
 			$score += $okhead/$nreq;
 		}
-	}
-	$score *= 100/8;
-	$cols[1] =~ s/(^\"|\"$)//g;
+		$score *= 100/8;
 
-	foreach $h (keys(%format)){
-		if($format{$h}{'required'}){
-			if($format{$h}{'exact'} && $format{$h}{'got'} == 0){
-				if($notgot){ $notgot .= ", "; }
-				$notgot .= "$h";
-			}
-		}
+		$LAdata{$cols[0]} = {
+			'id'=>$cols[0],
+			'name'=>$cols[1],
+			'okhead'=>$okhead,
+			'okreq'=>$okreq,
+			'empties'=>$empties,
+			'latformats'=>$latformats,
+			'lonformats'=>$lonformats,
+			'currformats'=>$currformats,
+			'dateformats'=>$dateformats,
+			'hosted'=>$hosted,
+			'cors'=>$cors,
+			'file'=>$file,
+			'rows'=>$rows,
+			'score'=>$score,
+			'lastmodified'=>$lastmodified,
+			'lastchecked'=>$lastchecked,
+			'head'=>$csv[0]
+		};
 	}
 
-	$LAdata{$cols[0]} = {
-		'id'=>$cols[0],
-		'name'=>$cols[1],
-		'okhead'=>$okhead,
-		'okreq'=>$okreq,
-		'empties'=>$empties,
-		'latformats'=>$latformats,
-		'lonformats'=>$lonformats,
-		'currformats'=>$currformats,
-		'dateformats'=>$dateformats,
-		'hosted'=>$hosted,
-		'cors'=>$cors,
-		'file'=>$file,
-		'rows'=>$rows,
-		'score'=>$score,
-		'lastmodified'=>$lastmodified,
-		'notgot'=>$notgot
-	};
+	$LAdata{$id}{'notgot'} = $notgot;
 
 }
 
@@ -221,6 +286,8 @@ for($i = 0; $i < @las; $i++){
 $i = 0;
 $lastscore = -1;
 $previousposition = 1;
+$headercsv = "ONS code\tHeader\n";
+$statuscsv = "ONS code,Local Authority,Last checked,Last updated,Rows,Score,Valid required headings,Includes required columns,Includes empties,Valid coords,Valid dates,Valid currency values,Hosted,CORS\n";
 $status = "\t\t\t<table class=\"odi\">\n";
 $status .= "\t\t\t\t<tr><th>Pos</th><th class=\"LA-name\">Local authority</th><th>Last updated</th><th>Rows</th><th id=\"sortby\">Score</th><th>Valid required headings</th><th>Includes required columns</th><th>Includes empties</th><th>Valid coords</th><th>Valid dates</th><th>Valid currency values</th><th>Hosted</th><th>CORS</th></tr>\n";
 foreach $code (@LAcodes){
@@ -248,6 +315,11 @@ foreach $code (@LAcodes){
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'hosted'},"Yes","No","-","hosted")."</td>";
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'cors'},"Yes","No","-","CORS")."</td>";
 	$status .= "</tr>\n";
+
+	$statuscsv .= "$code,$LAdata{$code}{'name'},$LAdata{$code}{'lastchecked'},$LAdata{$code}{'lastmodified'},$LAdata{$code}{'rows'},".sprintf("%0.2f",$LAdata{$code}{'score'}).",$LAdata{$code}{'okhead'},$LAdata{$code}{'okreq'},$LAdata{$code}{'empties'},".($LAdata{$code}{'latformats'}+$LAdata{$code}{'lonformats'}).",$LAdata{$code}{'dateformats'},$LAdata{$code}{'currformats'},$LAdata{$code}{'hosted'},$LAdata{$code}{'cors'}\n";
+
+	$headercsv .= "$code\t$LAdata{$code}{'header'}\n";
+
 	$i++;
 	$previousposition = $position;
 	$lastscore = $LAdata{$code}{'score'};
@@ -270,10 +342,24 @@ foreach $line (@lines){
 		push(@htmllines,$line);
 	}
 }
+# Write out the status as HTML
 open(HTML,">",$sfile);
 print HTML @htmllines;
 close(HTML);
 
+# Write out the status as CSV
+open(CSV,">",$cfile);
+print CSV $statuscsv;
+close(CSV);
+
+# Write out the headers
+open(TSV,">",$hfile);
+print TSV $headercsv;
+close(TSV);
+
+
+
+#####################################
 
 sub getTrafficLight {
 	my $status,$link,$yes,$no,$na,@inp,$title;
