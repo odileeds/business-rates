@@ -40,6 +40,11 @@ foreach $line (@lines){
 	}
 }
 
+($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime();
+$today = sprintf("%04d",$year+1900)."-".sprintf("%02d",$mon+1)."-".sprintf("%02d",$mday);
+
+
+
 for($i = 0; $i < @las; $i++){
 	(@cols) = split(/,(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/,$las[$i]);
 
@@ -60,6 +65,9 @@ for($i = 0; $i < @las; $i++){
 	$rows = 0;
 	$score = 0;
 	$lastmodified = "";
+	$lastupdated = $cols[6];
+
+
 	$notgot = "";
 	# Reset flag for if we have this column
 	foreach $h (keys(%format)){
@@ -71,6 +79,8 @@ for($i = 0; $i < @las; $i++){
 	if($file){
 		$lastmodified = "?";
 		$cors = 0;
+		@csv;
+
 		if($file =~ /^http/){
 			$hosted = 1;
 			$score++;
