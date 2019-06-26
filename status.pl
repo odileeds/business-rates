@@ -128,6 +128,7 @@ for($i = 0; $i < @las; $i++){
 		if($LAdata{$id}{'lastchecked'} eq ""){ $get = 1; }
 		if($LAdata{$id}{'lastchecked'} && $LAdata{$id}{'lastchecked'} lt $today){ $get = 1; }
 		if(!$LAdata{$id}{'head'}){ $get = 1; }
+		$LAdata{$id}{'file'} = $file;
 	}
 
 	if($get){
@@ -316,9 +317,9 @@ foreach $code (@LAcodes){
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'cors'},"Yes","No","-","CORS")."</td>";
 	$status .= "</tr>\n";
 
-	$statuscsv .= "$code,$LAdata{$code}{'name'},$LAdata{$code}{'lastchecked'},$LAdata{$code}{'lastmodified'},$LAdata{$code}{'rows'},".sprintf("%0.2f",$LAdata{$code}{'score'}).",$LAdata{$code}{'okhead'},$LAdata{$code}{'okreq'},$LAdata{$code}{'empties'},".($LAdata{$code}{'latformats'}+$LAdata{$code}{'lonformats'}).",$LAdata{$code}{'dateformats'},$LAdata{$code}{'currformats'},$LAdata{$code}{'hosted'},$LAdata{$code}{'cors'}\n";
+	$statuscsv .= "$code,$LAdata{$code}{'name'},$LAdata{$code}{'lastchecked'},$LAdata{$code}{'lastmodified'},$LAdata{$code}{'rows'},".($LAdata{$code}{'score'} > 0 ? sprintf("%0.2f",$LAdata{$code}{'score'}) : "0").",$LAdata{$code}{'okhead'},$LAdata{$code}{'okreq'},$LAdata{$code}{'empties'},".($LAdata{$code}{'latformats'}+$LAdata{$code}{'lonformats'}).",$LAdata{$code}{'dateformats'},$LAdata{$code}{'currformats'},$LAdata{$code}{'hosted'},$LAdata{$code}{'cors'}\n";
 
-	$headercsv .= "$code\t$LAdata{$code}{'header'}\n";
+	$headercsv .= "$code\t$LAdata{$code}{'head'}\n";
 
 	$i++;
 	$previousposition = $position;
