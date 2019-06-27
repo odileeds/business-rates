@@ -35,8 +35,11 @@
 
 		<div class="holder">
 			<p>The Open Data Collaboration group at ODI Leeds (ODI Leeds, Bradford Council, Calderdale Council, and Leeds Council) started a project to visualise business rates data. Although each of the three councils publish open data about their business rates, they each have different field titles and don't always include the same fields. This project aimed to standardise the way the data was shared to make it more usable and to get value (within a council and externally) from the datasets.</p>
-			<h2>Headings and formats</h2>
-			<p>To make a tool that works across multiple councils we have to first agree a common standard for sharing the data. This means standard column headings and requiring some columns to exist. However, we are practical and know that some fields will be hard for some councils to include and other councils will want to include more fields where they have them. The result was the following suggestion for common heading titles:</p>
+			<h2>File format</h2>
+			<p>The file should be saved as a CSV file. If you are starting from an Excel file you can choose to export the file as CSV. Make sure to only export the table of data rather than any extra lines of explanatory notes or totals. Excel's export option tends to do a bad job with dates. So we created the <a href="https://odileeds.github.io/CSVCleaner/">CSV Cleaner</a> tool to help tidy them up. You might also want to try <a href="http://csvlint.io/">ODI HQ's CSV Lint</a> tool to check your CSV file is valid. See our <a href="https://github.com/odileeds/open-data-tips">Open Data tips</a> for more.</p>
+
+			<h2>Headings and data formats</h2>
+			<p>To make a tool that works across multiple councils, we have to first agree a common standard for sharing the data. This means standard column headings and requiring some columns to exist. However, we are practical and know that some fields will be hard for some councils to include and other councils will want to include more fields where they have them. The result was the following suggestion for common heading titles:</p>
 
 			<ol>
 			<li><code>Property reference number</code> e.g. <code>A89123</code><br />A string representing the unique ID used inside the council. The format of this will vary from council to council. It is possibly useful internally within a council to match to other records.</li>
