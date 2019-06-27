@@ -265,6 +265,7 @@ for($i = 0; $i < @las; $i++){
 			'empties'=>$empties,
 			'latformats'=>$latformats,
 			'lonformats'=>$lonformats,
+			'coordformats'=>($lonformats+$latformats),
 			'currformats'=>$currformats,
 			'dateformats'=>$dateformats,
 			'hosted'=>$hosted,
@@ -310,14 +311,14 @@ foreach $code (@LAcodes){
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'okhead'}/$nreq,"$LAdata{$code}{'okhead'}/$nreq","$LAdata{$code}{'okhead'}/$nreq","-","headings",($LAdata{$code}{'notgot'} ? "Missing: ".$LAdata{$code}{'notgot'} : "Got everything!"))."</td>";
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'okreq'}/$nreq,"$LAdata{$code}{'okreq'}/$nreq","$LAdata{$code}{'okreq'}/$nreq","-","required")."</td>";
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'empties'},"Yes","No","-","empties")."</td>";
-	$status .= "<td>".getTrafficLight(($LAdata{$code}{'latformats'}+$LAdata{$code}{'lonformats'})/(2*($LAdata{$code}{'rows'} == 0 ? 1 : $LAdata{$code}{'rows'})),($LAdata{$code}{'latformats'}+$LAdata{$code}{'lonformats'}),($LAdata{$code}{'latformats'}+$LAdata{$code}{'lonformats'}),"-","coordinates")."</td>";
+	$status .= "<td>".getTrafficLight(($LAdata{$code}{'coordformats'})/(2*($LAdata{$code}{'rows'} == 0 ? 1 : $LAdata{$code}{'rows'})),($LAdata{$code}{'coordformats'}),($LAdata{$code}{'coordformats'}),"-","coordinates")."</td>";
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'dateformats'}/($LAdata{$code}{'rows'}==0 ? 1 : $LAdata{$code}{'rows'}),"$LAdata{$code}{'dateformats'}","$LAdata{$code}{'dateformats'}","-","dateformats")."</td>";
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'currformats'}/($LAdata{$code}{'rows'}==0 ? 1 : $LAdata{$code}{'rows'}),"$LAdata{$code}{'currformats'}","$LAdata{$code}{'currformats'}","-","currencyformats")."</td>";
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'hosted'},"Yes","No","-","hosted")."</td>";
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'cors'},"Yes","No","-","CORS")."</td>";
 	$status .= "</tr>\n";
 
-	$statuscsv .= "$code,$LAdata{$code}{'name'},$LAdata{$code}{'lastchecked'},$LAdata{$code}{'lastmodified'},$LAdata{$code}{'rows'},".($LAdata{$code}{'score'} > 0 ? sprintf("%0.2f",$LAdata{$code}{'score'}) : "0").",$LAdata{$code}{'okhead'},$LAdata{$code}{'okreq'},$LAdata{$code}{'empties'},".($LAdata{$code}{'latformats'}+$LAdata{$code}{'lonformats'}).",$LAdata{$code}{'dateformats'},$LAdata{$code}{'currformats'},$LAdata{$code}{'hosted'},$LAdata{$code}{'cors'}\n";
+	$statuscsv .= "$code,$LAdata{$code}{'name'},$LAdata{$code}{'lastchecked'},$LAdata{$code}{'lastmodified'},$LAdata{$code}{'rows'},".($LAdata{$code}{'score'} > 0 ? sprintf("%0.2f",$LAdata{$code}{'score'}) : "0").",$LAdata{$code}{'okhead'},$LAdata{$code}{'okreq'},$LAdata{$code}{'empties'},".($LAdata{$code}{'coordformats'}).",$LAdata{$code}{'dateformats'},$LAdata{$code}{'currformats'},$LAdata{$code}{'hosted'},$LAdata{$code}{'cors'}\n";
 
 	$headercsv .= "$code\t$LAdata{$code}{'head'}\n";
 
