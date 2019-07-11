@@ -161,14 +161,8 @@ for($i = 0; $i < @las; $i++){
 			open(FILE,$file);
 			@csv = <FILE>;
 			close(FILE);
-			@resp = `stat $file`;
+			$lastmodified = fileLastModified($file);
 			$lastchecked = $today;
-			foreach $line (@resp){
-				if($line =~ /Modify: (.*)/){
-					$lastmodified = $1;
-					$lastmodified =~ s/.*([0-9]{4}-[0-9]{2}-[0-9]{2}).*/$1/g;
-				}
-			}
 		}
 
 		# Look into file
@@ -386,4 +380,24 @@ sub simpleHeading {
 	$heading =~ s/ $//g;
 	$heading =~ s/[^A-Za-z0-9\-]//g;
 	return $heading;
+}
+
+
+sub fileLastModified {
+	my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,$atime,$mtime,$ctime,$blksize,$blocks);
+	my $file = $_[0];
+
+	($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,$atime,$mtime,$ctime,$blksize,$blocks) = stat("$file");
+
+	local($sec,$min,$hr,$day,$mon,$yr,$wday,@dntcare) = localtime($mtime);
+	$yr = ($yr>=70) ? $yr+1900 : $yr+2000;
+	$yr = "".$yr;
+	$mon = (++$mon < 10) ? "0$mon" : "$mon";
+	$day = ($day < 10) ? "0$day" : "$day";
+	$hr  = ($hr < 10) ? "0$hr" : "$hr";
+	$min = ($min < 10) ? "0$min" : "$min";
+	$sec = ($sec < 10) ? "0$sec" : "$sec";
+
+	return "$yr-$mon-$day";
+
 }
