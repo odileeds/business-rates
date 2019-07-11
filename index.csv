@@ -234,7 +234,7 @@ E09000003,Barnet,https://open.barnet.gov.uk/download/businessratesregister/6bab8
 E09000004,Bexley,,,,
 E09000005,Brent,,,,
 E09000006,Bromley,,,,
-E09000007,Camden,https://opendata.camden.gov.uk/api/views/xcqw-xady/rows.csv?accessType=DOWNLOAD,data/camden.geojson,,
+E09000007,Camden,https://opendata.camden.gov.uk/api/views/jumr-tymj/rows.csv?accessType=DOWNLOAD,data/camden.geojson,,
 E09000008,Croydon,,,,
 E09000009,Ealing,,,,
 E09000010,Enfield,,,,
