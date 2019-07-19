@@ -93,7 +93,7 @@ E08000006,Salford,https://salforddataquay.uk/dataset/dc37c693-d910-457a-bbee-70a
 E07000103,Watford,,,,
 E06000039,Slough,,,,
 E07000148,Norwich,,,,
-E08000007,Stockport,https://s3-eu-west-1.amazonaws.com/live-iag-static-assets/pdf/Transparency/businessRates/All+Business+Rates+(excluding+void+properties).csv,data/stockport.geojson,https://odileeds.org/projects/scoresonthedoors/data/stockport.csv,
+E08000007,Stockport,https://s3-eu-west-1.amazonaws.com/smbc-opendata/data/BusinessAndEconomy/Business_Rates_Stockport.csv,data/stockport.geojson,https://odileeds.org/projects/scoresonthedoors/data/stockport.csv,
 E07000105,Ashford,,,,
 E06000040,Windsor and Maidenhead,,,,
 E07000149,South Norfolk,,,,
