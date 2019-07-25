@@ -297,7 +297,7 @@ foreach $code (@LAcodes){
 	}
 	$status .= "</td><td>$LAdata{$code}{'lastmodified'}</td>";
 	$status .= "<td>$LAdata{$code}{'rows'}</td>";
-	$status .= "<td>".sprintf("%.1f",$LAdata{$code}{'score'})."</td>";
+	$status .= "<td>".sprintf("%.2f",$LAdata{$code}{'score'})."</td>";
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'okhead'}/$nreq,"$LAdata{$code}{'okhead'}/$nreq","$LAdata{$code}{'okhead'}/$nreq","-","headings",($LAdata{$code}{'notgot'} ? "Missing: ".$LAdata{$code}{'notgot'} : "Got everything!"))."</td>";
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'okreq'}/$nreq,"$LAdata{$code}{'okreq'}/$nreq","$LAdata{$code}{'okreq'}/$nreq","-","required")."</td>";
 	$status .= "<td>".getTrafficLight($LAdata{$code}{'empties'},"Yes","No","-","empties")."</td>";
