@@ -27,10 +27,10 @@ close(FILE);
 $nreq = 0;
 $nhead = 0;
 foreach $line (@lines){
-	$req = 0;
 	$line =~ s/[\n\r]//g;
 	if($line =~ /<li><code>([^\<]+)<\/code>(<span class="req">)?/){
 		if($2){ $req = 1; }
+		else{ $req = 0; }
 		$h = $1;
 		$nhead++;
 		$format{$h} = { 'required'=> $req, 'exact'=>1, 'got'=>0 };
@@ -53,8 +53,6 @@ close(CSV);
 for($i = 1; $i < @lines; $i++){
 	$lines[$i] =~ s/[\n\r]//g;
 	(@cols) = split(/,(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/,$lines[$i]);
-
-	#",$LAdata{$code}{'dateformats'},$LAdata{$code}{'currformats'},$LAdata{$code}{'hosted'},$LAdata{$code}{'cors'}\n";
 
 	$LAdata{$cols[0]} = {
 		'id'=>$cols[0],
@@ -169,7 +167,6 @@ for($i = 0; $i < @las; $i++){
 		$csv[0] =~ s/[\n\r]//g;
 		$LAdata{$id}{'head'} = $csv[0];
 	}
-	
 	# Process the header line
 	@head = split(/,(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/,$LAdata{$id}{'head'});
 	$collat = -1;
@@ -202,7 +199,6 @@ for($i = 0; $i < @las; $i++){
 			}
 		}
 	}
-
 
 	# If we were getting the file
 	if($get){
