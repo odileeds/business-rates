@@ -517,6 +517,18 @@
 
 			<h3 id="CORS">Is CORS enabled?</h3>
 			<p>If the file is hosted remotely, <a href="https://www.w3.org/wiki/CORS_Enabled">CORS</a> will need to be enabled so that the file can be loaded by the webpage. This is used to calculate the score.</p>
+			<p>If you are hosting your file on AWS, you may need to update your CORS configuration. Jaime Scowcroft (Stockport MDC) suggests the following:</p>
+			<pre>
+&lt;CORSConfiguration&gt;
+	&lt;CORSRule&gt;
+		&lt;AllowedOrigin&gt;*&lt;/AllowedOrigin&gt;
+		&lt;AllowedMethod&gt;GET&lt;/AllowedMethod&gt;
+		&lt;AllowedMethod&gt;HEAD&lt;/AllowedMethod&gt;
+		&lt;MaxAgeSeconds&gt;3000&lt;/MaxAgeSeconds&gt;
+		&lt;AllowedHeader&gt;Authorization&lt;/AllowedHeader&gt;
+	&lt;/CORSRule&gt;
+&lt;/CORSConfiguration&gt;
+</pre>
 
 		</div>
 	</div>
