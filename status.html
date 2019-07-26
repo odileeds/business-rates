@@ -495,6 +495,8 @@
 			
 			<h3 id="headings">Valid required headings</h3>
 			<p>This tells you how many of the required column headings match <a href="format.html">the format specification</a> precisely. Headings with uppercase characters in the wrong place, extra spaces, or extra content won't count. This is used to calculate the score.</p>
+			<h4>Issues</h4>
+			<p>If you are getting a score of 9/10 but are convinced that you have the correct headings, it may be that your file contains a <a href="https://stackoverflow.com/questions/18845976/whats-%C3%AF-sign-at-the-beginning-of-my-source-file">byte-order-mark as the first character</a> and that is messing up our checking. If you are exporting from FME, this is turned on by default. Under "Encoding", you can set "Write Byte Order Mark for Unicode" to "No.</p>
 			
 			<h3 id="required">Includes required columns?</h3>
 			<p>In the <a href="format.html">Business Rates format definition</a> there are 10 columns that are listed as required. We've tried to identify how many exist by checking the column headings with a looser matching than the "Valid required headings" check. If your column headings are too different, we won't be able to find them. This is used to calculate the score.</p>
