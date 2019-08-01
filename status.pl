@@ -273,7 +273,9 @@ for($i = 0; $i < @las; $i++){
 
 }
 
-@LAcodes = reverse(sort{ $LAdata{$a}{'score'} <=> $LAdata{$b}{'score'}}(keys(%LAdata)));
+@LAcodes = reverse(sort{ $LAdata{$a}{'score'} <=> $LAdata{$b}{'score'} or -1*($LAdata{$a}{'name'} cmp $LAdata{$b}{'name'}) }(keys(%LAdata)));
+
+
 
 $i = 0;
 $lastscore = -1;
