@@ -1,0 +1,101 @@
+.label {
+	display: block;
+	position: absolute;
+	top: -4px;
+	right: 1em;
+	font-size: 1em;
+	font-weight: bold;
+	padding: 0.25em 0.5em;
+	border-radius: 0.25em;
+	vertical-align: baseline;
+	white-space: nowrap;
+}
+.red-light, .green-light, .amber-light {
+	border-radius: 100%;
+	line-height: 1.5em;
+	width: 1.5em;
+	height: 1.5em;
+	margin-right: 0.25em;
+	text-align: center;
+	display: inline-block;
+	font-weight: bold;
+}
+.red-light {
+	background-color: #D60303;
+	color: white;
+}
+.green-light {
+	background-color: #0DBC37;
+	color: white;
+}
+.amber-light {
+	background-color: #F9BC26;
+	color: white;
+}
+.red-light:before {
+	content: "\00d7";
+}
+.green-light:before {
+	content: "\2713";
+}
+.amber-light:before {
+	content: "!";
+}
+.table-outer { max-width: 100%; overflow-x: auto; }
+table.odi { margin-bottom: 0; }
+table.odi tr:nth-child(2n+0) td { background-color: #f9f9f9; }
+table.odi tr:nth-child(2n+1) td { background-color: #efefef; }
+table.odi td img { height: 1em; }
+table.odi td, table.odi th { border: 0px; padding: 4px; }
+table.odi td { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+table.odi td a { color: inherit; }
+table.odi th, table.odi td { text-align: center; line-height: 2em; }
+table.odi th.LA-name, table.odi td.LA-name { text-align: left; max-width: 115px; }
+table.odi th { background-color: #dfdfdf; font-weight: bold; cursor: pointer; line-height:1.25em; }
+
+.spinner { display: none; }
+section { margin-bottom: 1em; }
+.chooser { text-align: left; display: flex; line-height: 1.5em; }
+.chooser input { font-size:1em; }
+.chooser .vs { display: inline; margin: 2.5em 0.5em 0 0.5em; font-family: serif; font-style: italic; color: #666666; text-align: center; vertical-align: middle; }
+.chooser .part { position: relative; margin: 0px; width: 100%; display: inline; padding: 1em; line-height: 1.5em;  }
+.chooser .part input { padding: 0px 2px; }
+.chooser .part label { display: block; }
+.chooser .choose { display: inline; }
+.chooser .choose button { height: 100%; margin-left: 1em; }
+#url {
+	line-height: 1.5em;
+	width: 100%;
+}
+.dropzone {
+	line-height: 1.5em;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	padding: 1em;
+	box-sizing: border-box;
+	border: 2px dashed #999999;
+}
+.dropzone.loaded {
+	border: 2px solid transparent;
+}
+.dropzone.loaded .helpertext {
+	display: none;
+}
+.dropzone.drop {
+	background-color: #ddd;
+}
+.dropzone input {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	opacity: 0.01;
+}
+#results {
+	margin-top: 2em;
+	display: none;
+}

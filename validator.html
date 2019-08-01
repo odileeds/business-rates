@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8" />
+	<title>Business rates validator</title>
+	<script type="text/javascript" src="https://odileeds.org/resources/stuquery.js"></script>
+	<link rel="StyleSheet" href="https://odileeds.org/resources/style.css" type="text/css" />
+	<link rel="StyleSheet" href="https://odileeds.org/resources/spinner.css" type="text/css" />
+	<link rel="StyleSheet" href="style.css" type="text/css" />
+	<script type="text/javascript" src="validator.js"></script>
+</head>
+<body>
+
+	<div id="site-message" class="c14-bg">
+		<div>This is experimental and work-in-progress. Things might not work or even be correct.</div>
+	</div>
+	<div id="main">
+		<header>
+			<div class="b1-bg">
+				<div class="holder" style="text-align:center;">
+					<a href="https://github.com/odileeds/business-rates" class="label c14-bg">Github</a>
+					<a href="https://odileeds.org/"><img src="https://odileeds.org/resources/images/odileeds-8.svg" /></a>
+					<h1>Business rates: validator</h1>
+				</div>
+			</div>
+		</header>
+
+		<div class="holder">
+			<p>The ODI Leeds Open Data Collaboration group are exploring local council <a href="index.html">Business Rates data</a> and we've defined <a href="format.html">a common format for sharing Business Rates data</a>. This validator lets you check how well a CSV file matches that format. If you are a Local Authority <a href="https://github.com/odileeds/business-rates/blob/master/index.csv">add the URL of your CSV file to our index</a>, send a pull request, and we'll update your score on the <a href="status.html">status page</a>.</p>
+			
+			<h2>Select a CSV file</h2>
+			
+			<form id="validation_form" method="POST" enctype="multipart/form-data" accept-charset="UTF-8" >
+
+				<section class="chooser">
+					<div class="part b5-bg">
+						<label for="url">URL</label><input id="url" type="url" name="url" class="" placeholder="e.g. https://www.southglos.gov.uk/documents/NNDR-FOI-June-2019.csv" pattern="https://.*" />
+					</div>
+					<div class="vs">or</div>
+					<div class="part b5-bg dropzone" id="drop_zone">
+						<label for="standard_files">File</label>
+						<div class="helpertext">Drop CSV file here (or click to browse files)</div>
+						<input id="standard_files" class="fileselect" type="file" title="browse" name="file" accept=".csv, .tsv, .txt, .xlsx">
+					</div>
+					<div class="choose">
+						<button id="submit" type="submit" class="button seasonal">Validate</button>
+					</div>
+				</section>
+				
+				<div class="spinner"><div class="rect1 seasonal-accent"></div><div class="rect2 seasonal-accent"></div><div class="rect3 seasonal-accent"></div><div class="rect4 seasonal-accent"></div><div class="rect5 seasonal-accent"></div></div>
+				
+				<section id="results">
+					<h2>Results</h2>
+					
+					<output id="messages"></output>
+					<div class="table-outer">
+					<!-- Start status -->
+					<table class="odi">
+						<tr><th>Pos</th><th class="LA-name">Local authority</th><th>Last updated</th><th>Rows</th><th id="sortby">Score</th><th>Valid required headings</th><th>Includes required columns</th><th>Includes empties</th><th>Valid coords</th><th>Valid dates</th><th>Valid currency values</th><th>Hosted</th><th>CORS</th></tr>
+					</table>
+					<!-- End status -->
+					</div>
+
+				</section>
+				<button id="reset" type="reset" class="c14-bg">Reset</button>
+			</form>
+			
+
+		</div>
+	</div>
+
+	<footer class="b1-bg">
+		<div class="holder">
+			<p>&copy; 2019 ODI Leeds (<a href="http://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>)
+			</p>
+		</div>
+	</footer>
+
+</body>
+</html>
