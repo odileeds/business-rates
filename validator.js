@@ -327,7 +327,7 @@ S().ready(function(){
 
 		var str = "";
 		for(var i = 0; i < this.messages.length; i++) str += '<li>'+this.messages[i]+'</li>';
-		if(str) S('#messages').html('<h2>Notes</h2><ol>'+str+'</ol>');
+		if(str) S('#messages').html('<div class="b5-bg doublepadded"><h2>Notes</h2><ol>'+str+'</ol></div>');
 		else S('#messages').html('');
 
 

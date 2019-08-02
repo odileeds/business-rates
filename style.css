@@ -99,7 +99,7 @@ section { margin-bottom: 1em; }
 	margin-top: 2em;
 	display: none;
 }
-#messages h2 { margin-top: 1em; }
+#messages > div { margin-top: 1em; }
 #messages ol { margin-top: 1em; list-style: none; }
 #messages li { margin-bottom: 0.5em; position: relative; }
 #messages li:last-child { margin-bottom: 0; }
