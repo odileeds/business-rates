@@ -249,7 +249,7 @@ S().ready(function(){
 		if(nreq > 0) score += LAdata[code].okreq/nreq;
 		if(nreq > 0) score += LAdata[code].okhead/nreq;
 
-		if(LAdata[code].okhead/nreq < 1) this.messages.push(getTrafficLight({'score':LAdata[code].okhead/nreq,'no':'<strong>Valid required headings</strong>: A strict heading match shows that you are missing '+LAdata[code].notgot+'. Adding these headings will improve your score by '+asScore(1-LAdata[code].okhead/nreq)+'.'}));
+		if(LAdata[code].okhead/nreq < 1) this.messages.push(getTrafficLight({'score':LAdata[code].okhead/nreq,'no':'<strong>Valid required headings</strong>: A strict heading match shows that you are missing '+LAdata[code].notgot+'. Adding these headings will improve your score by '+asScore(1-LAdata[code].okhead/nreq)+'.'+(LAdata[code].notgot.indexOf('Postcode') < 0 && LAdata[code].notgot.indexOf('Latitude') > 0 ? ' As you have a '+makeKey('Postcode')+' column, you could add '+makeKey('Latitude')+' and '+makeKey('Longitude')+' columns using our <a href="https://odileeds.github.io/Postcodes2LatLon/">Postcodes to Latitude/Longitude tool</a>.':'')}));
 		if(LAdata[code].okreq/nreq < 1) this.messages.push(getTrafficLight({'score':LAdata[code].okreq/nreq,'no':'<strong>Includes required columns</strong>: A looser check of headings (ignoring case, extra things in brackets, and trailing spaces) shows that you are missing '+(nreq - LAdata[code].okreq)+' required heading'+(nreq - LAdata[code].okreq == 1 ? '':'s')+'. Adding them will improve your score by '+asScore((nreq - LAdata[code].okreq)/nreq)+'.'}));
 
 		score += LAdata[code].empties;
