@@ -174,13 +174,13 @@ S().ready(function(){
 		LAdata = {};
 		LAdata[code] = {'rows':this.records,'okhead':0,'okreq':0,'empties':0,'hosted':0,'cors':false,'notgot':'','dateformats':0,'coordinates':0,'coordformats':0,'currformats':0,'latformats':0,'lonformats':0};
 
-		if(LAdata[code].rows > 0){
+		var collat = -1;
+		var collon = -1;
+		var colempty = -1;
+		var coldate = -1;
+		var colcurr = -1;
 
-			var collat = -1;
-			var collon = -1;
-			var colempty = -1;
-			var coldate = -1;
-			var colcurr = -1;
+		if(LAdata[code].rows > 0){
 
 			for(var j = 0; j < validator.data.fields.name.length; j++){
 				h = validator.data.fields.name[j];
@@ -234,31 +234,47 @@ S().ready(function(){
 			if(colempty >= 0){ LAdata[code].empties = 1; }
 			if(collat >= 0){ LAdata[code].coordinates += 0.5; }
 			if(collon >= 0){ LAdata[code].coordinates += 0.5; }
-			
-			
-			// Add score for required headings
-			if(nreq > 0) score += LAdata[code].okreq/nreq;
-			if(nreq > 0) score += LAdata[code].okhead/nreq;
-
-			if(LAdata[code].okhead/nreq < 1) this.messages.push(getTrafficLight({'score':LAdata[code].okhead/nreq,'no':'<strong>Valid required headings</strong>: A strict heading match shows that you are missing '+LAdata[code].notgot+'. Adding these headings will improve your score by '+asScore(1-LAdata[code].okhead/nreq)+'.'}));
-			if(LAdata[code].okreq/nreq < 1) this.messages.push(getTrafficLight({'score':LAdata[code].okreq/nreq,'no':'<strong>Includes required columns</strong>: A looser check of headings (ignoring case, extra things in brackets, and trailing spaces) shows that you are missing '+(nreq - LAdata[code].okreq)+' required heading'+(nreq - LAdata[code].okreq == 1 ? '':'s')+'. Adding them will improve your score by '+asScore((nreq - LAdata[code].okreq)/nreq)+'.'}));
-
-			score += LAdata[code].empties;
-			if(LAdata[code].empties < 1) this.messages.push(getTrafficLight({'score':LAdata[code].empties,'no':'<strong>Includes empties</strong>: You don\'t appear to have included an '+makeKey('Occupied')+' column.'}));
-
-			if(LAdata[code].rows > 0){
-				LAdata[code].coordformats = (LAdata[code].latformats+LAdata[code].lonformats);
-				tscore = (LAdata[code].latformats+LAdata[code].lonformats)/(2*LAdata[code].rows);
-				score += tscore;
-				if(tscore < 1) this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid coords</strong>: You appear to be missing '+((2*LAdata[code].rows) - (LAdata[code].latformats+LAdata[code].lonformats))+' '+makeKey('Latitude')+' and '+makeKey('Longitude')+' values. Adding these will improve your overall score by '+asScore(1-tscore)+'.'}));
-				tscore = LAdata[code].dateformats/LAdata[code].rows;
-				score += tscore;
-				if(tscore < 1) this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid dates</strong>: You appear to be missing '+(LAdata[code].rows - LAdata[code].dateformats)+' dates in the '+makeKey('Liability start date')+' column. Adding these will improve your overall score by '+asScore(1-tscore)+'.'}));
-				tscore = LAdata[code].currformats/LAdata[code].rows
-				score += tscore;
-				if(tscore < 1) this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid currency values</strong>: You appear to be missing '+(LAdata[code].rows - LAdata[code].currformats)+' '+makeKey('Rateable value')+' amounts. Adding these will improve your overall score by '+asScore(1-tscore)+'.'}));
+		}else{
+			for(var h in format){
+				if(format[h].required){
+					if(format[h].exact && format[h].got == 0){
+						if(LAdata[code].notgot) LAdata[code].notgot += ", ";
+						LAdata[code].notgot += makeKey(h);
+					}
+				}
 			}
+		}
 			
+		// Add score for required headings
+		if(nreq > 0) score += LAdata[code].okreq/nreq;
+		if(nreq > 0) score += LAdata[code].okhead/nreq;
+
+		if(LAdata[code].okhead/nreq < 1) this.messages.push(getTrafficLight({'score':LAdata[code].okhead/nreq,'no':'<strong>Valid required headings</strong>: A strict heading match shows that you are missing '+LAdata[code].notgot+'. Adding these headings will improve your score by '+asScore(1-LAdata[code].okhead/nreq)+'.'}));
+		if(LAdata[code].okreq/nreq < 1) this.messages.push(getTrafficLight({'score':LAdata[code].okreq/nreq,'no':'<strong>Includes required columns</strong>: A looser check of headings (ignoring case, extra things in brackets, and trailing spaces) shows that you are missing '+(nreq - LAdata[code].okreq)+' required heading'+(nreq - LAdata[code].okreq == 1 ? '':'s')+'. Adding them will improve your score by '+asScore((nreq - LAdata[code].okreq)/nreq)+'.'}));
+
+		score += LAdata[code].empties;
+		if(LAdata[code].empties < 1) this.messages.push(getTrafficLight({'score':LAdata[code].empties,'no':'<strong>Includes empties</strong>: You don\'t appear to have included an '+makeKey('Occupied')+' column.'}));
+
+		LAdata[code].coordformats = (LAdata[code].latformats+LAdata[code].lonformats);
+		tscore = (LAdata[code].rows > 0) ? (LAdata[code].latformats+LAdata[code].lonformats)/(2*LAdata[code].rows) : 0;
+		score += tscore;
+		if(tscore < 1){
+			if(LAdata[code].rows > 0) this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid coords</strong>: You appear to be missing '+((2*LAdata[code].rows) - (LAdata[code].latformats+LAdata[code].lonformats))+' '+makeKey('Latitude')+' and '+makeKey('Longitude')+' values. Adding these will improve your overall score by '+asScore(1-tscore)+'.'}));
+			else this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid coords</strong>: We couldn\'t find any coordinates!'}))
+		}
+
+		tscore = (LAdata[code].rows > 0) ? LAdata[code].dateformats/LAdata[code].rows : 0;
+		score += tscore;
+		if(tscore < 1){
+			if(LAdata[code].rows > 0) this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid dates</strong>: You appear to be missing '+(LAdata[code].rows - LAdata[code].dateformats)+' dates in the '+makeKey('Liability start date')+' column. Adding these will improve your overall score by '+asScore(1-tscore)+'.'}));
+			else this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid dates</strong>: We couldn\'t find any dates!'}));
+		}
+
+		tscore = (LAdata[code].rows > 0) ? LAdata[code].currformats/LAdata[code].rows : 0;
+		score += tscore;
+		if(tscore < 1){
+			if(LAdata[code].rows > 0) this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid currency values</strong>: You appear to be missing '+(LAdata[code].rows - LAdata[code].currformats)+' '+makeKey('Rateable value')+' amounts. Adding these will improve your overall score by '+asScore(1-tscore)+'.'}));
+			else this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid currency values</strong>: We couldn\'t find any currency values!'}));
 		}
 		
 		// 7. Is it hosted?
