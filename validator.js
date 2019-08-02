@@ -238,6 +238,11 @@ S().ready(function(){
 			
 			// Add score for required headings
 			if(nreq > 0) score += LAdata[code].okreq/nreq;
+			if(nreq > 0) score += LAdata[code].okhead/nreq;
+
+			if(LAdata[code].okhead/nreq < 1) this.messages.push(getTrafficLight({'score':LAdata[code].okhead/nreq,'no':'<strong>Valid required headings</strong>: A strict heading match shows that you are missing '+LAdata[code].notgot+'. Adding these headings will improve your score by '+asScore(1-LAdata[code].okhead/nreq)+'.'}));
+			if(LAdata[code].okreq/nreq < 1) this.messages.push(getTrafficLight({'score':LAdata[code].okreq/nreq,'no':'<strong>Includes required columns</strong>: A looser check of headings (ignoring case, extra things in brackets, and trailing spaces) shows that you are missing '+(nreq - LAdata[code].okreq)+' required heading'+(nreq - LAdata[code].okreq == 1 ? '':'s')+'. Adding them will improve your score by '+asScore((nreq - LAdata[code].okreq)/nreq)+'.'}));
+
 			score += LAdata[code].empties;
 			if(LAdata[code].empties < 1) this.messages.push(getTrafficLight({'score':LAdata[code].empties,'no':'<strong>Includes empties</strong>: You don\'t appear to have included an '+makeKey('Occupied')+' column.'}));
 
@@ -253,9 +258,6 @@ S().ready(function(){
 				score += tscore;
 				if(tscore < 1) this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid currency values</strong>: You appear to be missing '+(LAdata[code].rows - LAdata[code].currformats)+' '+makeKey('Rateable value')+' amounts. Adding these will improve your overall score by '+asScore(1-tscore)+'.'}));
 			}
-			if(nreq > 0) score += LAdata[code].okhead/nreq;
-			if(LAdata[code].okhead/nreq < 1) this.messages.push(getTrafficLight({'score':LAdata[code].okhead/nreq,'no':'<strong>Valid required headings</strong>: A strict heading match shows that you are missing '+LAdata[code].notgot+'. Adding these headings will improve your score by '+asScore(1-LAdata[code].okhead/nreq)+'.'}));
-			if(LAdata[code].okreq/nreq < 1) this.messages.push(getTrafficLight({'score':LAdata[code].okreq/nreq,'no':'<strong>Includes required columns</strong>: A looser check of headings (ignoring case, extra things in brackets, and trailing spaces) shows that you are missing '+(nreq - LAdata[code].okreq)+' required heading'+(nreq - LAdata[code].okreq == 1 ? '':'s')+'. Adding them will improve your score by '+asScore((nreq - LAdata[code].okreq)/nreq)+'.'}));
 			
 		}
 		
