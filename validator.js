@@ -116,10 +116,15 @@ S().ready(function(){
 		if(!attr) attr = {};
 
 		this.csv = data;
-
-		// Convert the CSV to a JSON structure
-		this.data = CSV2JSON(data,1);
-		this.records = this.data.rows.length; 
+		
+		if(data){
+			// Convert the CSV to a JSON structure
+			this.data = CSV2JSON(data,1);
+			this.records = this.data.rows.length; 
+		}else{
+			this.data = {};
+			this.records = 0;
+		}
 
 		fields = {
 			'Property reference number':{'required':false},
@@ -167,80 +172,81 @@ S().ready(function(){
 
 		code = "CUSTOM";
 		LAdata = {};
-		LAdata[code] = {'okhead':0,'okreq':0,'hosted':0,'cors':false,'notgot':'','dateformats':0,'coordinates':0,'currformats':0,'latformats':0,'lonformats':0};
+		LAdata[code] = {'rows':this.records,'okhead':0,'okreq':0,'empties':0,'hosted':0,'cors':false,'notgot':'','dateformats':0,'coordinates':0,'coordformats':0,'currformats':0,'latformats':0,'lonformats':0};
 
-		var collat = -1;
-		var collon = -1;
-		var colempty = -1;
-		var coldate = -1;
-		var colcurr = -1;
+		if(LAdata[code].rows > 0){
 
-		for(var j = 0; j < validator.data.fields.name.length; j++){
-			h = validator.data.fields.name[j];
-			hsimple = simpleHeading(h);
+			var collat = -1;
+			var collon = -1;
+			var colempty = -1;
+			var coldate = -1;
+			var colcurr = -1;
 
-			if(format[h] && format[h].required){
-				LAdata[code].okhead++;
-				if(format[h].exact) format[h].got = 1;
+			for(var j = 0; j < validator.data.fields.name.length; j++){
+				h = validator.data.fields.name[j];
+				hsimple = simpleHeading(h);
+
+				if(format[h] && format[h].required){
+					LAdata[code].okhead++;
+					if(format[h].exact) format[h].got = 1;
+				}
+				ok = false;
+				if(format[h] && format[h].required) ok = true;
+				if(format[hsimple] &&  format[hsimple].required) ok = true;
+				if(ok) LAdata[code].okreq++;
+				
+				// Empties?
+				if(h == "Occupied" || hsimple == "occupied"){ colempty = j; }
+				if(h == "Latitude" || hsimple == "latitude"){ collat = j; }
+				if(h == "Longitude" || hsimple == "longitude"){ collon = j; }
+				if(h == "Liability start date" || hsimple == "liabilitystartdate"){ coldate = j; }
+				if(h == "Rateable value" || hsimple == "rateablevalue"){ colcurr = j; }			
 			}
-			ok = false;
-			if(format[h] && format[h].required) ok = true;
-			if(format[hsimple] &&  format[hsimple].required) ok = true;
-			if(ok) LAdata[code].okreq++;
-			
-			// Empties?
-			if(h == "Occupied" || hsimple == "occupied"){ colempty = j; }
-			if(h == "Latitude" || hsimple == "latitude"){ collat = j; }
-			if(h == "Longitude" || hsimple == "longitude"){ collon = j; }
-			if(h == "Liability start date" || hsimple == "liabilitystartdate"){ coldate = j; }
-			if(h == "Rateable value" || hsimple == "rateablevalue"){ colcurr = j; }			
-		}
 
-		for(var h in format){
-			if(format[h].required){
-				if(format[h].exact && format[h].got == 0){
-					if(LAdata[code].notgot) LAdata[code].notgot += ", ";
-					LAdata[code].notgot += h;
+			for(var h in format){
+				if(format[h].required){
+					if(format[h].exact && format[h].got == 0){
+						if(LAdata[code].notgot) LAdata[code].notgot += ", ";
+						LAdata[code].notgot += h;
+					}
 				}
 			}
-		}
 
-		LAdata[code].rows = this.records;
-		for(var ii = 0; ii < LAdata[code].rows; ii++){
-			rcols = this.data.rows[ii];
-			if(coldate){
-				m = rcols[coldate].match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/);
-				if(m && m.length==1) LAdata[code].dateformats++;
+			for(var ii = 0; ii < LAdata[code].rows; ii++){
+				rcols = this.data.rows[ii];
+				if(coldate){
+					m = rcols[coldate].match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/);
+					if(m && m.length==1) LAdata[code].dateformats++;
+				}
+				if(colcurr >= 0){
+					m = rcols[colcurr].match(/[0-9\.]+/);
+					if(m && m.length==1) LAdata[code].currformats++;
+				}
+				if(collat >= 0){
+					m = rcols[collat].match(/[0-9\.\-\+]+/);
+					if(m && m.length==1) LAdata[code].latformats++;
+				}
+				if(collon >= 0){
+					m = rcols[collon].match(/[0-9\.\-\+]+/);
+					if(m && m.length==1) LAdata[code].lonformats++;
+				}
 			}
-			if(colcurr >= 0){
-				m = rcols[colcurr].match(/[0-9\.]+/);
-				if(m && m.length==1) LAdata[code].currformats++;
+			if(colempty >= 0){ LAdata[code].empties = 1; }
+			if(collat >= 0){ LAdata[code].coordinates += 0.5; }
+			if(collon >= 0){ LAdata[code].coordinates += 0.5; }
+			
+			// Add score for required headings
+			if(nreq > 0) score += LAdata[code].okreq/nreq;
+			score += LAdata[code].empties;
+			if(LAdata[code].rows > 0){
+				LAdata[code].coordformats = (LAdata[code].latformats+LAdata[code].lonformats);
+				score += (LAdata[code].latformats+LAdata[code].lonformats)/(2*LAdata[code].rows);
+				score += LAdata[code].dateformats/LAdata[code].rows;
+				score += LAdata[code].currformats/LAdata[code].rows;
 			}
-			if(collat >= 0){
-				m = rcols[collat].match(/[0-9\.\-\+]+/);
-				if(m && m.length==1) LAdata[code].latformats++;
-			}
-			if(collon >= 0){
-				m = rcols[collon].match(/[0-9\.\-\+]+/);
-				if(m && m.length==1) LAdata[code].lonformats++;
-			}
+			if(nreq > 0) score += LAdata[code].okhead/nreq;
+			
 		}
-		if(colempty >= 0){ LAdata[code].empties = 1; }
-		if(collat >= 0){ LAdata[code].coordinates += 0.5; }
-		if(collon >= 0){ LAdata[code].coordinates += 0.5; }
-		
-		// Add score for required headings
-		if(nreq > 0) score += LAdata[code].okreq/nreq;
-		score += LAdata[code].empties;
-		if(LAdata[code].rows > 0){
-			LAdata[code].coordformats = (LAdata[code].latformats+LAdata[code].lonformats);
-			score += (LAdata[code].latformats+LAdata[code].lonformats)/(2*LAdata[code].rows);
-			score += LAdata[code].dateformats/LAdata[code].rows;
-			score += LAdata[code].currformats/LAdata[code].rows;
-		}
-		if(nreq > 0) score += LAdata[code].okhead/nreq;
-		
-		
 		
 		// Checks
 		// 1. Valid required headings
