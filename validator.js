@@ -214,7 +214,7 @@ S().ready(function(){
 
 			for(var ii = 0; ii < LAdata[code].rows; ii++){
 				rcols = this.data.rows[ii];
-				if(coldate){
+				if(coldate >= 0){
 					m = rcols[coldate].match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/);
 					if(m && m.length==1) LAdata[code].dateformats++;
 				}
