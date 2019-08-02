@@ -114,8 +114,8 @@ S().ready(function(){
 	Validator.prototype.parseCSV = function(data,attr){
 		
 		if(!attr) attr = {};
-
 		this.csv = data;
+		this.messages = [];
 		
 		if(data){
 			// Convert the CSV to a JSON structure
@@ -207,7 +207,7 @@ S().ready(function(){
 				if(format[h].required){
 					if(format[h].exact && format[h].got == 0){
 						if(LAdata[code].notgot) LAdata[code].notgot += ", ";
-						LAdata[code].notgot += h;
+						LAdata[code].notgot += makeKey(h);
 					}
 				}
 			}
@@ -235,32 +235,45 @@ S().ready(function(){
 			if(collat >= 0){ LAdata[code].coordinates += 0.5; }
 			if(collon >= 0){ LAdata[code].coordinates += 0.5; }
 			
+			
 			// Add score for required headings
 			if(nreq > 0) score += LAdata[code].okreq/nreq;
 			score += LAdata[code].empties;
+			if(LAdata[code].empties < 1) this.messages.push(getTrafficLight({'score':LAdata[code].empties,'no':'<strong>Includes empties</strong>: You don\'t appear to have included an '+makeKey('Occupied')+' column.'}));
+
 			if(LAdata[code].rows > 0){
 				LAdata[code].coordformats = (LAdata[code].latformats+LAdata[code].lonformats);
-				score += (LAdata[code].latformats+LAdata[code].lonformats)/(2*LAdata[code].rows);
-				score += LAdata[code].dateformats/LAdata[code].rows;
-				score += LAdata[code].currformats/LAdata[code].rows;
+				tscore = (LAdata[code].latformats+LAdata[code].lonformats)/(2*LAdata[code].rows);
+				score += tscore;
+				if(tscore < 1) this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid coords</strong>: You appear to be missing '+((2*LAdata[code].rows) - (LAdata[code].latformats+LAdata[code].lonformats))+' '+makeKey('Latitude')+' and '+makeKey('Longitude')+' values. Adding these will improve your overall score by '+asScore(1-tscore)+'.'}));
+				tscore = LAdata[code].dateformats/LAdata[code].rows;
+				score += tscore;
+				if(tscore < 1) this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid dates</strong>: You appear to be missing '+(LAdata[code].rows - LAdata[code].dateformats)+' dates in the '+makeKey('Liability start date')+' column. Adding these will improve your overall score by '+asScore(1-tscore)+'.'}));
+				tscore = LAdata[code].currformats/LAdata[code].rows
+				score += tscore;
+				if(tscore < 1) this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid currency values</strong>: You appear to be missing '+(LAdata[code].rows - LAdata[code].currformats)+' '+makeKey('Rateable value')+' amounts. Adding these will improve your overall score by '+asScore(1-tscore)+'.'}));
 			}
 			if(nreq > 0) score += LAdata[code].okhead/nreq;
+			if(LAdata[code].okhead/nreq < 1) this.messages.push(getTrafficLight({'score':LAdata[code].okhead/nreq,'no':'<strong>Valid required headings</strong>: A strict heading match shows that you are missing '+LAdata[code].notgot+'. Adding these headings will improve your score by '+asScore(1-LAdata[code].okhead/nreq)+'.'}));
+			if(LAdata[code].okreq/nreq < 1) this.messages.push(getTrafficLight({'score':LAdata[code].okreq/nreq,'no':'<strong>Includes required columns</strong>: A looser check of headings (ignoring case, extra things in brackets, and trailing spaces) shows that you are missing '+(nreq - LAdata[code].okreq)+' required heading'+(nreq - LAdata[code].okreq == 1 ? '':'s')+'. Adding them will improve your score by '+asScore((nreq - LAdata[code].okreq)/nreq)+'.'}));
 			
 		}
 		
-		// Checks
-		// 1. Valid required headings
-
 		// 7. Is it hosted?
 		if(attr.url){
 			LAdata[code].hosted = 1;
 			score++;
+		}else{
+			this.messages.push(getTrafficLight({'score':0,'no':'<strong>Hosted</strong>: Hosting the file on an accessible webserver will improve your score by '+asScore(2)+'.'}));
 		}
+		console.log(attr)
 		
 		// 8. Check CORS
 		if(attr.CORS){
 			LAdata[code].cors = true;
 			score++;
+		}else{
+			this.messages.push(getTrafficLight(0,'','','','<strong>CORS</strong>: Unable to get the file. Is CORS enabled? Because we couldn\'t get the file, we can\'t calculate the rest of your score.',''));
 		}
 
 		score *= 100/8;
@@ -270,14 +283,14 @@ S().ready(function(){
 		if(attr.url) tr += '<a href="'+attr.url+'">URL</a>';
 		else tr += this.file;
 		tr += '</td><td></td><td>'+this.records+'</td><td>'+(score).toFixed(2)+'</td>';
-		tr += '<td>'+getTrafficLight(LAdata[code].okhead/nreq,LAdata[code].okhead+'/'+nreq,LAdata[code].okhead+'/'+nreq,'-','headings',(LAdata[code].notgot ? "Missing: "+LAdata[code].notgot : "Got everything!"))+'</td>';
-		tr += '<td>'+getTrafficLight(LAdata[code].okreq/nreq,LAdata[code].okreq+'/'+nreq,LAdata[code].okreq+'/'+nreq,'-','required')+'</td>';
-		tr += '<td>'+getTrafficLight(LAdata[code].empties,"Yes","No","-","empties")+'</td>';
-		tr += '<td>'+getTrafficLight((LAdata[code].coordformats)/(2*(LAdata[code].rows == 0 ? 1 : LAdata[code].rows)),(LAdata[code].coordformats),(LAdata[code].coordformats),"-","coordinates")+'</td>';
-		tr += '<td>'+getTrafficLight(LAdata[code].dateformats/(LAdata[code].rows==0 ? 1 : LAdata[code].rows),LAdata[code].dateformats,LAdata[code].dateformats,"-","dateformats")+'</td>';
-		tr += '<td>'+getTrafficLight(LAdata[code].currformats/(LAdata[code].rows==0 ? 1 : LAdata[code].rows),LAdata[code].currformats,LAdata[code].currformats,"-","currencyformats")+'</td>';
-		tr += '<td>'+getTrafficLight(LAdata[code].hosted,"Yes","No","-","status.html#hosted")+'</td>';
-		tr += '<td>'+getTrafficLight(LAdata[code].cors,"Yes","No","-","status.html#CORS")+'</td>';
+		tr += '<td>'+getTrafficLight({'score':LAdata[code].okhead/nreq,'yes':LAdata[code].okhead+'/'+nreq,'no':LAdata[code].okhead+'/'+nreq,'na':'-','link':'status.html#headings','title':(LAdata[code].notgot ? "Missing: "+LAdata[code].notgot.replace(/<span class="req">.*?<\/span>/g,"").replace(/<[^\>]*>/g,"") : "Got everything!")})+'</td>';
+		tr += '<td>'+getTrafficLight({'score':LAdata[code].okreq/nreq,'yes':LAdata[code].okreq+'/'+nreq,'no':LAdata[code].okreq+'/'+nreq,'na':'-','link':'status.html#required'})+'</td>';
+		tr += '<td>'+getTrafficLight({'score':LAdata[code].empties,'yes':"Yes",'no':"No",'na':"-",'link':"status.html#empties"})+'</td>';
+		tr += '<td>'+getTrafficLight({'score':(LAdata[code].coordformats)/(2*(LAdata[code].rows == 0 ? 1 : LAdata[code].rows)),'yes':(LAdata[code].coordformats),'no':(LAdata[code].coordformats),'na':"-",'link':"status.html#coordinates"})+'</td>';
+		tr += '<td>'+getTrafficLight({'score':LAdata[code].dateformats/(LAdata[code].rows==0 ? 1 : LAdata[code].rows),'yes':LAdata[code].dateformats,'no':LAdata[code].dateformats,'na':"-",'link':"status.html#dateformats"})+'</td>';
+		tr += '<td>'+getTrafficLight({'score':LAdata[code].currformats/(LAdata[code].rows==0 ? 1 : LAdata[code].rows),'yes':LAdata[code].currformats,'no':LAdata[code].currformats,'na':"-",'link':"status.html#currencyformats"})+'</td>';
+		tr += '<td>'+getTrafficLight({'score':LAdata[code].hosted,'yes':"Yes",'no':"No",'na':"-",'link':"status.html#hosted"})+'</td>';
+		tr += '<td>'+getTrafficLight({'score':LAdata[code].cors,'yes':"Yes",'no':"No",'na':"-",'link':"status.html#CORS"})+'</td>';
 
 		S('.spinner').css({'display':''});
 
@@ -287,6 +300,11 @@ S().ready(function(){
 		this.LAdata = LAdata;
 
 
+		var str = "";
+		for(var i = 0; i < this.messages.length; i++) str += '<li>'+this.messages[i]+'</li>';
+		if(str) S('#messages').html('<h2>Notes</h2><ol>'+str+'</ol>');
+		else S('#messages').html('');
+
 		// Scroll to results
 		var el = S('#results')[0];
 		window.scroll({
@@ -295,13 +313,21 @@ S().ready(function(){
 			'behavior': 'smooth'
 		})
 		
-		function getTrafficLight(v,yes,no,na,notes,title){
-			if(!notes) notes = '#';
-			if(v == 1){ return '<span class="green-light"'+(title ? ' title="'+title+'"':'')+'></span><a href="'+notes+'">'+yes+'</a>'; }
-			else if(v < 1 && v > 0){ return '<span class="amber-light"'+(title ? ' title="'+title+'"':'')+'></span><a href="'+notes+'">'+no+'</a>'; }
-			else if(v == 0){ return '<span class="red-light"'+(title ? ' title="'+title+'"':'')+'></span><a href="'+notes+'">'+no+'</a>'; }
-			else if(v < 0){ return na; }
-			return ""; 
+		function asScore(s){ return (s*100/8).toFixed(2).replace(/0$/,'').replace(/\.0$/,''); }
+		function makeKey(key){
+			return '<code class="key">'+key+'</code>'+(fields[key].required ? '<span class="req">Required</span>':'');
+		}
+		function getTrafficLight(attr){
+			if(!attr) attr = {};
+			var cls = "";
+			var txt = "";
+			if(attr.score == 1){ cls = 'green-light'; txt = attr.yes; }
+			else if(attr.score < 1 && attr.score > 0){ cls = 'amber-light'; txt = attr.no; }
+			else if(attr.score == 0){ cls = 'red-light'; txt = attr.no; }
+			else if(attr.score < 0){ return attr.na; }
+			if(attr['link'] && txt) txt = '<a href="'+attr['link']+'">'+txt+'</a>';
+			
+			return '<span class="'+cls+'"'+(attr.title ? ' title="'+attr.title+'"':'')+'></span>'+txt; 
 		}
 
 		return this;
@@ -312,6 +338,7 @@ S().ready(function(){
 		S('#drop_zone .helpertext').css({'display':''});
 		S('#results').css({'display':''});
 		S('#filedetails').remove();
+		S('#messages').html('');
 		tr = S('table.odi tr');
 		if(tr.length > 1){
 			for(var i = 1; i < tr.length; i++){
