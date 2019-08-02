@@ -284,7 +284,6 @@ S().ready(function(){
 		}else{
 			this.messages.push(getTrafficLight({'score':0,'no':'<strong>Hosted</strong>: Hosting the file on an accessible webserver will improve your score by '+asScore(2)+'.'}));
 		}
-		console.log(attr)
 		
 		// 8. Check CORS
 		if(attr.CORS){
@@ -298,7 +297,7 @@ S().ready(function(){
 
 	
 		tr = '<tr><td>-</td><td class="LA-name">'
-		if(attr.url) tr += '<a href="'+attr.url+'">URL</a>';
+		if(attr.url) tr += '<a href="'+attr.url+'">'+getLA(attr.url)+'</a>';
 		else tr += this.file;
 		tr += '</td><td></td><td>'+this.records+'</td><td>'+(score).toFixed(2)+'</td>';
 		tr += '<td>'+getTrafficLight({'score':LAdata[code].okhead/nreq,'yes':LAdata[code].okhead+'/'+nreq,'no':LAdata[code].okhead+'/'+nreq,'na':'-','link':'status.html#headings','title':(LAdata[code].notgot ? "Missing: "+LAdata[code].notgot.replace(/<span class="req">.*?<\/span>/g,"").replace(/<[^\>]*>/g,"") : "Got everything!")})+'</td>';
@@ -330,7 +329,13 @@ S().ready(function(){
 			'left': 0,
 			'behavior': 'smooth'
 		})
-		
+		function getLA(url){
+			if(url.indexOf(".gov.uk") >= 0){
+				url.replace(/([a-zA-Z]*)\.gov\.uk/,function(m,p1){ url = p1; });
+				url = url[0].toUpperCase() + url.slice(1);
+			}
+			return url;
+		}
 		function asScore(s){ return (s*100/8).toFixed(2).replace(/0$/,'').replace(/\.0$/,''); }
 		function makeKey(key){
 			return '<code class="key">'+key+'</code>'+(fields[key].required ? '<span class="req">Required</span>':'');
