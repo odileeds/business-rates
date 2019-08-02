@@ -248,8 +248,11 @@ S().ready(function(){
 		// Add score for required headings
 		if(nreq > 0) score += LAdata[code].okreq/nreq;
 		if(nreq > 0) score += LAdata[code].okhead/nreq;
-
-		if(LAdata[code].okhead/nreq < 1) this.messages.push(getTrafficLight({'score':LAdata[code].okhead/nreq,'no':'<strong>Valid required headings</strong>: A strict heading match shows that you are missing '+LAdata[code].notgot+'. Adding these headings will improve your score by '+asScore(1-LAdata[code].okhead/nreq)+'.'+(LAdata[code].notgot.indexOf('Postcode') < 0 && LAdata[code].notgot.indexOf('Latitude') > 0 ? ' As you have a '+makeKey('Postcode')+' column, you could add '+makeKey('Latitude')+' and '+makeKey('Longitude')+' columns using our <a href="https://odileeds.github.io/Postcodes2LatLon/">Postcodes to Latitude/Longitude tool</a>.':'')}));
+		var addcoords = '';
+		if(LAdata[code].okhead/nreq < 1){
+			addcoords = (LAdata[code].notgot.indexOf('Postcode') > 0 && LAdata[code].notgot.indexOf('Latitude') > 0 ? '<br /><a href="https://odileeds.github.io/Postcodes2LatLon/" id="addcoords" class="c14-bg button">Add latitude and longitude</a>' :'');
+			this.messages.push(getTrafficLight({'score':LAdata[code].okhead/nreq,'no':'<strong>Valid required headings</strong>: A strict heading match shows that you are missing '+LAdata[code].notgot+'. Adding these headings will improve your score by '+asScore(1-LAdata[code].okhead/nreq)+'.'+addcoords}));
+		}
 		if(LAdata[code].okreq/nreq < 1) this.messages.push(getTrafficLight({'score':LAdata[code].okreq/nreq,'no':'<strong>Includes required columns</strong>: A looser check of headings (ignoring case, extra things in brackets, and trailing spaces) shows that you are missing '+(nreq - LAdata[code].okreq)+' required heading'+(nreq - LAdata[code].okreq == 1 ? '':'s')+'. Adding them will improve your score by '+asScore((nreq - LAdata[code].okreq)/nreq)+'.'}));
 
 		score += LAdata[code].empties;
@@ -312,6 +315,7 @@ S().ready(function(){
 		S('.spinner').css({'display':''});
 
 		S('table.odi').append(tr);
+
 		S('#results').css({'display':'block'});
 		
 		this.LAdata = LAdata;
@@ -321,6 +325,24 @@ S().ready(function(){
 		for(var i = 0; i < this.messages.length; i++) str += '<li>'+this.messages[i]+'</li>';
 		if(str) S('#messages').html('<h2>Notes</h2><ol>'+str+'</ol>');
 		else S('#messages').html('');
+
+
+		if(addcoords){
+			S('#addcoords').on('click',{me:this},function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				// Open in Postcodes2LatLon
+				var win = window.open("https://odileeds.github.io/Postcodes2LatLon/", "Postcodes", "");
+				var csv = e.data.me.csv;
+				setTimeout(function(){
+					console.log('postMessage')
+					win.postMessage({
+						"referer": "BusinessRates",
+						"csv": csv
+					}, "https://odileeds.github.io");
+				},1000);
+			});
+		}
 
 		// Scroll to results
 		var el = S('#results')[0];
