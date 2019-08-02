@@ -272,7 +272,7 @@ S().ready(function(){
 		tscore = (LAdata[code].rows > 0) ? LAdata[code].dateformats/LAdata[code].rows : 0;
 		score += tscore;
 		if(tscore < 1){
-			fixdates = (tscore < 1) ? '<br /><a href="https://odileeds.github.io/CSVCleaner/" id="fixdates" class="c14-bg button">Fix dates</a>' : '';
+			fixdates = (tscore < 1 && LAdata[code].notgot.indexOf('Liability start date') < 0) ? '<br /><a href="https://odileeds.github.io/CSVCleaner/" id="fixdates" class="c14-bg button">Fix dates</a>' : '';
 			if(LAdata[code].rows > 0) this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid dates</strong>: You appear to be missing '+(LAdata[code].rows - LAdata[code].dateformats)+' dates in the '+makeKey('Liability start date')+' column. Adding these will improve your overall score by '+asScore(1-tscore)+'.'+fixdates}));
 			else this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid dates</strong>: We couldn\'t find any dates!'}));
 		}
