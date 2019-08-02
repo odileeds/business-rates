@@ -248,7 +248,10 @@ S().ready(function(){
 		// Add score for required headings
 		if(nreq > 0) score += LAdata[code].okreq/nreq;
 		if(nreq > 0) score += LAdata[code].okhead/nreq;
+
 		var addcoords = '';
+		var fixdates = '';
+
 		if(LAdata[code].okhead/nreq < 1){
 			addcoords = (LAdata[code].notgot.indexOf('Postcode') < 0 && LAdata[code].notgot.indexOf('Latitude') > 0 ? '<br /><a href="https://odileeds.github.io/Postcodes2LatLon/" id="addcoords" class="c14-bg button">Add latitude and longitude</a>' :'');
 			this.messages.push(getTrafficLight({'score':LAdata[code].okhead/nreq,'no':'<strong>Valid required headings</strong>: A strict heading match shows that you are missing '+LAdata[code].notgot+'. Adding these headings will improve your score by '+asScore(1-LAdata[code].okhead/nreq)+'.'+addcoords}));
@@ -269,7 +272,8 @@ S().ready(function(){
 		tscore = (LAdata[code].rows > 0) ? LAdata[code].dateformats/LAdata[code].rows : 0;
 		score += tscore;
 		if(tscore < 1){
-			if(LAdata[code].rows > 0) this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid dates</strong>: You appear to be missing '+(LAdata[code].rows - LAdata[code].dateformats)+' dates in the '+makeKey('Liability start date')+' column. Adding these will improve your overall score by '+asScore(1-tscore)+'.'}));
+			fixdates = (tscore < 1) ? '<br /><a href="https://odileeds.github.io/CSVCleaner/" id="fixdates" class="c14-bg button">Fix dates</a>' : '';
+			if(LAdata[code].rows > 0) this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid dates</strong>: You appear to be missing '+(LAdata[code].rows - LAdata[code].dateformats)+' dates in the '+makeKey('Liability start date')+' column. Adding these will improve your overall score by '+asScore(1-tscore)+'.'+fixdates}));
 			else this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid dates</strong>: We couldn\'t find any dates!'}));
 		}
 
@@ -336,10 +340,20 @@ S().ready(function(){
 				var csv = e.data.me.csv;
 				setTimeout(function(){
 					console.log('postMessage')
-					win.postMessage({
-						"referer": "BusinessRates",
-						"csv": csv
-					}, "https://odileeds.github.io");
+					win.postMessage({ "referer": "BusinessRates", "csv": csv }, "https://odileeds.github.io");
+				},1000);
+			});
+		}
+		if(fixdates){
+			S('#fixdates').on('click',{me:this},function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				// Open in CSVCleaner
+				var win = window.open("https://odileeds.github.io/CSVCleaner/", "CSVCleaner", "");
+				var csv = e.data.me.csv;
+				setTimeout(function(){
+					console.log('postMessage');
+					win.postMessage({ "referer": "BusinessRates", "csv": csv }, "https://odileeds.github.io");
 				},1000);
 			});
 		}
