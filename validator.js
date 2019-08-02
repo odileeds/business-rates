@@ -253,7 +253,7 @@ S().ready(function(){
 		var fixdates = '';
 
 		if(LAdata[code].okhead/nreq < 1){
-			addcoords = (LAdata[code].notgot.indexOf('Postcode') < 0 && LAdata[code].notgot.indexOf('Latitude') > 0 ? '<br /><a href="https://odileeds.github.io/Postcodes2LatLon/" id="addcoords" class="c14-bg button">Add latitude and longitude</a>' :'');
+			addcoords = (format['Postcode'].got && !format['Latitude'].got ? '<br /><a href="https://odileeds.github.io/Postcodes2LatLon/" id="addcoords" class="c14-bg button">Add latitude and longitude</a>' :'');
 			this.messages.push(getTrafficLight({'score':LAdata[code].okhead/nreq,'no':'<strong>Valid required headings</strong>: A strict heading match shows that you are missing '+LAdata[code].notgot+'. Adding these headings will improve your score by '+asScore(1-LAdata[code].okhead/nreq)+'.'+addcoords}));
 		}
 		if(LAdata[code].okreq/nreq < 1) this.messages.push(getTrafficLight({'score':LAdata[code].okreq/nreq,'no':'<strong>Includes required columns</strong>: A looser check of headings (ignoring case, extra things in brackets, and trailing spaces) shows that you are missing '+(nreq - LAdata[code].okreq)+' required heading'+(nreq - LAdata[code].okreq == 1 ? '':'s')+'. Adding them will improve your score by '+asScore((nreq - LAdata[code].okreq)/nreq)+'.'}));
@@ -272,7 +272,7 @@ S().ready(function(){
 		tscore = (LAdata[code].rows > 0) ? LAdata[code].dateformats/LAdata[code].rows : 0;
 		score += tscore;
 		if(tscore < 1){
-			fixdates = (tscore < 1 && LAdata[code].notgot.indexOf('Liability start date') < 0) ? '<br /><a href="https://odileeds.github.io/CSVCleaner/" id="fixdates" class="c14-bg button">Fix dates</a>' : '';
+			fixdates = (tscore < 1 && format['Liability start date'].got) ? '<br /><a href="https://odileeds.github.io/CSVCleaner/" id="fixdates" class="c14-bg button">Fix dates</a>' : '';
 			if(LAdata[code].rows > 0) this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid dates</strong>: You appear to be missing '+(LAdata[code].rows - LAdata[code].dateformats)+' dates in the '+makeKey('Liability start date')+' column. Adding these will improve your overall score by '+asScore(1-tscore)+'.'+fixdates}));
 			else this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid dates</strong>: We couldn\'t find any dates!'}));
 		}
