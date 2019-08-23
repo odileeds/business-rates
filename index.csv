@@ -234,7 +234,7 @@ E09000003,Barnet,https://open.barnet.gov.uk/download/businessratesregister/6bab8
 E09000004,Bexley,,,,
 E09000005,Brent,,,,
 E09000006,Bromley,,,,
-E09000007,Camden,https://opendata.camden.gov.uk/api/views/jumr-tymj/rows.csv?accessType=DOWNLOAD,data/camden.geojson,,
+E09000007,Camden,"https://opendata.camden.gov.uk/resource/jumr-tymj.csv?$select=property_reference%20AS%20Property_reference_number,start_date%20AS%20Liability_start_date,end_date%20AS%20End_date,rateable_value%20AS%20Rateable_value,longitude%20AS%20Longitude,latitude%20AS%20Latitude,description%20AS%20VOA_description,address%20AS%20Address&$where=end_date%20IS%20NULL&$limit=50000",data/camden.geojson,,
 E09000008,Croydon,,,,
 E09000009,Ealing,,,,
 E09000010,Enfield,,,,

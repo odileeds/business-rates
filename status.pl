@@ -100,6 +100,8 @@ for($i = 0; $i < @las; $i++){
 	$okreq = 0;
 
 	$file = $cols[2];
+	$file =~ s/(^\"|\"$)//g;
+	
 
 	$dateformats = 0;
 	$currformats = 0;
@@ -133,10 +135,15 @@ for($i = 0; $i < @las; $i++){
 		$lastmodified = "?";
 		$cors = 0;
 
+		$safeurl = $file;
+		$safeurl =~ s/\$/\\\$/g;
 		if($file =~ /^http/){
 			$hosted = 1;
 			$score++;
-			@resp = `curl -L -s -H "Origin: https://odileeds.org/projects/business-rates/" --head "$file"`;
+			@resp = `curl -L -s -H "Origin: https://odileeds.org/projects/business-rates/" --head "$safeurl"`;
+			if($safeurl =~ /camden/){
+				#print "$safef";
+			}
 			$lastchecked = $today;
 			foreach $line (@resp){
 				if($line =~ /Access-Control-Allow-Origin: (.*)/){
@@ -153,7 +160,7 @@ for($i = 0; $i < @las; $i++){
 				$score++;
 			}
 			# Need to do a silent (no errors/progress) get that also follows redirects
-			@csv = `curl -s -L "$file"`;
+			@csv = `curl -s -L "$safeurl"`;
 		}else{
 			$cors = -1;
 			open(FILE,$file);
@@ -167,6 +174,7 @@ for($i = 0; $i < @las; $i++){
 		$csv[0] =~ s/[\n\r]//g;
 		$LAdata{$id}{'head'} = $csv[0];
 	}
+	
 	# Process the header line
 	@head = split(/,(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/,$LAdata{$id}{'head'});
 	$collat = -1;
@@ -174,8 +182,14 @@ for($i = 0; $i < @las; $i++){
 	$colempty = -1;
 	$coldate = -1;
 	$colcurr = -1;
+	
+			if($id eq "E09000007"){
+				print @head;
+				print "\n";
+			}
 	for($j = 0; $j < (@head);$j++){
 		$h = $head[$j];
+		$h =~ s/(^\"|\"$)//g;
 		if($format{$h} && $format{$h}{'required'}){
 			$okhead++;
 			if($format{$h}{'exact'}){
