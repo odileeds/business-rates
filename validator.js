@@ -39,6 +39,7 @@ S().ready(function(){
 		});
 		
 		S('form').on('reset',{me:this},function(e){ e.data.me.reset(); });
+		S('#example').on('click',{me:this},function(e){ e.data.me.example(); });
 		
 		return this;
 	}
@@ -389,6 +390,13 @@ S().ready(function(){
 			return '<span class="'+cls+'"'+(attr.title ? ' title="'+attr.title+'"':'')+'></span>'+txt; 
 		}
 
+		return this;
+	}
+	
+	
+	Validator.prototype.example = function(){
+		var el = S('#url');
+		el[0].value = el.attr('placeholder').replace(/^.*(https?:\/\/[^\s]+).*$/,function(m,p1){ return p1; });
 		return this;
 	}
 
