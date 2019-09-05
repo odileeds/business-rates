@@ -40,7 +40,11 @@ S().ready(function(){
 		
 		S('form').on('reset',{me:this},function(e){ e.data.me.reset(); });
 		S('#example').on('click',{me:this},function(e){ e.data.me.example(); });
-		
+		var url = location.search.replace(/.*url=([^\&]*)/,function(m,p1){ return p1; });
+		if(url.indexOf("http")==0){
+			S('#url')[0].value = url;
+			S('form').trigger('submit')
+		}
 		return this;
 	}
 
@@ -113,7 +117,7 @@ S().ready(function(){
 
 	// Parse the CSV contents
 	Validator.prototype.parseCSV = function(data,attr){
-		
+
 		if(!attr) attr = {};
 		this.csv = data;
 		this.messages = [];
@@ -126,6 +130,7 @@ S().ready(function(){
 			this.data = {};
 			this.records = 0;
 		}
+		
 
 		fields = {
 			'Property reference number':{'required':false},
@@ -174,6 +179,16 @@ S().ready(function(){
 		code = "CUSTOM";
 		LAdata = {};
 		LAdata[code] = {'rows':this.records,'okhead':0,'okreq':0,'empties':0,'hosted':0,'cors':false,'notgot':'','dateformats':0,'coordinates':0,'coordformats':0,'currformats':0,'latformats':0,'lonformats':0};
+
+
+		// 0. Check CORS
+		if(attr.CORS){
+			LAdata[code].cors = true;
+			score++;
+		}else{
+			this.messages.push(getTrafficLight({'score':0,'no':'<strong>CORS</strong>: Unable to get the file. Is CORS enabled? Because we couldn\'t get the file, we can\'t calculate the rest of your score. You could try saving the file locally and testing a local copy of the file to see what you would get if CORS was enabled.'}));
+		}
+
 
 		var collat = -1;
 		var collon = -1;
@@ -291,14 +306,6 @@ S().ready(function(){
 			score++;
 		}else{
 			this.messages.push(getTrafficLight({'score':0,'no':'<strong>Hosted</strong>: Hosting the file on an accessible webserver will improve your score by '+asScore(2)+'.'}));
-		}
-		
-		// 8. Check CORS
-		if(attr.CORS){
-			LAdata[code].cors = true;
-			score++;
-		}else{
-			this.messages.push(getTrafficLight(0,'','','','<strong>CORS</strong>: Unable to get the file. Is CORS enabled? Because we couldn\'t get the file, we can\'t calculate the rest of your score.',''));
 		}
 
 		score *= 100/8;
