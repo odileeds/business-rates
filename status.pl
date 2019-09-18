@@ -183,10 +183,11 @@ for($i = 0; $i < @las; $i++){
 	$coldate = -1;
 	$colcurr = -1;
 	
-			if($id eq "E09000007"){
-				print @head;
-				print "\n";
-			}
+	if($id eq "E09000007"){
+		#print @head;
+		#print "\n";
+	}
+
 	for($j = 0; $j < (@head);$j++){
 		$h = $head[$j];
 		$h =~ s/(^\"|\"$)//g;
