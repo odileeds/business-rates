@@ -58,7 +58,7 @@ S(document).ready(function(){
 		
 		if(this.el.find('#map').length==0) this.el.append('<div id="map" class="padded panel on"><div class="holder"><div class="panel-inner b6-bg doublepadded"><div id="map-holder"></div></div></div></div>');
 		if(this.el.find('#categories').length==0) this.el.append('<div id="categories" class="padded panel off"><div class="holder"><div class="b6-bg panel-inner doublepadded"></div></div></div>');
-		if(this.el.find('#rates').length==0) this.el.append('<div id="rates" class="padded panel off"><div class="holder"><div class="b6-bg panel-inner doublepadded"><ul class="grid"><li><a href="#rateablevalue" class="c8-bg"><span class="number businesses"></span><span class="title">Businesses</span></a></li><li><a href="#empty" class="c8-bg"><span class="number empty"></span><span class="title">Empty</span></a></li><li><a href="#empty" class="c8-bg"><span class="number emptyvalue"></span><span class="title">Rateable value of empties</span></a></li></ul><h2 id="rateablevalue">Rateable values</h2><p>A breakdown of the rateable values</p><div id="rates-barchart"></div><h2 id="empty">Empty</h2><p>A breakdown of the percent of businesses which are empty in each band.</p><div id="empty-barchart"></div></div></div></div>');
+		if(this.el.find('#rates').length==0) this.el.append('<div id="rates" class="padded panel off"><div class="holder"><div class="b6-bg panel-inner doublepadded"><ul class="grid compact"><li><a href="#rateablevalue" class="c8-bg"><span class="number businesses"></span><span class="title">Businesses</span></a></li><li><a href="#empty" class="c8-bg"><span class="number empty"></span><span class="title">Empty</span></a></li><li><a href="#empty" class="c8-bg"><span class="number emptyvalue"></span><span class="title">Rateable value of empties</span></a></li></ul><h2 id="rateablevalue">Rateable values</h2><p>A breakdown of the rateable values</p><div id="rates-barchart"></div><h2 id="empty">Empty</h2><p>A breakdown of the percent of businesses which are empty in each band.</p><div id="empty-barchart"></div></div></div></div>');
 		if(this.el.find('#fsa').length==0) this.el.append('<div id="fsa" class="padded panel off"><div class="holder"><div class="b6-bg panel-inner doublepadded"><h2>Scores on the doors</h2><h3>Totals by category</h3><p>We have attempted to match businesses with those in the <a href="http://ratings.food.gov.uk/default/en-GB">Food Standard\'s Agency dataset</a> using postcode and then breaking the name into parts to do a loose match. This first bar chart gives you the totals for each rating in the FSA dataset.</p><div id="fsa-barchart"></div><h3>Percent matched</h3><p>Here is a breakdown of the percent of businesses we matched, by rating, between the two datasets.</p><div id="fsa-barchart-pc"></div></div></div>');
 
 		
@@ -602,7 +602,7 @@ S(document).ready(function(){
 			}
 		}
 		html += '</table>';
-		prehtml = '<ul class="grid">';
+		prehtml = '<ul class="grid compact">';
 		order = getSortedKeys(totals.voacat);
 		for(i = 0; i < order.length; i++){
 			desc = order[i];
