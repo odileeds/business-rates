@@ -18,7 +18,7 @@
 	header h1 {
 		margin-top: 0.25em;
 	}
-	ul.grid.councils > li { width: 20%; }
+	ul.grid.councils { grid-template-columns: repeat(5, 1fr); }
 	ul.grid.councils > li.selected a { background-color: #722EA5; transition: background 1s ease-in; }
 	#progress { text-align: center; }
 	#map-holder {
@@ -70,7 +70,7 @@
 		right: 0px;
 	}
 	.panel ul.grid > li > a { min-height: auto; }
-	ul.smalltabs > li, #categories.panel ul.grid > li { width: 25%; }
+	ul.smalltabs, #categories.panel ul.grid { grid-template-columns: repeat(4, 1fr); }
 	ul.smalltabs > li {
 		border-right: 1px solid white;
 		margin-bottom: 0px;
@@ -139,23 +139,23 @@
 
 		<div class="holder">
 			<p>As part of the Open Data Collaboration group we are exploring local council Business Rates data and we've defined <a href="format.html">a common format for sharing Business Rates data</a>. Once Local Authorities use that format we can add them to this visualisation. Check out how complete each Local Authority is on our <a href="status.html">status page</a>. Click on a Local Authority below to load their data.</p>
-			<ul class="grid councils">
-				<li class="compact img"><a href="https://www.bradford.gov.uk/open-data/freedom-of-information/freedom-of-information-faqs-business-rates/" code="E08000032" class="padded b2-bg"><img src="../../dashboard/data/img/bradford.svg" title="Bradford Metropolitan District Council" /></a></li>
-				<li class="compact img"><a href="https://dataworks.calderdale.gov.uk/dataset/calderdale-business-properties---complete-list" code="E08000033" updated="2019-04" class="padded b2-bg"><img src="../../dashboard/data/img/calderdale.svg" title="Calderdale Council" /></a></li>
-				<li class="compact img"><a href="https://www.kirklees.gov.uk/beta/information-and-data/open-data-sets.aspx" code="E08000034" updated="2019-01" class="padded b2-bg"><img src="../../dashboard/data/img/kirklees.svg" title="Kirklees Council" /></a></li>
-				<li class="compact img"><a href="https://www.hambleton.gov.uk/info/20029/business/158/business_and_non-domestic_rates/2" code="E07000164" class="padded b2-bg"><img src="../../dashboard/data/img/hambleton.svg" title="Hambleton District Council" /></a></li>
-				<li class="compact img"><a href="https://www.harrogate.gov.uk/info/20031/business_rates" code="E07000165" class="padded b2-bg"><img src="../../dashboard/data/img/harrogate.svg" title="Harrogate Borough Council" /></a></li>
-				<li class="compact img"><a href="https://datamillnorth.org/dataset/business-rates" code="E08000035" updated="2019-04-14" class="padded b2-bg"><img src="../../dashboard/data/img/leeds.svg" title="Leeds City Council" /></a></li>
-				<li class="compact img"><a href="https://www.scarborough.gov.uk/home/open-data-and-foi/business-rates-information-requests" code="E07000168" updated="2019-04" class="padded b2-bg"><img src="../../dashboard/data/img/scarborough.svg" title="Scarborough Borough Counci" /></a></li>
-				<li class="compact img"><a href="https://www.selby.gov.uk/datasets" code="E07000169" updated="2019-04" class="padded b2-bg"><img src="../../dashboard/data/img/selby.svg" title="Selby District Council" /></a></li>
-				<li class="compact img"><a href="https://www.stockport.gov.uk/topic/business-rates" code="E08000007" updated="2019-07" class="padded b2-bg"><img src="../../dashboard/data/img/stockport.svg" title="Stockport Metropolitan Borough Council" /></a></li>
-				<li class="compact img"><a href="https://datamillnorth.org/dataset/wakefield_business_rates" code="E08000036" updated="2018-04" class="padded b2-bg"><img src="../../dashboard/data/img/wakefield.svg" title="Wakefield Council" /></a></li>
+			<ul class="grid councils compact">
+				<li class="img"><a href="https://www.bradford.gov.uk/open-data/freedom-of-information/freedom-of-information-faqs-business-rates/" code="E08000032" class="padded b2-bg"><img src="../../dashboard/data/img/bradford.svg" title="Bradford Metropolitan District Council" /></a></li>
+				<li class="img"><a href="https://dataworks.calderdale.gov.uk/dataset/calderdale-business-properties---complete-list" code="E08000033" updated="2019-04" class="padded b2-bg"><img src="../../dashboard/data/img/calderdale.svg" title="Calderdale Council" /></a></li>
+				<li class="img"><a href="https://www.kirklees.gov.uk/beta/information-and-data/open-data-sets.aspx" code="E08000034" updated="2019-01" class="padded b2-bg"><img src="../../dashboard/data/img/kirklees.svg" title="Kirklees Council" /></a></li>
+				<li class="img"><a href="https://www.hambleton.gov.uk/info/20029/business/158/business_and_non-domestic_rates/2" code="E07000164" class="padded b2-bg"><img src="../../dashboard/data/img/hambleton.svg" title="Hambleton District Council" /></a></li>
+				<li class="img"><a href="https://www.harrogate.gov.uk/info/20031/business_rates" code="E07000165" class="padded b2-bg"><img src="../../dashboard/data/img/harrogate.svg" title="Harrogate Borough Council" /></a></li>
+				<li class="img"><a href="https://datamillnorth.org/dataset/business-rates" code="E08000035" updated="2019-04-14" class="padded b2-bg"><img src="../../dashboard/data/img/leeds.svg" title="Leeds City Council" /></a></li>
+				<li class="img"><a href="https://www.scarborough.gov.uk/home/open-data-and-foi/business-rates-information-requests" code="E07000168" updated="2019-04" class="padded b2-bg"><img src="../../dashboard/data/img/scarborough.svg" title="Scarborough Borough Counci" /></a></li>
+				<li class="img"><a href="https://www.selby.gov.uk/datasets" code="E07000169" updated="2019-04" class="padded b2-bg"><img src="../../dashboard/data/img/selby.svg" title="Selby District Council" /></a></li>
+				<li class="img"><a href="https://www.stockport.gov.uk/topic/business-rates" code="E08000007" updated="2019-07" class="padded b2-bg"><img src="../../dashboard/data/img/stockport.svg" title="Stockport Metropolitan Borough Council" /></a></li>
+				<li class="img"><a href="https://datamillnorth.org/dataset/wakefield_business_rates" code="E08000036" updated="2018-04" class="padded b2-bg"><img src="../../dashboard/data/img/wakefield.svg" title="Wakefield Council" /></a></li>
 			</ul>
 			<div id="progress"></div>
 		</div>
 		
 		<div class="holder" style="padding:1em;">
-			<ul class="grid smalltabs">
+			<ul class="grid smalltabs compact">
 				<li><a href="#map" class="b5-bg">Map</a></li>
 				<li><a href="#rates" class="b4-bg">Rates</a></li>
 				<li><a href="#categories" class="b4-bg">Categories</a></li>
