@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+use List::Util qw[min max];
+
 $ifile = "index.csv";
 $ffile = "format.html";
 $sfile = "status.html";
@@ -86,6 +88,7 @@ for($i = 1; $i < @lines; $i++){
 
 for($i = 0; $i < @las; $i++){
 
+
 	(@cols) = split(/,(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/,$las[$i]);
 
 	$cols[1] =~ s/(^\"|\"$)//g;
@@ -102,6 +105,8 @@ for($i = 0; $i < @las; $i++){
 	$file = $cols[2];
 	$file =~ s/(^\"|\"$)//g;
 	
+	print "$i.\n";
+
 
 	$dateformats = 0;
 	$currformats = 0;
@@ -249,16 +254,16 @@ for($i = 0; $i < @las; $i++){
 		
 		# Add score for required headings
 		if($nreq > 0){
-			$score += $okreq/$nreq;
+			$score += min(1,$okreq/$nreq);
 		}
 		$score += $empties;
 		if($rows > 0){
-			$score += ($latformats+$lonformats)/(2*$rows);
-			$score += $dateformats/$rows;
-			$score += $currformats/$rows;
+			$score += min(1,($latformats+$lonformats)/(2*$rows));
+			$score += min(1,$dateformats/$rows);
+			$score += min(1,$currformats/$rows);
 		}
 		if($nreq > 0){
-			$score += $okhead/$nreq;
+			$score += min(1,$okhead/$nreq);
 		}
 		$score *= 100/8;
 
@@ -379,7 +384,8 @@ sub getTrafficLight {
 	$na = $inp[3];
 	$link = $_[4];
 	$title = $_[5];
-	if($status == 1){ return "<span class=\"green-light\"".($title ? " title=\"$title\"":"")."></span><a href=\"\#$link\">$yes</a>"; }
+	if($status > 1){ return "<span class=\"amber-light\"".($title ? " title=\"$title\"":"")."></span><a href=\"\#$link\">$yes</a>"; }
+	elsif($status == 1){ return "<span class=\"green-light\"".($title ? " title=\"$title\"":"")."></span><a href=\"\#$link\">$yes</a>"; }
 	elsif($status < 1 && $status > 0){ return "<span class=\"amber-light\"".($title ? " title=\"$title\"":"")."></span><a href=\"\#$link\">$no</a>"; }
 	elsif($status == 0){ return "<span class=\"red-light\"".($title ? " title=\"$title\"":"")."></span><a href=\"\#$link\">$no</a>"; }
 	elsif($status < 0){ return $na; }
