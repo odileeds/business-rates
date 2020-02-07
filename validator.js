@@ -178,7 +178,7 @@ S().ready(function(){
 
 		code = "CUSTOM";
 		LAdata = {};
-		LAdata[code] = {'rows':this.records,'okhead':0,'okreq':0,'empties':0,'hosted':0,'cors':false,'notgot':'','dateformats':0,'coordinates':0,'coordformats':0,'currformats':0,'latformats':0,'lonformats':0};
+		LAdata[code] = {'rows':this.records,'okhead':0,'okreq':0,'empties':0,'hosted':0,'cors':false,'notgot':'','duplicates':'','headings':'','dateformats':0,'coordinates':0,'coordformats':0,'currformats':0,'latformats':0,'lonformats':0};
 
 
 		// 0. Check CORS
@@ -199,6 +199,7 @@ S().ready(function(){
 		var colempty = -1;
 		var coldate = -1;
 		var colcurr = -1;
+		var duplicates = {};
 
 		if(LAdata[code].rows > 0){
 
@@ -206,14 +207,23 @@ S().ready(function(){
 				h = validator.data.fields.name[j];
 				hsimple = simpleHeading(h);
 
-				if(format[h] && format[h].required){
-					LAdata[code].okhead++;
-					if(format[h].exact) format[h].got = 1;
-				}
 				ok = false;
 				if(format[h] && format[h].required) ok = true;
-				if(format[hsimple] &&  format[hsimple].required) ok = true;
-				if(ok) LAdata[code].okreq++;
+				if(hsimple && format[hsimple] && format[hsimple].required) ok = true;
+				if(ok){
+					LAdata[code].okreq++;
+					console.log(LAdata[code].okreq,h,hsimple,duplicates);
+					if(duplicates[h] || duplicates[hsimple]){
+						if(LAdata[code].duplicates) LAdata[code].duplicates += ', ';
+						LAdata[code].duplicates += makeKey(h);
+					}
+					duplicates[hsimple] = 1;
+				}
+				if(format[h] && format[h].required){
+					LAdata[code].okhead++;
+					duplicates[h] = 1;
+					if(format[h].exact) format[h].got = 1;
+				}
 				
 				// Empties?
 				if(h == "Occupied" || hsimple == "occupied"){ colempty = j; }
@@ -225,9 +235,14 @@ S().ready(function(){
 
 			for(var h in format){
 				if(format[h].required){
-					if(format[h].exact && format[h].got == 0){
-						if(LAdata[code].notgot) LAdata[code].notgot += ", ";
-						LAdata[code].notgot += makeKey(h);
+					if(format[h].exact){
+						if(format[h].got == 0){
+							if(LAdata[code].notgot) LAdata[code].notgot += ", ";
+							LAdata[code].notgot += makeKey(h);
+						}else{
+							if(LAdata[code].headings) LAdata[code].headings += ", ";
+							LAdata[code].headings += makeKey(h);
+						}
 					}
 				}
 			}
@@ -257,39 +272,46 @@ S().ready(function(){
 		}else{
 			for(var h in format){
 				if(format[h].required){
-					if(format[h].exact && format[h].got == 0){
-						if(LAdata[code].notgot) LAdata[code].notgot += ", ";
-						LAdata[code].notgot += makeKey(h);
+					if(format[h].exact){
+						if(format[h].got == 0){
+							if(LAdata[code].notgot) LAdata[code].notgot += ", ";
+							LAdata[code].notgot += makeKey(h);
+						}else{
+							if(LAdata[code].headings) LAdata[code].headings += ", ";
+							LAdata[code].headings += makeKey(h);
+						}
 					}
 				}
 			}
 		}
 			
 		// Add score for required headings
-		if(nreq > 0) score += LAdata[code].okreq/nreq;
-		if(nreq > 0) score += LAdata[code].okhead/nreq;
+		if(nreq > 0) score += Math.min(LAdata[code].okreq/nreq,1);
+		if(nreq > 0) score += Math.min(LAdata[code].okhead/nreq,1);
 
 		var addcoords = '';
 		var fixdates = '';
 
 		if(LAdata[code].okhead/nreq < 1){
 			addcoords = (format['Postcode'].got && !format['Latitude'].got ? '<br /><a href="https://odileeds.github.io/Postcodes2LatLon/" id="addcoords" class="c14-bg button">Add latitude and longitude</a>' :'');
-			this.messages.push(getTrafficLight({'score':LAdata[code].okhead/nreq,'no':'<strong>Valid required headings</strong>: A strict heading match shows that you are missing '+LAdata[code].notgot+'. Adding these headings will improve your score by '+asScore(1-LAdata[code].okhead/nreq)+'.'+addcoords}));
+			this.messages.push(getTrafficLight({'score':Math.min(LAdata[code].okhead/nreq,1),'no':'<strong>Valid required headings</strong>: A strict heading match shows that you are missing '+LAdata[code].notgot+'. Adding these headings will improve your score by '+asScore(1-LAdata[code].okhead/nreq)+'.'+addcoords}));
+		}else if(LAdata[code].okhead/nreq > 1){
+			this.messages.push(getTrafficLight({'score':(LAdata[code].okhead/nreq),'no':'<strong>Valid required headings</strong>: You seem to have too many headings. You seem to have duplicated '+LAdata[code].duplicates}));
 		}
-		if(LAdata[code].okreq/nreq < 1) this.messages.push(getTrafficLight({'score':LAdata[code].okreq/nreq,'no':'<strong>Includes required columns</strong>: A looser check of headings (ignoring case, extra things in brackets, and trailing spaces) shows that you are missing '+(nreq - LAdata[code].okreq)+' required heading'+(nreq - LAdata[code].okreq == 1 ? '':'s')+'. Adding them will improve your score by '+asScore((nreq - LAdata[code].okreq)/nreq)+'.'}));
+		if(LAdata[code].okreq/nreq < 1) this.messages.push(getTrafficLight({'score':Math.min(LAdata[code].okreq/nreq,1),'no':'<strong>Includes required columns</strong>: A looser check of headings (ignoring case, extra things in brackets, and trailing spaces) shows that you are missing '+(nreq - LAdata[code].okreq)+' required heading'+(nreq - LAdata[code].okreq == 1 ? '':'s')+'. Adding them will improve your score by '+asScore((nreq - LAdata[code].okreq)/nreq)+'.'}));
 
 		score += LAdata[code].empties;
-		if(LAdata[code].empties < 1) this.messages.push(getTrafficLight({'score':LAdata[code].empties,'no':'<strong>Includes empties</strong>: You don\'t appear to have included an '+makeKey('Occupied')+' column.'}));
+		if(LAdata[code].empties < 1) this.messages.push(getTrafficLight({'score':Math.min(LAdata[code].empties,1),'no':'<strong>Includes empties</strong>: You don\'t appear to have included an '+makeKey('Occupied')+' column.'}));
 
 		LAdata[code].coordformats = (LAdata[code].latformats+LAdata[code].lonformats);
-		tscore = (LAdata[code].rows > 0) ? (LAdata[code].latformats+LAdata[code].lonformats)/(2*LAdata[code].rows) : 0;
+		tscore = Math.min((LAdata[code].rows > 0) ? (LAdata[code].latformats+LAdata[code].lonformats)/(2*LAdata[code].rows) : 0,1);
 		score += tscore;
 		if(tscore < 1){
 			if(LAdata[code].rows > 0) this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid coords</strong>: You appear to be missing '+((2*LAdata[code].rows) - (LAdata[code].latformats+LAdata[code].lonformats))+' '+makeKey('Latitude')+' and '+makeKey('Longitude')+' values. Adding these will improve your overall score by '+asScore(1-tscore)+'.'}));
 			else this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid coords</strong>: We couldn\'t find any coordinates!'}))
 		}
 
-		tscore = (LAdata[code].rows > 0) ? LAdata[code].dateformats/LAdata[code].rows : 0;
+		tscore = Math.min((LAdata[code].rows > 0) ? LAdata[code].dateformats/LAdata[code].rows : 0,1);
 		score += tscore;
 		if(tscore < 1){
 			fixdates = (tscore < 1 && format['Liability start date'].got) ? '<br /><a href="https://odileeds.github.io/CSVCleaner/" id="fixdates" class="c14-bg button">Fix dates</a>' : '';
@@ -297,7 +319,7 @@ S().ready(function(){
 			else this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid dates</strong>: We couldn\'t find any dates!'}));
 		}
 
-		tscore = (LAdata[code].rows > 0) ? LAdata[code].currformats/LAdata[code].rows : 0;
+		tscore = Math.min((LAdata[code].rows > 0) ? LAdata[code].currformats/LAdata[code].rows : 0,1);
 		score += tscore;
 		if(tscore < 1){
 			if(LAdata[code].rows > 0) this.messages.push(getTrafficLight({'score':tscore,'no':'<strong>Valid currency values</strong>: You appear to be missing '+(LAdata[code].rows - LAdata[code].currformats)+' '+makeKey('Rateable value')+' amounts. Adding these will improve your overall score by '+asScore(1-tscore)+'.'}));
@@ -309,7 +331,7 @@ S().ready(function(){
 			LAdata[code].hosted = 1;
 			score++;
 		}else{
-			this.messages.push(getTrafficLight({'score':0,'no':'<strong>Hosted</strong>: You provided a local copy of the file. Hosting the file on an accessible webserver will improve your score by '+asScore(2)+'. If this file is hosted online somewhere, try using the URL option above.'}));
+			this.messages.push(getTrafficLight({'score':0,'no':'<strong>Hosted</strong>: You provided a local copy of the file. Hosting the file on an accessible webserver will improve your score by '+asScore(2)+'. If this file <em>is</em> hosted online, try resetting and using the URL option.'}));
 		}
 
 		score *= 100/8;
@@ -392,7 +414,9 @@ S().ready(function(){
 			if(!attr) attr = {};
 			var cls = "";
 			var txt = "";
-			if(attr.score == 1){ cls = 'green-light'; txt = attr.yes; }
+			console.log(attr)
+			if(attr.score > 1){ cls = 'amber-light'; txt = attr.no; }
+			else if(attr.score == 1){ cls = 'green-light'; txt = attr.yes; }
 			else if(attr.score < 1 && attr.score > 0){ cls = 'amber-light'; txt = attr.no; }
 			else if(attr.score == 0){ cls = 'red-light'; txt = attr.no; }
 			else if(attr.score < 0){ return attr.na; }
