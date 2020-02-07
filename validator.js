@@ -186,7 +186,11 @@ S().ready(function(){
 			LAdata[code].cors = true;
 			score++;
 		}else{
-			this.messages.push(getTrafficLight({'score':0,'no':'<strong>CORS</strong>: Unable to get the file. Is CORS enabled? Because we couldn\'t get the file, we can\'t calculate the rest of your score. You could try saving the file locally and testing a local copy of the file to see what you would get if CORS was enabled.'}));
+			if(attr.url){
+				this.messages.push(getTrafficLight({'score':0,'no':'<strong>CORS</strong>: Unable to get the file from <a href="'+attr.url+'">URL</a>. Is CORS enabled? Because we couldn\'t get the file, we can\'t calculate the rest of your score. You could try saving the file locally and testing a local copy of the file to see what you would get if CORS was enabled.'}));
+			}else{
+				this.messages.push(getTrafficLight({'score':0,'no':'<strong>CORS</strong>: You provided a local copy of the file so we can\'t calculate the rest of your score. Once you\'ve published the file online you may want to check again by using the URL option above.'}));
+			}
 		}
 
 
@@ -305,7 +309,7 @@ S().ready(function(){
 			LAdata[code].hosted = 1;
 			score++;
 		}else{
-			this.messages.push(getTrafficLight({'score':0,'no':'<strong>Hosted</strong>: Hosting the file on an accessible webserver will improve your score by '+asScore(2)+'.'}));
+			this.messages.push(getTrafficLight({'score':0,'no':'<strong>Hosted</strong>: You provided a local copy of the file. Hosting the file on an accessible webserver will improve your score by '+asScore(2)+'. If this file is hosted online somewhere, try using the URL option above.'}));
 		}
 
 		score *= 100/8;
