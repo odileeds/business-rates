@@ -222,7 +222,7 @@ E07000142,West Lindsey,,,,
 E08000029,Solihull,,,,
 E08000030,Walsall,,,,
 E08000031,Wolverhampton,,,,
-E08000032,Bradford,data/bradford.csv,data/bradford.geojson,https://odileeds.org/projects/scoresonthedoors/data/bradford.csv,true
+E08000032,Bradford,https://datahub.bradford.gov.uk/opendata/BradfordBusinessRates.csv,data/bradford.geojson,https://odileeds.org/projects/scoresonthedoors/data/bradford.csv,true
 E08000033,Calderdale,https://dataworks.calderdale.gov.uk/download/calderdale-business-properties---complete-list/cae170c8-fcd1-48bf-94b3-da45a94519f7/Complete_List_Of_Properties_In_calderdale%20-%20redo.csv,data/calderdale.geojson,https://odileeds.org/projects/scoresonthedoors/data/calderdale.csv,true
 E08000034,Kirklees,data/kirklees.csv,data/kirklees.geojson,https://odileeds.org/projects/scoresonthedoors/data/kirklees.csv,true
 E08000035,Leeds,https://datamillnorth.org/download/business-rates/0dea92eb-41d8-4b57-8798-54e466de9bf3/Data%20Mill%2002-01-2020.csv,data/leeds.geojson,https://odileeds.org/projects/scoresonthedoors/data/leeds.csv,true
