@@ -146,6 +146,8 @@ S().ready(function(){
 			'Rateable value':{'required':true,'type':'number'},
 			'VOA code':{'required':true},
 			'VOA description':{'required':false},
+			'Company number':{'required':false},
+			'Charity number':{'required':false},
 			'Exemptions':{'required':false},
 			'Exemptions start date':{'required':false,'type':'ISO8601'},
 			'Relief types':{'required':false},
