@@ -89,11 +89,11 @@ E08000005,Rochdale,http://rochdale.gov.uk/files/2019-01-31-business-rates.csv,da
 E07000102,Three Rivers,,,,
 E06000038,Reading,,,,
 E07000147,North Norfolk,,,,
-E08000006,Salford,https://salforddataquay.uk/dataset/dc37c693-d910-457a-bbee-70a4037715bb/resource/206ec118-de79-41b7-9023-e75ef327ffde/download/nndr20190415.csv,data/salford.geojson,https://odileeds.org/projects/scoresonthedoors/data/york.csv,
+E08000006,Salford,https://salforddataquay.uk/dataset/dc37c693-d910-457a-bbee-70a4037715bb/resource/05237535-6430-4cc8-9637-fd0b697e06d6/download/nndropendatamarch2021.csv,data/salford.geojson,https://odileeds.org/projects/scoresonthedoors/data/york.csv,
 E07000103,Watford,,,,
 E06000039,Slough,,,,
 E07000148,Norwich,,,,
-E08000007,Stockport,https://s3-eu-west-1.amazonaws.com/smbc-opendata/data/BusinessAndEconomy/Business_Rates_Stockport.csv,data/stockport.geojson,https://odileeds.org/projects/scoresonthedoors/data/stockport.csv,
+E08000007,Stockport,https://live-iag-static-assets.s3-eu-west-1.amazonaws.com/pdf/Transparency/businessRates/NDR+ALL+ACCOUNTS+excluding+void+properties+April+2021.csv,data/stockport.geojson,https://odileeds.org/projects/scoresonthedoors/data/stockport.csv,
 E07000105,Ashford,,,,
 E06000040,Windsor and Maidenhead,,,,
 E07000149,South Norfolk,,,,
@@ -137,7 +137,7 @@ E07000166,Richmondshire,,,,
 E07000114,Thanet,,,,
 E08000017,Doncaster,,,,
 E06000051,Shropshire,,,,
-E07000167,Ryedale,https://democracy.ryedale.gov.uk/documents/s43817/All%20NNDR%20Properties%20201905?CT=3,data/ryedale.geojson,https://odileeds.org/projects/scoresonthedoors/data/ryedale.csv,
+E07000167,Ryedale,,data/ryedale.geojson,https://odileeds.org/projects/scoresonthedoors/data/ryedale.csv,
 E07000115,Tonbridge and Malling,,,,
 E08000018,Rotherham,,,,
 E06000052,Cornwall,,,,
@@ -223,9 +223,9 @@ E08000029,Solihull,,,,
 E08000030,Walsall,,,,
 E08000031,Wolverhampton,,,,
 E08000032,Bradford,https://datahub.bradford.gov.uk/opendata/BradfordBusinessRates.csv,data/bradford.geojson,https://odileeds.org/projects/scoresonthedoors/data/bradford.csv,true
-E08000033,Calderdale,https://dataworks.calderdale.gov.uk/download/calderdale-business-properties---complete-list/cae170c8-fcd1-48bf-94b3-da45a94519f7/Complete_List_Of_Properties_In_calderdale%20-%20redo.csv,data/calderdale.geojson,https://odileeds.org/projects/scoresonthedoors/data/calderdale.csv,true
+E08000033,Calderdale,https://dataworks.calderdale.gov.uk/download/calderdale-business-properties---complete-list/df6f0250-bfa1-4eb1-911e-7d822bb7fa83/Complete_List_Of_Properties_In_calderdale-with-coordinates%20%281%29.csv,data/calderdale.geojson,https://odileeds.org/projects/scoresonthedoors/data/calderdale.csv,true
 E08000034,Kirklees,data/kirklees.csv,data/kirklees.geojson,https://odileeds.org/projects/scoresonthedoors/data/kirklees.csv,true
-E08000035,Leeds,https://datamillnorth.org/download/business-rates/0dea92eb-41d8-4b57-8798-54e466de9bf3/Data%20Mill%2002-01-2020.csv,data/leeds.geojson,https://odileeds.org/projects/scoresonthedoors/data/leeds.csv,true
+E08000035,Leeds,https://datamillnorth.org/download/business-rates/75ff6979-46fd-4e32-ac73-59eb133037db/Data%20Mill%2005-02-21.csv,data/leeds.geojson,https://odileeds.org/projects/scoresonthedoors/data/leeds.csv,true
 E08000036,Wakefield,data/wakefield.csv,data/wakefield.geojson,https://odileeds.org/projects/scoresonthedoors/data/wakefield.csv,true
 E08000037,Gateshead,,,,
 E09000001,City of London,,,,

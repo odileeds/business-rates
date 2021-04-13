@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 use List::Util qw[min max];
+use POSIX qw(strftime);
 
 $ifile = "index.csv";
 $ffile = "format.html";
@@ -105,7 +106,7 @@ for($i = 0; $i < @las; $i++){
 	$file = $cols[2];
 	$file =~ s/(^\"|\"$)//g;
 	
-	print "$i.\n";
+	print "$i. - $id - $cols[1]\n";
 
 
 	$dateformats = 0;
@@ -156,7 +157,7 @@ for($i = 0; $i < @las; $i++){
 				}
 				if($line =~ /Last-Modified: (.*)/){
 					$lastmodified = $1;
-					if($lastmodified =~ /([0-9]{1,2}) ([A-Za-z]{3}) ([0-9]{4})/){
+					if($lastmodified =~ /([0-9]{1,2})[ \-]([A-Za-z]{3})[ \-]([0-9]{4})/){
 						$lastmodified = sprintf("%04d",$3)."-".$months{$2}."-".sprintf("%02d",$1);
 					}
 				}

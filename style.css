@@ -47,12 +47,42 @@ table.odi tr:nth-child(2n+0) td { background-color: #f9f9f9; }
 table.odi tr:nth-child(2n+1) td { background-color: #efefef; }
 table.odi td img { height: 1em; }
 table.odi td, table.odi th { border: 0px; padding: 4px; }
-table.odi td { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+table.odi td { max-width: 300px; text-overflow: ellipsis; white-space: nowrap; }
+table.odi .LA-name { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 table.odi td a { color: inherit; }
 table.odi th, table.odi td { text-align: center; line-height: 2em; }
 table.odi th.LA-name, table.odi td.LA-name { text-align: left; max-width: 115px; }
 table.odi th { background-color: #dfdfdf; font-weight: bold; cursor: pointer; line-height:1.25em; }
 
+.amber-light, .red-light, .green-light { position: relative; }
+.balloon {
+	position: absolute;
+	background-color: white;
+	padding: 0.25em 0.5em;
+	left: 50%;
+	top: -0.5em;
+	color: black;
+	white-space: normal!important;
+	width: 350px;
+	transform: translate3d(0%,-100%, 0);
+	white-space: nowrap;
+	margin-right: -50%;
+	text-align: left;
+	z-index: 100;
+	box-shadow: 1px 1px 10px rgba(0,0,0,0.2);
+}
+.balloon::after {
+	content: '';
+	position: absolute;
+	bottom: auto;
+	width: 0;
+	height: 0;
+	border: 0.5em solid transparent;
+	left: 0;
+	border-color: transparent;
+	border-left-color: white;
+	bottom: -0.5em;
+}
 .spinner { display: none; }
 section { margin-bottom: 1em; }
 .chooser { text-align: left; display: flex; line-height: 1.5em; }
@@ -104,6 +134,8 @@ section { margin-bottom: 1em; }
 #messages li { margin-bottom: 0.5em; position: relative; }
 #messages li:last-child { margin-bottom: 0; }
 #messages li .amber-light, #messages li .red-light { position: absolute; left: -2em; }
+
+
 
 footer a:visited { color: inherit; }
 ol li { margin-bottom: 1em; }
