@@ -64,8 +64,9 @@
 		color: black;
 		text-align: center;
 	}
-	#main ul.grid.smalltabs {
+	ul.grid.smalltabs {
 		margin-left: 0px;
+		margin-bottom: 0;
 		right: 0px;
 	}
 	.panel ul.grid > li > a { min-height: auto; }
@@ -114,6 +115,7 @@
 	#categories ul.grid span.title {
 		height: 2em;
 	}
+	.msg > *:last-child { margin-bottom: 0; }
 	@media only screen and (max-width: 1080px) {
 		#categories ul.grid > li, ul.smalltabs > li, ul.grid.councils > li { width: 50%; }
 	}
@@ -125,7 +127,7 @@
 <body>
 
 	<div id="site-message" class="c14-bg"><div>This is experimental and work-in-progress. Things might not work or even be correct.</div></div>
-	<div id="main">
+	<div class="b6-bg">
 		<header>
 			<div class="b1-bg padded">
 				<div class="holder" style="text-align:center;">
@@ -135,7 +137,7 @@
 			</div>
 		</header>
 
-		<div class="holder">
+		<div class="holder tallpadded">
 			<p>As part of the Open Data Collaboration group we are exploring local council Business Rates data and we've defined <a href="format.html">a common format for sharing Business Rates data</a>. Once Local Authorities use that format we can add them to this visualisation. Check out how complete each Local Authority is on our <a href="status.html">status page</a>. Click on a Local Authority below to load their data.</p>
 			<ul class="grid councils compact">
 				<li class="img"><a href="https://www.bradford.gov.uk/open-data/freedom-of-information/freedom-of-information-faqs-business-rates/" code="E08000032" class="padded b2-bg"><img src="../../dashboard/data/img/bradford.svg" title="Bradford Metropolitan District Council" /></a></li>
@@ -152,7 +154,7 @@
 			<div id="progress"></div>
 		</div>
 		
-		<div class="holder" style="padding:1em;">
+		<div class="holder">
 			<ul class="grid smalltabs compact">
 				<li><a href="#map" class="b5-bg">Map</a></li>
 				<li><a href="#rates" class="b4-bg">Rates</a></li>
@@ -160,7 +162,7 @@
 				<li><a href="#fsa" class="b4-bg">Scores on the doors</a></li>
 			</ul>
 		</div>
-		<div id="output" class="b5-bg">
+		<div id="output" class="b5-bg doublepadded">
 		</div>
 	</div>
 

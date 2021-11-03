@@ -309,8 +309,8 @@ var explorer;
 			'Postcode':{'required':true},
 			'Latitude':{'required':true,'type':'number','vital':true},
 			'Longitude':{'required':true,'type':'number','vital':true},
-			'Occupied':{'required':true},
-			'Liability start date':{'required':true,'type':'ISO8601'},
+			'Occupied':{'required':false},
+			'Liability start date':{'required':false,'type':'ISO8601'},
 			'Empty from':{'required':false,'type':'ISO8601'},
 			'Rateable value':{'required':true,'type':'number','vital':true},
 			'VOA code':{'required':true},
@@ -349,7 +349,7 @@ var explorer;
 		for(a in this.areas){
 			_obj = this;
 			if(S('#progress').find('.msg-'+a+'-validation').length == 0) S('#progress').append('<div class="msg-'+a+'-validation"></div>')
-			S('#progress .msg-'+a+'-validation').html('')[0].classList.remove('c14-bg','padded');
+			S('#progress .msg-'+a+'-validation').html('')[0].classList.remove('c14-bg','padded','msg');
 
 			messages = [];
 			bad = [];
@@ -365,34 +365,18 @@ var explorer;
 						if(req && !this.areas[a].data.rates[0][f]){
 							missing += (missing ? ', ':'')+'<code class="key">'+f+'</code>';
 						}
-
-						// Check if the values match the type
-						/*
-						if(fields[f].type=="ISO8601"){
-							// Loop over the data checking if it is valid
-							for(var r = 0; r < this.areas[a].data.rates.length; r++){
-								if(this.areas[a].data.rates[r][f]){
-									if(this.areas[a].data.rates[r][f].match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)){
-										good++;
-									}else{
-										bad.push(this.areas[a].data.rates[r][f]);
-									}
-									n++;
-								}
-							}
-							if(good < n-1){
-								messages.push((n-good)+' dates in <code class="key">'+f+'</code> do not appear to be YYYY-MM-DD format.');
-							}
-						}*/
 					}
-					if(missing) messages.push('Missing columns for: '+missing+'. This will mean that '+this.areas[a].name+' may not show up in the visualisation below.');
+					if(missing) messages.push('Missing columns for: '+missing+' so '+this.areas[a].name+' data may not show correctly.');
+					if(typeof this.areas[a].data.rates[0]['Occupied']==="undefined"){
+						messages.push('<code class="key">Occupied</code> is missing from the data so the number of empty properties will be correct.');
+					}
 				}else{
 					messages.push('No rates data.');
 				}
 				console.log(bad);
 			}
 
-			if(messages.length > 0) S('#progress .msg-'+a+'-validation').html('<h3>'+this.areas[a].name+'</h3><p>'+messages.join('</p><p>')+'</p>')[0].classList.add('c14-bg','padded');		
+			if(messages.length > 0) S('#progress .msg-'+a+'-validation').html('<h3>'+this.areas[a].name+'</h3><p>'+messages.join('</p><p>')+'</p>')[0].classList.add('c14-bg','padded','msg');		
 
 		}
 
