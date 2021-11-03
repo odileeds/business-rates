@@ -1,12 +1,18 @@
 var explorer;
+(function(root){
 
-S(document).ready(function(){
-	
+	if(!root.OI) root.OI = {};
+
+	root.OI.ready = function(f){
+		if(/in/.test(document.readyState)) setTimeout('OI.ready('+f+')',9);
+		else f();
+	};
+
 	function BusinessRatesExplorer(attr){
 		this.areas = {};
 		this.dir = "data/";
 		this.colours = {
-			'selected':{'bg':getStyle(S('li.selected a')[0],'background-color'),'text':getStyle(S('li.selected a')[0],'color')},
+			'selected':{'bg':getStyle(document.querySelector('li.selected a'),'background-color'),'text':getStyle(document.querySelector('li.selected a'),'color')},
 			'occupied':{'bg':'#EF3AAB','text':'#000000'},
 			'mixed':{'bg':'#722EA5','text':'#ffffff'},
 			'empty':{'bg':'#000000','text':'#ffffff'},
@@ -293,6 +299,105 @@ S(document).ready(function(){
 		}
 		return this;
 	};
+	
+	BusinessRatesExplorer.prototype.validate = function(){
+		var fields = {
+			'Property reference number':{'required':false},
+			'BA reference number':{'required':false},
+			'Ratepayer':{'required':false},
+			'Address':{'required':true},
+			'Postcode':{'required':true},
+			'Latitude':{'required':true,'type':'number','vital':true},
+			'Longitude':{'required':true,'type':'number','vital':true},
+			'Occupied':{'required':true},
+			'Liability start date':{'required':true,'type':'ISO8601'},
+			'Empty from':{'required':false,'type':'ISO8601'},
+			'Rateable value':{'required':true,'type':'number','vital':true},
+			'VOA code':{'required':true},
+			'VOA description':{'required':false},
+			'Company number':{'required':false},
+			'Charity number':{'required':false},
+			'Exemptions':{'required':false},
+			'Exemptions start date':{'required':false,'type':'ISO8601'},
+			'Relief types':{'required':false},
+			'Relief total':{'required':false,'type':'number'},
+			'Relief mandatory':{'required':false,'type':'number'},
+			'Relief discretionary':{'required':false,'type':'number'}
+		}
+		console.log('validate');
+
+		var nhead = 0;
+		var nreq = 0;
+		var format = {};
+		
+		function simpleHeading(heading){
+			heading = heading.toLowerCase();
+			return heading.replace(/ /g,"").replace(/ $/g,"").replace(/[^A-Za-z0-9\-]/g,"");
+		}
+		for(var f in fields){
+			
+			nhead++;
+			req = (fields[f].required||false);
+			format[f] = { 'required': req, 'exact':1, 'got':0 };
+			format[simpleHeading(f)] = { 'required': req, 'original':f };
+
+			if(req){
+				nreq++;
+			}
+		}
+
+		for(a in this.areas){
+			_obj = this;
+			if(S('#progress').find('.msg-'+a+'-validation').length == 0) S('#progress').append('<div class="msg-'+a+'-validation"></div>')
+			S('#progress .msg-'+a+'-validation').html('')[0].classList.remove('c14-bg','padded');
+
+			messages = [];
+			bad = [];
+
+			if(this.areas[a].include){
+
+				if(this.areas[a].data.rates){
+					missing = "";
+					n = 0;
+					good = 0;
+					for(var f in fields){
+						req = (fields[f].required||false);
+						if(req && !this.areas[a].data.rates[0][f]){
+							missing += (missing ? ', ':'')+'<code class="key">'+f+'</code>';
+						}
+
+						// Check if the values match the type
+						/*
+						if(fields[f].type=="ISO8601"){
+							// Loop over the data checking if it is valid
+							for(var r = 0; r < this.areas[a].data.rates.length; r++){
+								if(this.areas[a].data.rates[r][f]){
+									if(this.areas[a].data.rates[r][f].match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)){
+										good++;
+									}else{
+										bad.push(this.areas[a].data.rates[r][f]);
+									}
+									n++;
+								}
+							}
+							if(good < n-1){
+								messages.push((n-good)+' dates in <code class="key">'+f+'</code> do not appear to be YYYY-MM-DD format.');
+							}
+						}*/
+					}
+					if(missing) messages.push('Missing columns for: '+missing+'. This will mean that '+this.areas[a].name+' may not show up in the visualisation below.');
+				}else{
+					messages.push('No rates data.');
+				}
+				console.log(bad);
+			}
+
+			if(messages.length > 0) S('#progress .msg-'+a+'-validation').html('<h3>'+this.areas[a].name+'</h3><p>'+messages.join('</p><p>')+'</p>')[0].classList.add('c14-bg','padded');		
+
+		}
+
+
+	};
 
 	BusinessRatesExplorer.prototype.build = function(){
 
@@ -400,10 +505,12 @@ S(document).ready(function(){
 			{'min':90000,'max':100000,'key':'90k','total':{}},
 			{'min':100000,'max':1e12,'key':'100k+','total':{}}
 		];
-		
+
 		totals = {'voa':{},'hmrc':{},'fsa':{},'nofsa':{},'empty':0,'n':0,'emptyvalue':0};
 		
 		found = 0;
+		
+		this.validate();
 
 		for(a in this.areas){
 			_obj = this;
@@ -843,7 +950,7 @@ S(document).ready(function(){
 							}
 						}else if(f.format=="eval"){
 							if(line[j]!="") datum[key] = eval(line[j]);
-						}else if(f.format=="date"){
+						/*}else if(f.format=="date"){
 							if(line[j]){
 								line[j] = line[j].replace(/^"/,"").replace(/"$/,"");
 								try {
@@ -852,7 +959,7 @@ S(document).ready(function(){
 									this.log.warning('Invalid date '+line[j]);
 									datum[key] = new Date('0001-01-01');
 								}
-							}else datum[key] = null;
+							}else datum[key] = null;*/
 						}else if(f.format=="boolean"){
 							if(line[j]=="1" || line[j]=="true" || line[j]=="Y") datum[key] = true;
 							else if(line[j]=="0" || line[j]=="false" || line[j]=="N") datum[key] = false;
@@ -992,6 +1099,13 @@ S(document).ready(function(){
 		}
 		return this;
 	};
-	explorer = new BusinessRatesExplorer();
+	
+	OI.BusinessRatesExplorer = BusinessRatesExplorer;
+	
+	OI.ready(function(){
+		explorer = new OI.BusinessRatesExplorer();
+	});
 
-});
+	root.OI = OI;
+
+})(window || this);

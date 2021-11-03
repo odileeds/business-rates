@@ -3,9 +3,10 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="utf-8" />
+	<link rel="icon" href="https://open-innovations.org/resources/images/logos/oi-square-8.svg" />
 	<title>Business rates: data format</title>
-	<script type="text/javascript" src="https://odileeds.org/resources/stuquery.js"></script>
-	<link rel="StyleSheet" href="https://odileeds.org/resources/style.css" type="text/css" />
+	<script type="text/javascript" src="https://open-innovations.org/resources/stuquery.js"></script>
+	<link rel="StyleSheet" href="https://open-innovations.org/resources/style-oi.css" type="text/css" />
 	<link rel="StyleSheet" href="style.css" type="text/css" />
 </head>
 <body>
@@ -13,16 +14,16 @@
 	<div id="site-message" class="c14-bg"><div>Draft: This is a work-in-progress by the Open Data Collaboration group at ODI Leeds.</div></div>
 	<div id="main">
 		<header>
-			<div class="b1-bg">
+			<div class="b1-bg padded">
 				<div class="holder" style="text-align:center;">
-					<a href="https://odileeds.org/"><img src="https://odileeds.org/resources/images/odileeds-8.svg" /></a>
+					<a href="https://open-innovations.org/" aria-label="Open Innovations"><img src="https://open-innovations.org/resources/images/logos/oi-square-8.svg" alt="Open Innovations" width="100px" height="100px" /></a>
 					<h1>Business rates: data format</h1>
 				</div>
 			</div>
 		</header>
 
 		<div class="holder">
-			<p>The Open Data Collaboration group at ODI Leeds (ODI Leeds, Bradford Council, Calderdale Council, and Leeds Council) started a project to visualise business rates data. Although each of the three councils publish open data about their business rates, they each have different field titles and don't always include the same fields. This project aimed to standardise the way the data was shared to make it more usable and to get value (within a council and externally) from the datasets.</p>
+			<p>The Open Data Collaboration group at Open Innovations (Open Innovations, Bradford Council, Calderdale Council, and Leeds Council) started a project to visualise business rates data. Although each of the three councils publish open data about their business rates, they each have different field titles and don't always include the same fields. This project aimed to standardise the way the data was shared to make it more usable and to get value (within a council and externally) from the datasets.</p>
 			<h2>File format</h2>
 			<p>The file should be saved as a CSV file. If you are starting from an Excel file you can choose to export the file as CSV. Make sure to only export the table of data rather than any extra lines of explanatory notes or totals. Excel's export option tends to do a bad job with dates. So we created the <a href="https://odileeds.github.io/CSVCleaner/">CSV Cleaner</a> tool to help tidy them up. You might also want to try <a href="http://csvlint.io/">ODI HQ's CSV Lint</a> tool to check your CSV file is valid. See our <a href="https://github.com/odileeds/open-data-tips">Open Data tips</a> for more. We've also made a <a href="validator.html">validator</a> to check your CSV file against.</p>
 			<p><a href="validator.html" class="button c8-bg">Validate your business rates file</a></p>
@@ -67,13 +68,13 @@
 
 	<footer class="b1-bg">
 		<div class="holder">
-			<p>&copy; 2019 ODI Leeds
+			<p>&copy; 2019-21 Open Innovations (formerly ODI Leeds)
 		</div>
 	</footer>
 
-	<script src="https://odileeds.org/resources/odi.log.js"></script>
+	<script src="https://open-innovations.org/resources/oi.log.js"></script>
 	<script>
-	ODI.log.setup({'id':'odileeds','target':['odileeds.github.io','odileeds.org']}).add('action=view');
+	OI.log.setup({'id':'open-innovations','target':['odileeds.github.io']}).add('action=view');
 	</script>
 
 </body>
