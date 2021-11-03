@@ -134,7 +134,7 @@ section { margin-bottom: 1em; }
 #messages li { margin-bottom: 0.5em; position: relative; }
 #messages li:last-child { margin-bottom: 0; }
 #messages li .amber-light, #messages li .red-light { position: absolute; left: -2em; }
-
+header h1 { margin-top: 0.25em; }
 
 
 footer a:visited { color: inherit; }

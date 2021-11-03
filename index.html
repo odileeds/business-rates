@@ -3,21 +3,20 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="utf-8" />
+	<link rel="icon" href="https://open-innovations.org/resources/images/logos/oi-square-8.svg" />
 	<title>Business rates</title>
-	<script type="text/javascript" src="https://odileeds.org/resources/stuquery.js"></script>
-	<script type="text/javascript" src="https://odileeds.org/resources/stuquery.barchart.js"></script>
-	<script type="text/javascript" src="https://odileeds.org/resources/leaflet/leaflet.js"></script>
-	<script type="text/javascript" src="https://odileeds.org/resources/leaflet.markercluster-src.js"></script>
+	<script type="text/javascript" src="https://open-innovations.org/resources/stuquery.js"></script>
+	<script type="text/javascript" src="https://open-innovations.org/resources/stuquery.barchart.js"></script>
+	<script type="text/javascript" src="https://open-innovations.org/resources/leaflet/leaflet.js"></script>
+	<script type="text/javascript" src="https://open-innovations.org/resources/leaflet.markercluster-src.js"></script>
 	<script type="text/javascript" src="business-rates.js"></script>
-	<link rel="StyleSheet" href="https://odileeds.org/resources/style.css" type="text/css" />
-	<link rel="StyleSheet" href="https://odileeds.org/resources/stuquery.barchart.css" type="text/css" />
-	<link rel="StyleSheet" href="https://odileeds.org/resources/leaflet/leaflet.css" type="text/css" />
-	<link rel="StyleSheet" href="https://odileeds.org/resources/L.markercluster.css" type="text/css" />
-	<link rel="StyleSheet" href="https://odileeds.org/resources/L.markercluster.default.css" type="text/css" />
+	<link rel="StyleSheet" href="https://open-innovations.org/resources/style-oi.css" type="text/css" />
+	<link rel="StyleSheet" href="https://open-innovations.org/resources/stuquery.barchart.css" type="text/css" />
+	<link rel="StyleSheet" href="https://open-innovations.org/resources/leaflet/leaflet.css" type="text/css" />
+	<link rel="StyleSheet" href="https://open-innovations.org/resources/L.markercluster.css" type="text/css" />
+	<link rel="StyleSheet" href="https://open-innovations.org/resources/L.markercluster.default.css" type="text/css" />
+	<link rel="StyleSheet" href="style.css" type="text/css" />
 	<style>
-	header h1 {
-		margin-top: 0.25em;
-	}
 	ul.grid.councils { grid-template-columns: repeat(5, 1fr); }
 	ul.grid.councils > li.selected a { background-color: #722EA5; transition: background 1s ease-in; }
 	#progress { text-align: center; }
@@ -115,7 +114,6 @@
 	#categories ul.grid span.title {
 		height: 2em;
 	}
-	footer a:visited { color: inherit; }
 	@media only screen and (max-width: 1080px) {
 		#categories ul.grid > li, ul.smalltabs > li, ul.grid.councils > li { width: 50%; }
 	}
@@ -129,9 +127,9 @@
 	<div id="site-message" class="c14-bg"><div>This is experimental and work-in-progress. Things might not work or even be correct.</div></div>
 	<div id="main">
 		<header>
-			<div class="b1-bg">
+			<div class="b1-bg padded">
 				<div class="holder" style="text-align:center;">
-					<a href="https://odileeds.org/"><img src="https://odileeds.org/resources/images/odileeds-8.svg" /></a>
+					<a href="https://open-innovations.org/" aria-label="Open Innovations"><img src="https://open-innovations.org/resources/images/logos/oi-square-8.svg" alt="Open Innovations" width="100px" height="100px" /></a>
 					<h1>Business rates</h1>
 				</div>
 			</div>
@@ -168,16 +166,16 @@
 
 	<footer class="b1-bg">
 		<div class="holder">
-			<p>&copy; 2019 ODI Leeds
+			<p>&copy; 2019-2021 Open Innovations
 			<br />Processing and visualisation by Stuart Lowe (<a href="http://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>)
 			<span id="download"></span>
 			</p>
 		</div>
 	</footer>
 
-	<script src="https://odileeds.org/resources/odi.log.js"></script>
+	<script src="https://open-innovations.org/resources/oi.log.js"></script>
 	<script>
-	ODI.log.setup({'id':'odileeds','target':['odileeds.github.io','odileeds.org']}).add('action=view');
+	OI.log.setup({'id':'open-innovations','target':['odileeds.github.io','open-innovations.github.io']}).add('action=view');
 	</script>
 
 </body>
